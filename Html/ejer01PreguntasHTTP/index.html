@@ -13,20 +13,34 @@
             padding: 20px;
             line-height: 1.6;
         }
-        h1, h2, h3 {
+        h1 {
+            color: #cc3366;
+            text-align: center;
+        }
+        h2, h3 {
             color: #cc3366;
         }
-        header, nav, section {
+        nav, section {
             margin-bottom: 20px;
             padding: 15px;
             border: 2px solid #cc6699;
             border-radius: 5px;
             background-color: #ffccf2;
         }
-        video {
-            max-width: 100%;
-            margin-bottom: 10px;
+        video, img {
+            display: block;
+            margin: 10px auto;
             border-radius: 5px;
+        }
+        video {
+            width: 45%;
+        }
+        .image-container img {
+            width: 45%;
+            height: auto; /* Mantiene la relación de aspecto */
+        }
+        .image-container {
+            text-align: center;
         }
         p {
             margin-top: 10px;
@@ -56,11 +70,6 @@
             border-radius: 5px;
             padding: 2px 5px;
         }
-        img {
-            max-width: 100%;
-            border-radius: 5px;
-            border: 2px solid #cc6699;
-        }
         ul ul {
             list-style-type: disc;
             padding-left: 20px;
@@ -69,17 +78,13 @@
 </head>
 <body>
 
-    <header>
-        <h1>Preguntas referencias sobre protocolo HTTP</h1>
-    </header>
+    <h1>Protocolo HTTP y Datos del Alumno</h1>
 
     <nav>
         <h2>Pestañas de Interes</h2>
         <ul>
-            <li><a href="https://www.cloudflare.com" target="_blank">Cloudflare</a></li>
-            <li><a href="https://www.mozilla.org" target="_blank">Mozilla</a></li>
             <li><a href="https://developer.mozilla.org/es/docs/Web/HTTP" target="_blank">HTTP Mozilla</a></li>
-            <li><a href= "https://aws.amazon.com/es/compare/the-difference-between-https-and-http/#:~:text=HTTP%20es%20un%20protocolo%20de,env%C3%ADa%20la%20solicitud%20HTTP%20GET"target="_blank">HTTP Amazon</a></li>
+            <li><a href="https://aws.amazon.com/es/compare/the-difference-between-https-and-http/#:~:text=HTTP%20es%20un%20protocolo%20de,env%C3%ADa%20la%20solicitud%20HTTP%20GET" target="_blank">HTTP Amazon</a></li>
         </ul>
     </nav>
 
@@ -99,22 +104,18 @@
                     </li>
                     <li>
                         <h3>¿Cuáles son los clientes HTTP y los servidores HTTP más utilizados?</h3>
-                        
-                           <p> <strong>Clientes HTTP más utilizados:</strong> Navegadores web como Google Chrome, Mozilla Firefox, Safari, Microsoft Edge.
-                            <strong>Servidores HTTP más utilizados:</strong> Apache HTTP Server (Apache), Nginx, Microsoft IIS, LiteSpeed.</p>
-                        
+                        <p><strong>Clientes HTTP más utilizados:</strong> Navegadores web como Google Chrome, Mozilla Firefox, Safari, Microsoft Edge.<br>
+                        <strong>Servidores HTTP más utilizados:</strong> Apache HTTP Server (Apache), Nginx, Microsoft IIS, LiteSpeed.</p>
                     </li>
                     <li>
                         <h3>¿Qué verbos admite un comando en el requerimiento HTTP?</h3>
-                        
-                            <p><strong>GET:</strong> Solicita un recurso.
-                                <strong>POST:</strong> Envía datos al servidor para procesar.
-                                <strong>PUT:</strong> Reemplaza o crea un recurso.
-                                <strong>DELETE:</strong> Elimina un recurso.
-                                <strong>HEAD: </strong>Solicita solo los encabezados de la respuesta.
-                                <strong> OPTIONS: </strong>Describe las opciones de comunicación para el recurso.
-                                <strong>PATCH:</strong>Modifica parcialmente un recurso.<p>
-                        
+                        <p><strong>GET:</strong> Solicita un recurso.<br>
+                           <strong>POST:</strong> Envía datos al servidor para procesar.<br>
+                           <strong>PUT:</strong> Reemplaza o crea un recurso.<br>
+                           <strong>DELETE:</strong> Elimina un recurso.<br>
+                           <strong>HEAD:</strong> Solicita solo los encabezados de la respuesta.<br>
+                           <strong>OPTIONS:</strong> Describe las opciones de comunicación para el recurso.<br>
+                           <strong>PATCH:</strong> Modifica parcialmente un recurso.</p>
                     </li>
                     <li>
                         <h3>¿Qué contenido lleva el body de un requerimiento HTTP?</h3>
@@ -123,12 +124,10 @@
                     </li>
                     <li>
                         <h3>¿Qué diferencia existe entre un URL y un URI?</h3>
-                        
-                            <p><strong>URL (Uniform Resource Locator):</strong> Es un tipo específico de URI (Uniform Resource Identifier) que
-                                proporciona los medios para localizar un recurso, incluyendo el protocolo y la dirección del
-                                recurso.
-                            <strong>URI (Uniform Resource Identifier):</strong> Es un identificador genérico de un recurso, que puede ser un nombre, una ubicación o ambos. Todos los URLs son URIs, pero no todos los URIs son URLs.<p>
-                        
+                        <p><strong>URL (Uniform Resource Locator):</strong> Es un tipo específico de URI (Uniform Resource Identifier) que
+                           proporciona los medios para localizar un recurso, incluyendo el protocolo y la dirección del
+                           recurso.<br>
+                           <strong>URI (Uniform Resource Identifier):</strong> Es un identificador genérico de un recurso, que puede ser un nombre, una ubicación o ambos. Todos los URLs son URIs, pero no todos los URIs son URLs.</p>
                     </li>
                     <li>
                         <h3>¿Cómo se almacena información relacionada con las respuestas HTTP?</h3>
@@ -168,24 +167,32 @@
     </section>
 
     <section>
-        <h2>Imágenes representativas del protocolo http </h2>
-        <p>En esta sección mostraremos imágenes representativas del protocolo HTTP.</p>
-        <img src="Protocolo HTTP.png" alt="Imagen representativa del protocolo HTTP">
-        <img src="Arquitectura-de-HTTP.jpg" alt="Arquitectura HTTP">
+        <h2>Imágenes representativas del protocolo HTTP</h2>
+
+        <div class="image-container">
+            <img src="Protocolo HTTP.png" alt="Imagen representativa del protocolo HTTP">
+            <img src="Arquitectura-de-HTTP.jpg" alt="Arquitectura HTTP">
+        </div>
     </section>
 
     <section>
         <h2>Vídeos representativos del protocolo HTTP</h2>
-        <video controls>
-            <source src="video-enunciado.html.mp4" type="video/mp4">
-            Tu navegador no soporta la reproducción de vídeos HTML5.
-        </video>
+        <div class="video-container">
+            <video controls>
+                <source src="¿Que es el protocolo HTTP y cómo funciona_.mp4" type="video/mp4">
+                Tu navegador no soporta la reproducción de vídeos HTML5.
+            </video>
+            <video controls>
+                <source src="¿QUÉ ES HTTP Y HTTPS_ _ Aprende que es http https y para que utiliza en menos 5 minutos!.mp4" type="video/mp4">
+                Tu navegador no soporta la reproducción de vídeos HTML5.
+            </video>
+        </div>
     </section>
 
-    <section>
-        <p>Debora Moteverde Arias 3135 CABA</p>
+
+        <p><a href="https://www.google.com/maps/search/Arias+3135+CABA" target="_blank">Arias 3135 CABA</a></p>
         <p><a href="mailto:debora.monteverde@comunidad.ub.edu.ar">debora.monteverde@comunidad.ub.edu.ar</a></p>
-    </section>
+        <p>Debora Monteverde<p>
 
 </body>
 </html>
