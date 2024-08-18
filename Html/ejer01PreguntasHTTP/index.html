@@ -3,10 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página Html</title>
+    <title>Protocolo HTTP y Datos del Alumno</title>
+    <style>
+        body {
+            background-color: #ffe6f2;
+            font-family: Arial, sans-serif;
+            color: #cc6699;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1, h2, h3 {
+            color: #cc3366;
+        }
+        header, nav, section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 2px solid #cc6699;
+            border-radius: 5px;
+            background-color: #ffccf2;
+        }
+        video {
+            max-width: 100%;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        p {
+            margin-top: 10px;
+        }
+        a {
+            color: #cc3366;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        nav a {
+            color: #cc6699;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav a:hover {
+            color: white;
+            background-color: #cc6699;
+            border-radius: 5px;
+            padding: 2px 5px;
+        }
+        img {
+            max-width: 100%;
+            border-radius: 5px;
+            border: 2px solid #cc6699;
+        }
+        ul ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Página Html</h1>
-    <p>Este es el contenido de la página Html.</p>
+
+    <header>
+        <h1>Preguntas referencias sobre protocolo HTTP</h1>
+    </header>
+
+    <nav>
+        <h2>Pestañas de Interes</h2>
+        <ul>
+            <li><a href="https://www.cloudflare.com" target="_blank">Cloudflare</a></li>
+            <li><a href="https://www.mozilla.org" target="_blank">Mozilla</a></li>
+            <li><a href="https://developer.mozilla.org/es/docs/Web/HTTP" target="_blank">HTTP Mozilla</a></li>
+            <li><a href= "https://aws.amazon.com/es/compare/the-difference-between-https-and-http/#:~:text=HTTP%20es%20un%20protocolo%20de,env%C3%ADa%20la%20solicitud%20HTTP%20GET"target="_blank">HTTP Amazon</a></li>
+        </ul>
+    </nav>
+
+    <section>
+        <h2>Cuestionarios</h2>
+        <ul>
+            <li><strong>Cuestionario 1</strong>
+                <p>Respuesta</p>
+            </li>
+            <li><strong>Cuestionario 2</strong>
+                <ul>
+                    <li>
+                        <h3>¿Sobre qué protocolo binario está montado el protocolo HTTP?</h3>
+                        <p>El protocolo HTTP no está montado directamente sobre un protocolo binario específico, sino que
+                            utiliza el protocolo TCP (Transmission Control Protocol) para la transmisión de datos de manera
+                            confiable sobre redes IP.</p>
+                    </li>
+                    <li>
+                        <h3>¿Cuáles son los clientes HTTP y los servidores HTTP más utilizados?</h3>
+                        
+                           <p> <strong>Clientes HTTP más utilizados:</strong> Navegadores web como Google Chrome, Mozilla Firefox, Safari, Microsoft Edge.
+                            <strong>Servidores HTTP más utilizados:</strong> Apache HTTP Server (Apache), Nginx, Microsoft IIS, LiteSpeed.</p>
+                        
+                    </li>
+                    <li>
+                        <h3>¿Qué verbos admite un comando en el requerimiento HTTP?</h3>
+                        
+                            <p><strong>GET:</strong> Solicita un recurso.
+                                <strong>POST:</strong> Envía datos al servidor para procesar.
+                                <strong>PUT:</strong> Reemplaza o crea un recurso.
+                                <strong>DELETE:</strong> Elimina un recurso.
+                                <strong>HEAD: </strong>Solicita solo los encabezados de la respuesta.
+                                <strong> OPTIONS: </strong>Describe las opciones de comunicación para el recurso.
+                                <strong>PATCH:</strong>Modifica parcialmente un recurso.<p>
+                        
+                    </li>
+                    <li>
+                        <h3>¿Qué contenido lleva el body de un requerimiento HTTP?</h3>
+                        <p>El body de un requerimiento HTTP puede contener datos que se envían al servidor, como formularios
+                            enviados por el usuario, archivos, o datos JSON, dependiendo del tipo de solicitud.</p>
+                    </li>
+                    <li>
+                        <h3>¿Qué diferencia existe entre un URL y un URI?</h3>
+                        
+                            <p><strong>URL (Uniform Resource Locator):</strong> Es un tipo específico de URI (Uniform Resource Identifier) que
+                                proporciona los medios para localizar un recurso, incluyendo el protocolo y la dirección del
+                                recurso.
+                            <strong>URI (Uniform Resource Identifier):</strong> Es un identificador genérico de un recurso, que puede ser un nombre, una ubicación o ambos. Todos los URLs son URIs, pero no todos los URIs son URLs.<p>
+                        
+                    </li>
+                    <li>
+                        <h3>¿Cómo se almacena información relacionada con las respuestas HTTP?</h3>
+                        <p>La información relacionada con las respuestas HTTP se almacena en las cabeceras (headers) de la
+                            respuesta, como `Set-Cookie` para gestionar cookies, o `Content-Type` para indicar el tipo de
+                            contenido.</p>
+                    </li>
+                    <li>
+                        <h3>¿Qué significa Virtual Hosting?</h3>
+                        <p>Virtual hosting es una técnica usada en servidores web para alojar múltiples dominios (sitios web) en
+                            una sola máquina física o servidor. Esto permite que diferentes sitios web compartan la misma
+                            dirección IP, diferenciándolos a través de nombres de dominio.</p>
+                    </li>
+                    <li>
+                        <h3>¿Por qué HTTP se considera STATELESS?</h3>
+                        <p>HTTP se considera sin estado (stateless) porque cada solicitud se realiza de manera independiente;
+                            el servidor no mantiene información sobre solicitudes anteriores realizadas por el cliente. Esto
+                            significa que cada solicitud es tratada como nueva, sin contexto de solicitudes previas.</p>
+                    </li>
+                    <li>
+                        <h3>¿Qué nueva versión de HTTP se está usando para mejorar la velocidad de la web?</h3>
+                        <p>La versión más reciente utilizada para mejorar la velocidad de la web es HTTP/2 y HTTP/3. HTTP/2
+                            introduce técnicas como la multiplexación de conexiones, la compresión de cabeceras y el server
+                            PUSH. HTTP/3, que utiliza QUIC en lugar de TCP, también busca mejorar la velocidad y fiabilidad.</p>
+                    </li>
+                    <li>
+                        <h3>¿Cómo va a mejorar el comportamiento de una aplicación web en ambientes ruidosos o de débil
+                            conexión?</h3>
+                        <p>El comportamiento de una aplicación web en ambientes ruidosos o de débil conexión puede mejorarse
+                            utilizando HTTP/3, que está diseñado para ser más eficiente en conexiones de alta latencia o
+                            inestables, gracias a su uso del protocolo QUIC, que mejora la recuperación de datos perdidos y
+                            reduce los tiempos de reconexión.</p>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Imágenes representativas del protocolo http </h2>
+        <p>En esta sección mostraremos imágenes representativas del protocolo HTTP.</p>
+        <img src="Protocolo HTTP.png" alt="Imagen representativa del protocolo HTTP">
+        <img src="Arquitectura-de-HTTP.jpg" alt="Arquitectura HTTP">
+    </section>
+
+    <section>
+        <h2>Vídeos representativos del protocolo HTTP</h2>
+        <video controls>
+            <source src="video-enunciado.html.mp4" type="video/mp4">
+            Tu navegador no soporta la reproducción de vídeos HTML5.
+        </video>
+    </section>
+
+    <section>
+        <p>Debora Moteverde Arias 3135 CABA</p>
+        <p><a href="mailto:debora.monteverde@comunidad.ub.edu.ar">debora.monteverde@comunidad.ub.edu.ar</a></p>
+    </section>
+
 </body>
 </html>
