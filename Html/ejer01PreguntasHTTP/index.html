@@ -37,7 +37,7 @@
         }
         .image-container img {
             width: 45%;
-            height: auto; /* Mantiene la relación de aspecto */
+            height: auto; 
         }
         .image-container {
             text-align: center;
@@ -92,7 +92,29 @@
         <h2>Cuestionarios</h2>
         <ul>
             <li><strong>Cuestionario 1</strong>
-                <p>Respuesta</p>
+                <ul>
+                    <li>
+                        <h3>Caso de encriptación unidireccional:</h3>
+                        <p>Contraseña,cuando el usuario ingresa con su contraseña, esta se transforma en un HASH y se compara con el HASH almacenado en el servidor. Si coinciden, se autentica al usuario, garantizando que la contraseña no se transmita ni se almacene como texto.</p>
+                    </li>
+                    <li>
+                        <h3>Ventajas y Desventajas de encriptación simétrica:</h3>
+                        <p><strong>Ventajas:</strong> Alta eficiencia en la encriptación de grandes cantidades de datos.</p>
+                        <p><strong>Desventajas:</strong> La clave debe ser compartida de manera segura entre emisor y receptor. Problemas de escalabilidad al manejar múltiples claves en grandes redes.</p>
+                    </li>
+                    <li>
+                        <h3>¿Cómo encriptas para tener confidencialidad en la transferencia de datos?</h3>
+                        <p>Asimétrica, el emisor encripta los datos con la clave PÚBLICA del receptor, asegurando que solo el receptor, quien posee la clave PRIVADA correspondiente, pueda desencriptar los datos.</p>
+                    </li>
+                    <li>
+                        <h3>¿Cómo encriptamos para garantizar confidencialidad y autenticar un documento usando firma electrónica?</h3>
+                        <p>Se realiza un HASH del documento, luego se encripta con la clave PRIVADA del emisor. El receptor desencripta el HASH con la clave PÚBLICA del emisor y compara el HASH desencriptado con el HASH recalculado del documento para verificar la autenticidad.</p>
+                    </li>
+                    <li>
+                        <h3>¿Qué tipo de encriptación se usa en la web?</h3>
+                        <p>En la web se usa comúnmente encriptación asimétrica para intercambiar claves de forma segura al inicio de la comunicación y luego se utiliza encriptación simétrica para la transferencia de datos, debido a su eficiencia. Esto se realiza a través de los protocolos SSL/TLS.</p>
+                    </li>
+                </ul>
             </li>
             <li><strong>Cuestionario 2</strong>
                 <ul>
