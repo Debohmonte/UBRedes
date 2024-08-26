@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo de Ancho y Box Sizing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #fefcfd;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .box {
+            width: 50%;
+            margin-bottom: 0px;
+            padding: 10px;
+            background-color: #d9edf7;
+        }
+        .box-padding {
+            width: 50%;
+            padding: 20px;
+            background-color: #dff0d8;
+        }
+        .box-padding-boxsizing {
+            width: 50%;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #fcf8e3;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <nav><h1>50% de la ventana</h1></nav>
+
+    <!-- sin padding -->
+    <div class="box">CSS, en español «Hojas de estilo en cascada», es un lenguaje de diseño gráfico para definir y crear la presentación de un documento estructurado escrito en un lenguaje de marcado.​</div>
+    <div class="box">Está diseñado principalmente para marcar la separación del contenido del documento y la forma de presentación de este, características tales como las capas o layouts, los colores y las fuentes.</div>
+    <div class="box">La especificación CSS describe un esquema prioritario para determinar qué reglas de estilo se aplican si más de una regla coincide para un elemento en particular.</div>
+
+    <!--  padding, sin box-sizing -->
+    <div class="box-padding">CSS tiene una sintaxis simple y usa un conjunto de palabras clave en inglés para especificar los nombres de varias propiedades de estilo.</div>
+    <div class="box-padding">Una hoja de estilos consiste en una serie de reglas.</div>
+    <div class="box-padding">Cada regla, o conjunto de reglas consisten en uno o más selectores, y un bloque de declaración.</div>
+
+    <!-- padding y box-sizing -->
+    <div class="box-padding-boxsizing">Antes del desarrollo de CSS, toda la información presentacional de los documentos HTML era incluida en el código HTML.</div>
+    <div class="box-padding-boxsizing">Los colores de las fuentes, los estilos de fondo, la alineación de los elementos, los bordes y tamaños eran descritos explícitamente, a veces de manera redundante, dentro del HTML.</div>
+    <div class="box-padding-boxsizing">CSS permite a los diseñadores mover toda la información presentacional a otro archivo, la hoja de estilos, resultando en un código HTML notablemente más simple.</div>
+
+</body>
+</html>
+
+<footer>  
+    <p><a href="https://www.google.com/maps?sca_esv=81215ad4e9e1b019&rlz=1C5CHFA_enAR1119AR1121&output=search&q=dot&source=lnms&fbs=AEQNm0CbCVgAZ5mWEJDg6aoPVcBgnoegmQBYI4vM8RhhlMgCG0CXTBN0rNLG4tos8qUan5ONrNbjpIvDHfPLZ2Z7QwTxlu9IdnNLbOPopSyFkYhbvV-Rk5Efjt81m0NjZzm7oC-B9PVNFgOWuR8iKbNwJlpSGJZXe-mot3nvEhKqgdq6CAap_lmC0Q-fq8hVKkWkuDh2J87OzD11JGBaQJhEfr_Y8uPPhQ&entry=mc&ved=1t:200715&ictx=111">DOTSHOPPING CABA</a></p></a></p>
+    <p><a href="mailto:debora.monteverde@comunidad.ub.edu.ar">debora.monteverde@comunidad.ub.edu.ar</a></p>
+    <p>Debora Monteverde</p>
+</footer>

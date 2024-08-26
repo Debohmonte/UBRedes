@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <nav><title>Cajas en Pila</title></nav> 
+    <style>
+        body {
+            background-color: #f9f8fa; 
+            font-family: Arial, sans-serif;
+            color: #000;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #000;
+            text-align: left;
+        }
+        .box {
+            margin: 20px auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 800px;
+            border-radius: 10px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            height: 250px; 
+            flex-direction: column; 
+        }
+      
+        .box-1 {
+            background-color: #eec7f3;
+            color: black;
+        }
+     
+        .box-2 {
+            background: radial-gradient(circle, #aa32aa, #f8cdf4);
+        }
+      
+        .box-3 {
+            background: linear-gradient(to right, #7e32e2, #ff66f7);
+        }
+        .box-3 img {
+            max-width: 100%; 
+            max-height: 100%; 
+            border-radius: 10px;
+        }
+    
+        .box-4 {
+            background: linear-gradient(to right, #f7f3f6, #f538cf);
+        }
+        .box-5 {
+            background: linear-gradient(to right, #e76ae7, #fcf9fc);
+        }
+        /*fondo según el tamaño de la pantalla */
+        @media (max-width: 600px) {
+            .box-1 {
+                background-color: #dbb2ca; /* viewports menores a 600px */
+            }
+        }
+        @media (min-width: 600px) and (max-width: 1080px) {
+            .box-1 {
+                background-color: #dbb2ca; /*viewports entre 600px y 1080px */
+            }
+        }
+        @media (min-width: 1080px) {
+            .box-1 {
+                background-color: #dbb2ca; /*viewports mayores a 1080px */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Cajas en pila</h1>
+
+    <!-- Primera caja -->
+    <div class="box box-1">
+        <p>Fondo gris para tamaño de viewport mayores a 1080</p>
+        <p>Fondo amarillo claro para tamaño de viewport entre 600 y 1080</p>
+        <p>Fondo celeste para tamaño de viewport menor a 600</p>
+    </div>
+
+    <!-- Segunda caja -->
+    <div class="box box-2">
+        Gradiente radial como fondo.
+    </div>
+
+    <!-- Tercera caja -->
+    <div class="box box-3">
+        <img src="Types-of-sakura-feature.webp" alt="Imagen representativa">
+    </div>
+
+    <!-- Cuarta caja -->
+    <div class="box box-4">
+        Nodo de Texto en div alineado a la izquierda y con padding
+    </div>
+
+    <!-- Quinta caja -->
+    <div class="box box-5">
+        Nodo de Texto en div alineado a la izquierda y sin padding
+    </div>
+
+</body>
+</html>
+<footer>  
+    <p><a href="https://www.google.com/maps?sca_esv=81215ad4e9e1b019&rlz=1C5CHFA_enAR1119AR1121&output=search&q=dot&source=lnms&fbs=AEQNm0CbCVgAZ5mWEJDg6aoPVcBgnoegmQBYI4vM8RhhlMgCG0CXTBN0rNLG4tos8qUan5ONrNbjpIvDHfPLZ2Z7QwTxlu9IdnNLbOPopSyFkYhbvV-Rk5Efjt81m0NjZzm7oC-B9PVNFgOWuR8iKbNwJlpSGJZXe-mot3nvEhKqgdq6CAap_lmC0Q-fq8hVKkWkuDh2J87OzD11JGBaQJhEfr_Y8uPPhQ&entry=mc&ved=1t:200715&ictx=111">DOTSHOPPING CABA</a></p>
+    <p><a href="mailto:debora.monteverde@comunidad.ub.edu.ar">debora.monteverde@comunidad.ub.edu.ar</a></p>
+    <p>Debora Monteverde</p>
+</footer>
