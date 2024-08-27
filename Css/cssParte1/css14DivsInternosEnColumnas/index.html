@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encolumnado Adaptable</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #23189c; 
+        }
+
+        .contenedor {
+            column-count: 4; 
+            column-gap: 20px;
+        }
+
+        .articulo {
+            background-color: #add8e6; 
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            width: 100%; 
+            box-sizing: border-box;
+            break-inside: avoid; 
+        }
+
+        .articulo img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 1200px) {
+            .contenedor {
+                column-count: 2; 
+            }
+        }
+
+        @media (max-width: 768px) {
+            .contenedor {
+                column-count: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="contenedor">
+        <div class="articulo">
+            <h2>El violín en el tango argentino</h2>
+            <p>El violín siempre estuvo presente, siendo una parte esencial del sonido del tango argentino. Además, los violinistas de tango introdujeron técnicas de sonido innovadoras hasta el momento que incluían golpes de arco y todo tipo de percusiones sobre el instrumento, </p>
+            <img src="D_NQ_NP_955061-MLA42517231418_072020-O.webp" alt="Imagen 1">
+        </div>
+        <div class="articulo">
+            <h2>Técnica vocal del tango</h2>
+            <p>La técnica vocal necesaria para cantar tango es un tanto particular: podría decirse que se ubica en un punto medio entre las usadas en la música popular y la lírica. Si bien han existido muchos grandes intérpretes que no pulieron sus talentos, las exigencias han crecido en las últimas décadas y resulta poco común que un artista actual no tenga una formación académica.A diferencia de la ópera, no existen restricciones acerca de la tonalidad en la que debería interpretarse un tango; del mismo modo, la mayoría de las piezas pueden ser cantadas por hombres y mujeres indistintamente. Es posible apreciar la variedad de aportes que surge de tal libertad al comparar diferentes versiones de un mismo tango; al escuchar a Julio Sosa, Carlos Gardel y Roberto Goyeneche, por ejemplo, se perciben matices muy diversos, tanto por el color y la tesitura de cada voz como por la interpretación.
+
+            </p>
+        </div>
+        <div class="articulo">
+            <h2>Tango Argentino </h2>
+            <p>Tango Argentino es un espectáculo coreográfico-musical de tango, creado y dirigido por Claudio Segovia y Héctor Orezzoli, con asesoramiento de Juan Carlos Copes, y coreografía diseñada por los propios bailarines que integraron los elencos. Fue estrenado en 1983 en París y en 1985 en Broadway (Nueva York), alcanzando un enorme éxito de alcance mundial, manteniéndose en cartel por más de una década. Se le atribuye una influencia decisiva en el renacimiento mundial del tango, como danza y como género musical.            </p>
+        </div>
+        <div class="articulo">
+            <h2>Baile</h2>
+            <ul><li>Baldosa.</li>
+                <li>Cadena invertida. </li>
+                <li>Cambios de dirección. </li>
+                <li>Caminata sincopada. </li>
+                <li>Contratiempos básicos con ochos. </li>
+                <li>Cunita y sacada. </li>
+                <li>Gancho y caminata sincopada.</li>
+            </ul>
+            
+        </div>
+        <div class="articulo">
+            <h2>Julio de Caro</h2>
+            <p> A fines del año 1923, Julio De Caro se desvinculó de la orquesta de Juan Carlos Cobián y armó una formación para actuar en el Café Colón, de Avenida de Mayo 999, y en LOZ Radio Sudamérica. Eran cinco los componentes y, aunque sus compañeros no lo habían resuelto, tomó por su cuenta la dirección del conjunto; los nombres: Julio y Emilio De Caro (violines), Francisco De Caro (piano), Pedro Maffia y Luis Petrucelli (bandoneones).</p>
+            <img src="images.jpeg" alt="Imagen 2">
+        </div>
+        <div class="articulo">
+            <h2>Datos que tal vez no conocías de Carlos Gardel</h2>
+            <p>Carlitos Gardel se convirtió en hincha de fútbol en Cataluña. Les robó el alma a los jugadores del Barcelona cuando después de un partido por la final del campeonato de España, contra el Real Madrid, fue a cantarles a los jugadores lesionados en la enfermería.En Argentina su club era Racing. También era aficionado a otros deportes como el boxeo, las bochas, la pelota vasca y el turf. Era amigo del jockey Irineo Leguisamo y propietario de ocho caballos de carrera. Solía salir a correr y practicar gimnasia.</p>
+        </div>
+        <div class="articulo">
+            <h2>Fileteado ARGENTINO</h2>
+            <p>Si el tango es la música de Buenos Aires, el fileteado es su trazo, su letra escrita a mano, su firma. Enroscado, recargado y dramático, como el espíritu porteño, el fileteado y sus mensajes son un llamado de atención a quienes habitan la ciudad, para que no olviden sus orígenes, su historia, e incluso, su filosofía de vida. Te contamos por qué la Unesco lo ha declarado Patrimonio Inmaterial de la Humanidad.</p>
+            <img src="4913-original.jpeg" alt="Imagen 2">
+        </div>
+        <div class="articulo">
+            <h2>La influencia del tango en la gastronomía argentina</h2>
+            <p>Al igual que el tango, el asado es sumamente metódico dentro de la Comida Argentina. Ambos son una manera de olvidarse del dolor y una manera de reconectarse de nuevo consigo mismo y con los demás. El tango es un baile de cuerpos entrelazados, un diálogo, es seducción en movimiento.
+
+                El asado, por su parte, es para la Comida Argentina un punto de encuentro, de comunión. Requiere de paciencia y amigos para disfrutarse. Es un largo proceso que se va disfrutando de a poco y en el que cada bocado es mejor que el anterior.
+                
+                El tango y la comida, sobre todo los cortes de carne, son un elemento fundamental de la vida argentina, cuidados celosamente por quienes los disfrutan por igual.</p>
+        </div>
+    </div>
+
+</body>
+</html>
