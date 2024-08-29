@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla Responsive</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #93e3f0;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            table-layout: fixed;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #78b7f1; 
+            color: white;
+            text-transform: uppercase;
+        }
+
+        tr:nth-child(even) {
+            background-color: #62cfed; 
+        }
+
+        tr:nth-child(odd) {
+            background-color: #d1e6eb; 
+        }
+
+        footer {
+            background-color: #03292f;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 768px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            th {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+            tr {
+                margin-bottom: 20px;
+            }
+
+            td {
+                position: relative;
+                padding-left: 50%;
+                text-align: right;
+                border: none;
+                display: block;
+                border-bottom: 1px solid #ccc;
+            }
+
+            td:before {
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                width: 45%;
+                padding-right: 10px;
+                text-align: left;
+                font-weight: bold;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<h1>Tabla:</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nick</th>
+            <th>Mail</th>
+            <th>Web</th>
+            <th>Twitter</th>
+            <th>Skype</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td data-label="Id">1</td>
+            <td data-label="Nick">Fu</td>
+            <td data-label="Mail">fulano@gmail.com</td>
+            <td data-label="Web">http://fulano.ar</td>
+            <td data-label="Twitter">@fulano</td>
+            <td data-label="Skype">fulano@gmail.com</td>
+        </tr>
+        <tr>
+            <td data-label="Id">1</td>
+            <td data-label="Nick">Fu</td>
+            <td data-label="Mail">fulano@gmail.com</td>
+            <td data-label="Web">http://fulano.ar</td>
+            <td data-label="Twitter">@fulano</td>
+            <td data-label="Skype">fulano@gmail.com</td>
+        </tr>
+        <tr>
+            <td data-label="Id">1</td>
+            <td data-label="Nick">Fu</td>
+            <td data-label="Mail">fulano@gmail.com</td>
+            <td data-label="Web">http://fulano.ar</td>
+            <td data-label="Twitter">@fulano</td>
+            <td data-label="Skype">fulano@gmail.com</td>
+        </tr>
+        <tr>
+            <td data-label="Id">1</td>
+            <td data-label="Nick">Fu</td>
+            <td data-label="Mail">fulano@gmail.com</td>
+            <td data-label="Web">http://fulano.ar</td>
+            <td data-label="Twitter">@fulano</td>
+            <td data-label="Skype">fulano@gmail.com</td>
+        </tr>
+        <tr>
+            <td data-label="Id">1</td>
+            <td data-label="Nick">Fu</td>
+            <td data-label="Mail">fulano@gmail.com</td>
+            <td data-label="Web">http://fulano.ar</td>
+            <td data-label="Twitter">@fulano</td>
+            <td data-label="Skype">fulano@gmail.com</td>
+        </tr>
+        <tr>
+            <td data-label="Id">1</td>
+            <td data-label="Nick">Fu</td>
+            <td data-label="Mail">fulano@gmail.com</td>
+            <td data-label="Web">http://fulano.ar</td>
+            <td data-label="Twitter">@fulano</td>
+            <td data-label="Skype">fulano@gmail.com</td>
+        </tr>
+        <tr>
+            <td data-label="Id">1</td>
+            <td data-label="Nick">Fu</td>
+            <td data-label="Mail">fulano@gmail.com</td>
+            <td data-label="Web">http://fulano.ar</td>
+            <td data-label="Twitter">@fulano</td>
+            <td data-label="Skype">fulano@gmail.com</td>
+        </tr>
+        <tr>
+            <td data-label="Id">1</td>
+            <td data-label="Nick">Fu</td>
+            <td data-label="Mail">fulano@gmail.com</td>
+            <td data-label="Web">http://fulano.ar</td>
+            <td data-label="Twitter">@fulano</td>
+            <td data-label="Skype">fulano@gmail.com</td>
+        </tr>
+        <tr>
+            <td data-label="Id">1</td>
+            <td data-label="Nick">Fu</td>
+            <td data-label="Mail">fulano@gmail.com</td>
+            <td data-label="Web">http://fulano.ar</td>
+            <td data-label="Twitter">@fulano</td>
+            <td data-label="Skype">fulano@gmail.com</td>
+        </tr>
+        <tr>
+            <td data-label="Id">1</td>
+            <td data-label="Nick">Fu</td>
+            <td data-label="Mail">fulano@gmail.com</td>
+            <td data-label="Web">http://fulano.ar</td>
+            <td data-label="Twitter">@fulano</td>
+            <td data-label="Skype">fulano@gmail.com</td>
+        </tr>
+        <tr>
+            <td data-label="Id">1</td>
+            <td data-label="Nick">Fu</td>
+            <td data-label="Mail">fulano@gmail.com</td>
+            <td data-label="Web">http://fulano.ar</td>
+            <td data-label="Twitter">@fulano</td>
+            <td data-label="Skype">fulano@gmail.com</td>
+        </tr>
+        <tr>
+            <td data-label="Id">1</td>
+            <td data-label="Nick">Fu</td>
+            <td data-label="Mail">fulano@gmail.com</td>
+            <td data-label="Web">http://fulano.ar</td>
+            <td data-label="Twitter">@fulano</td>
+            <td data-label="Skype">fulano@gmail.com</td>
+        </tr>
+        <tr>
+            <td data-label="Id">1</td>
+            <td data-label="Nick">Fu</td>
+            <td data-label="Mail">fulano@gmail.com</td>
+            <td data-label="Web">http://fulano.ar</td>
+            <td data-label="Twitter">@fulano</td>
+            <td data-label="Skype">fulano@gmail.com</td>
+        </tr>
+        <tr>
+            <td data-label="Id">1</td>
+            <td data-label="Nick">Fu</td>
+            <td data-label="Mail">fulano@gmail.com</td>
+            <td data-label="Web">http://fulano.ar</td>
+            <td data-label="Twitter">@fulano</td>
+            <td data-label="Skype">fulano@gmail.com</td>
+        </tr>
+        <tr>
+            <td data-label="Id">1</td>
+            <td data-label="Nick">Fu</td>
+            <td data-label="Mail">fulano@gmail.com</td>
+            <td data-label="Web">http://fulano.ar</td>
+            <td data-label="Twitter">@fulano</td>
+            <td data-label="Skype">fulano@gmail.com</td>
+        </tr>
+        <tr>
+            <td data-label="Id">1</td>
+            <td data-label="Nick">Fu</td>
+            <td data-label="Mail">fulano@gmail.com</td>
+            <td data-label="Web">http://fulano.ar</td>
+            <td data-label="Twitter">@fulano</td>
+            <td data-label="Skype">fulano@gmail.com</td>
+        </tr>
+        <tr>
+            <td data-label="Id">1</td>
+            <td data-label="Nick">Fu</td>
+            <td data-label="Mail">fulano@gmail.com</td>
+            <td data-label="Web">http://fulano.ar</td>
+            <td data-label="Twitter">@fulano</td>
+            <td data-label="Skype">fulano@gmail.com</td>
+        </tr>
+        <tr>
+            <td data-label="Id">1</td>
+            <td data-label="Nick">Fu</td>
+            <td data-label="Mail">fulano@gmail.com</td>
+            <td data-label="Web">http://fulano.ar</td>
+            <td data-label="Twitter">@fulano</td>
+            <td data-label="Skype">fulano@gmail.com</td>
+        </tr>
+        <tr>
+            <td data-label="Id">1</td>
+            <td data-label="Nick">Fu</td>
+            <td data-label="Mail">fulano@gmail.com</td>
+            <td data-label="Web">http://fulano.ar</td>
+            <td data-label="Twitter">@fulano</td>
+            <td data-label="Skype">fulano@gmail.com</td>
+        </tr>
+        <tr>
+            <td data-label="Id">1</td>
+            <td data-label="Nick">Fu</td>
+            <td data-label="Mail">fulano@gmail.com</td>
+            <td data-label="Web">http://fulano.ar</td>
+            <td data-label="Twitter">@fulano</td>
+            <td data-label="Skype">fulano@gmail.com</td>
+        </tr>
+        <tr>
+            <td data-label="Id">1</td>
+            <td data-label="Nick">Fu</td>
+            <td data-label="Mail">fulano@gmail.com</td>
+            <td data-label="Web">http://fulano.ar</td>
+            <td data-label="Twitter">@fulano</td>
+            <td data-label="Skype">fulano@gmail.com</td>
+        </tr>
+        <tr>
+            <td data-label="Id">1</td>
+            <td data-label="Nick">Fu</td>
+            <td data-label="Mail">fulano@gmail.com</td>
+            <td data-label="Web">http://fulano.ar</td>
+            <td data-label="Twitter">@fulano</td>
+            <td data-label="Skype">fulano@gmail.com</td>
+        </tr>
+        <tr>
+            <td data-label="Id">1</td>
+            <td data-label="Nick">Fu</td>
+            <td data-label="Mail">fulano@gmail.com</td>
+            <td data-label="Web">http://fulano.ar</td>
+            <td data-label="Twitter">@fulano</td>
+            <td data-label="Skype">fulano@gmail.com</td>
+        </tr>
+        <tr>
+            <td data-label="Id">1</td>
+            <td data-label="Nick">Fu</td>
+            <td data-label="Mail">fulano@gmail.com</td>
+            <td data-label="Web">http://fulano.ar</td>
+            <td data-label="Twitter">@fulano</td>
+            <td data-label="Skype">fulano@gmail.com</td>
+        </tr>
+        <tr>
+            <td data-label="Id">1</td>
+            <td data-label="Nick">Fu</td>
+            <td data-label="Mail">fulano@gmail.com</td>
+            <td data-label="Web">http://fulano.ar</td>
+            <td data-label="Twitter">@fulano</td>
+            <td data-label="Skype">fulano@gmail.com</td>
+        </tr>
+        <tr>
+            <td data-label="Id">1</td>
+            <td data-label="Nick">Fu</td>
+            <td data-label="Mail">fulano@gmail.com</td>
+            <td data-label="Web">http://fulano.ar</td>
+            <td data-label="Twitter">@fulano</td>
+            <td data-label="Skype">fulano@gmail.com</td>
+        </tr>
+        <tr>
+            <td data-label="Id">1</td>
+            <td data-label="Nick">Fu</td>
+            <td data-label="Mail">fulano@gmail.com</td>
+            <td data-label="Web">http://fulano.ar</td>
+            <td data-label="Twitter">@fulano</td>
+            <td data-label="Skype">fulano@gmail.com</td>
+        </tr>
+
+        <!-- Puedes añadir más filas aquí con la misma estructura -->
+    </tbody>
+</table>
+
+<footer>Pie de tabla</footer>
+
+</body>
+</html>

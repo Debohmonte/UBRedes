@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maquetación </title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100%;
+            background-color: #f2f2f2;
+        }
+
+        header {
+            background-color: #f8e8e8; 
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            height: calc(100% - 80px); /* Restar el tamaño del header y footer */
+        }
+
+        nav {
+            background-color: #ee0c90; 
+            padding: 15px;
+            width: 200px;
+            box-sizing: border-box;
+            flex-grow: 1;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin: 10px 0;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: rgb(181, 123, 123);
+            display: block;
+            padding: 10px;
+            background-color: #b51d6c; 
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        nav ul li a:hover {
+            background-color: #d45e9f; 
+        }
+
+        main {
+            flex-grow: 3;
+            padding: 20px;
+            background-color: #f9f9f9;
+            overflow-y: auto;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        footer {
+            background-color: #f1b0f0; 
+            padding: 10px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                height: auto;
+            }
+
+            nav {
+                width: 100%;
+                height: auto;
+            }
+
+            main {
+                flex-grow: 1;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    Título principal de página 1
+</header>
+
+<div class="container">
+    <nav>
+        <ul>
+            <li><a href="">HTML</a></li>
+            <li><a href="#">CSS</a></li>
+            <li><a href="#">JSCRIPT</a></li>
+            <li><a href="#">PHP</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <p>.</p>
+        <p>.</p>
+        
+    </main>
+</div>
+
+<footer>
+    Pie de página
+</footer>
+
+</body>
+</html>

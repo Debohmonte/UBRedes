@@ -17,43 +17,91 @@
         h1 {
             color: #cc3366;
             text-align: center;
+            margin-bottom: 20px;
         }
 
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        li {
-            margin: 10px 0;
-        }
-
-        a {
-            text-decoration: none;
-            color: #cc6699;
-            font-weight: bold;
-            display: block;
-            padding: 10px;
-            border: 2px solid #cc6699;
-            border-radius: 5px;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        a:hover {
+        nav {
             background-color: #cc6699;
+            padding: 10px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: space-around;
+            background-color: #cc6699;
+        }
+
+        nav ul li {
+            position: relative;
+        }
+
+        nav ul li a {
             color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: block;
+            transition: background-color 0.3s;
+        }
+
+        nav ul li a:hover {
+            background-color: #b35980;
+        }
+
+        nav ul ul {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #cc6699;
+            padding: 0;
+            z-index: 1000;
+        }
+
+        nav ul ul li {
+            width: 200px;
+        }
+
+        nav ul li:hover > ul {
+            display: block;
+        }
+
+        nav ul ul li a {
+            padding: 10px;
         }
     </style>
 </head>
 
 <body>
     <h1>Índice de ejercicios Laboratorio 2024</h1>
-    <ul>
-        <li><a href="Html/index.html">HTML</a></li>
-        <li><a href="Css/index.html">CSS</a></li>
-        <li><a href="jscript.html">JAVASCRIPT</a></li>
-        <li><a href="especiales.html">Especiales</a></li>
-        <li><a href="php.html">PHP</a></li>
-    </ul>
+    <nav>
+        <ul>
+            <li><a href="Html/index.html">HTML</a>
+                <ul>
+                    <li><a href="Html/ejer01PreguntasHTTP/index.html">Preguntas</a></li>
+                    <li><a href="Html/ejer02Tablas/index.html">Tablas</a></li>
+                    <li><a href="Html/ejer03Formularios/index.html">Forms</a></li>
+                    <li><a href="Html/ejer04lframe/index.html">Iframes</a></li>
+                </ul>
+            </li>
+            <li><a href="Css/index.html">CSS</a>
+                <ul>
+                    <li><a href="Css/cssParte1/css08CentradoYPadding/index.html">Padding</a></li>
+                    <li><a href="Css/cssParte1/css10DivEnPilas/index.html">Pilas</a></li>
+                    <li><a href="Css/cssParte1/css11DivEnFilas/index.html">Filas</a></li>
+                    <li><a href="Css/cssParte1/css14DivsInternosEnColumnas/index.html">Columnas</a></li>
+                    <li><a href="Css/cssParte1/css16SectoresDeEventos/index.html">Eventos</a></li>
+                    <li><a href="Css/cssParte1/css20DivsInternosRelativos/index.html">Relativos</a></li>
+                    <li><a href="Css/cssParte1/css21DivsInternosAbsolutos/index.html">Absolutos</a></li>
+                    <li><a href="Css/cssParte1/css22CentradoVerticalCajaFlex/index.html">CajaFlex</a></li>
+                </ul>
+            </li>
+            <li><a href="jscript.html">JAVASCRIPT</a></li>
+            <li><a href="especiales.html">Especiales</a></li>
+            <li><a href="php.html">PHP</a></li>
+        </ul>
+    </nav>
 </body>
 </html>
