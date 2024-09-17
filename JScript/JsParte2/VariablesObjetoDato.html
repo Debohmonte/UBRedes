@@ -127,11 +127,11 @@
         document.getElementById("crearPerro").addEventListener("click", function() {
             const nombre = document.getElementById("nombre").value;
             const apellido = document.getElementById("apellido").value;
-            const fechaNac = document.getElementById("fechaNac").value;
+            const fechaNac = document.getElementById("fechaNac").value; //valores formualrio
 
             if (nombre && apellido && fechaNac) {
                 const nuevaPerro = { nombre, apellido, fechaNac };
-                arregloPerros.push(nuevaPerro);
+                arregloPerros.push(nuevaPerro); // crea
                 alert("Perro añadida correctamente.");
                 document.getElementById("nombre").value = '';
                 document.getElementById("apellido").value = '';
