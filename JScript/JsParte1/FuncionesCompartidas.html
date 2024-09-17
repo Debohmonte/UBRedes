@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #fce4ec;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #contenedor {
+            width: 400px;
+            height: 500px;
+            background-color: #f8bbd0;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        #display {
+            background-color: #f48fb1;
+            height: 20%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        #teclado {
+            height: 70%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        button {
+            background-color: #ec407a;
+            color: white;
+            border: none;
+            width: 100px;
+            height: 60px;
+            font-size: 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #d81b60;
+        }
+
+        button:active {
+            background-color: #ad1457;
+        }
+
+        button.wide {
+            width: 210px;
+        }
+
+    </style>
+</head>
+
+<body>
+<div id="contenedor">
+
+    <div id="display">0</div>
+
+    <div id="teclado">
+
+        <div class="row">
+            <button onclick="agregar(1)">1</button>
+            <button onclick="agregar(2)">2</button>
+            <button onclick="agregar(3)">3</button>
+        </div>
+        <div class="row">
+            <button onclick="agregar(4)">4</button>
+            <button onclick="agregar(5)">5</button>
+            <button onclick="agregar(6)">6</button>
+        </div>
+        <div class="row">
+            <button onclick="agregar(7)">7</button>
+            <button onclick="agregar(8)">8</button>
+            <button onclick="agregar(9)">9</button>
+        </div>
+        <div class="row">
+            <button class="wide" onclick="sumar()">+</button>
+        </div>
+        <div class="row">
+            <button class="wide" onclick="mostrarAcumulador()">Mostrar Acumulador</button>
+        </div>
+        <div class="row">
+            <button class="wide" onclick="borrarAcumulador()">Borrar Acumulador</button>
+        </div>
+        <div class="row">
+            <button class="wide" onclick="borrarDisplay()">Borrar Display</button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+    let acumulador = 0;
+    let displayValue = "";
+
+    function agregar(num) {
+        displayValue += num;
+        document.getElementById('display').textContent = displayValue;
+    }
+
+    function sumar() {
+        acumulador += parseFloat(displayValue) || 0;
+        displayValue = "";
+        document.getElementById('display').textContent = 0;
+    }
+
+    function mostrarAcumulador() {
+        alert("Acumulador: " + acumulador);
+    }
+
+    function borrarAcumulador() {
+        acumulador = 0;
+        alert("Acumulador borrado");
+    }
+
+    function borrarDisplay() {
+        displayValue = "";
+        document.getElementById('display').textContent = 0;
+    }
+
+</script>
+
+</body>
+</html>

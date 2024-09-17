@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo de Cambios de Estilo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #333;
+        }
+
+        .container {
+            border: 2px solid red;
+            padding: 20px;
+            width: 300px;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+
+        .estilo1 {
+            background-color: #f8bbd0; /* ROSA */
+            color: #ffffff;
+        }
+
+        .estilo2 {
+            background-color: #ffcc80; /* NARNAJA */
+            color: #000000;
+            font-size: 18px;
+            font-style: italic;
+        }
+
+        .estilo3 {
+            background-color: #90caf9; /* CELESTE */
+            color: #ffffff;
+            border: 3px dashed #1e88e5;
+        }
+
+        .estilo4 {
+            background-color: #d7ccc8; /* MARRON*/
+            color: #000000;
+            border: 2px solid #6d4c41;
+            font-weight: bold;
+        }
+
+        button {
+            padding: 10px;
+            margin-right: 10px;
+            cursor: pointer;
+            border: 1px solid #000;
+            background-color: #f0f0f0;
+        }
+
+        button:hover {
+            background-color: #d3d3d3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Ejemplo de cambios de estilo dinámicamente</h1>
+
+    <div id="contenedor" class="container estilo1">
+        <h2>Lista con estilo</h2>
+        <ol>
+            <li>Canyengue</li>
+            <li>Orillero</li>
+            <li>Antiguo</li>
+        </ol>
+    </div>
+
+    <button onclick="cambiarEstilo('estilo1')">Tipo 1</button>
+    <button onclick="cambiarEstilo('estilo2')">Tipo 2</button>
+    <button onclick="cambiarEstilo('estilo3')">Tipo 3</button>
+    <button onclick="cambiarEstilo('estilo4')">Tipo 4</button>
+
+    <script>
+        function cambiarEstilo(estilo) {
+            const contenedor = document.getElementById('contenedor');
+            contenedor.className = 'container ' + estilo;
+        }
+    </script>
+
+</body>
+</html>

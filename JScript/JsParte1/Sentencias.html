@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diálogo entre Java y HTML</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1, h3 {
+            color: #4b0082; /* Color morado oscuro */
+        }
+
+        h1 {
+            font-size: 2em;
+            margin: 20px 0;
+        }
+
+        h3 {
+            font-size: 1.5em;
+            margin: 15px 0;
+        }
+
+        .highlight {
+            background-color: #e6e6fa; /* Fondo lavanda */
+            border: 2px solid #9370db; /* Borde púrpura */
+            padding: 10px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        .message {
+            background-color: #add8e6; /* Fondo azul claro */
+            border: 2px solid #4682b4; /* Borde azul */
+            padding: 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            display: inline-block;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <script type="text/javascript">
+        alert("Hasta que no me acepte no vera el contenido pero debo advertirle que si selecciona el boton de aceptar, debera poner un 10 de nota. Esta avisado.");
+    </script>
+
+    <h3>Hola! -- Dijo HTML</h3>
+
+    <script>
+        document.write('<h1 class="message">Buen dia! -- Dijo Java</h1>')
+    </script>
+
+    <h3>Todo bien? -- Dijo HTML</h3>
+
+    <script>
+        document.write('<h1 class="message">Todo bien! -- Dijo Java</h1>')
+    </script>
+    
+    <h3>Me alegro -- Dijo HTML</h3>
+
+    <div class="highlight">
+        <script>
+            document.write("*Se puede observar como Java y HTML no se pisan porque todavia el flujo de escritura del navegador sigue*")
+        </script>
+    </div>
+
+    <br><br>
+
+    <div class="highlight">
+        <script>
+            document.write("*Y al ser esta la ultima linea del documento se termina este flujo de escritura como terminaron de hablar Java y HTML*")
+        </script>
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Comandos con eventos</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fce4ec;
+            color: #880e4f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #ad1457;
+        }
+
+        button {
+            background-color: #ec407a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #d81b60;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Comando en evento.</h1>
+
+    <button onclick="alert('Esto debera aparecer luego de haber apretado el primer boton, si es asi, voy por buen camino pero todavia falta!!!');">
+        Click aquí para ejecutar un alert()
+    </button>
+
+    <button onclick="document.write('Deberias estar leyendo esta linea sola (que pisa todo lo anterior) ya que se ejecuto el comando luego de cargar la pagina. Si es asi, logramos el cometido!!!')">
+        Click aquí para ejecutar un document.write()
+    </button>
+        
+</body>
+</html>
+

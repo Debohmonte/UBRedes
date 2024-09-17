@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Elementos Dinámicos</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', sans-serif;
+            background-color: #fce4ec; 
+            color: #880e4f;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .controls {
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #f8bbd0;
+            color: #880e4f;
+            border: 2px solid #f06292;
+            border-radius: 20px;
+            padding: 10px 20px;
+            margin-right: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #f06292;
+            color: white;
+        }
+
+        .container {
+            background-color: #f3e5f5; 
+            padding: 20px;
+            width: 80%;
+            margin: 0 auto;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 2px solid #ce93d8;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .elemento {
+            background-color: #ffccbc; 
+            border: 2px solid #ff8a65;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 18px;
+            color: #6d4c41;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: #ad1457;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Crear Elementos Dinámicos</h1>
+
+    <div class="controls">
+        <button id="crear">Crear</button>
+        <button id="limpiar">Limpiar</button>
+        <button id="info">Info</button>
+    </div>
+
+    <div id="contenedor" class="container"></div>
+
+    <script>
+        let contador = 0;
+
+       const btnCrear = document.getElementById('crear');
+        const btnLimpiar = document.getElementById('limpiar');
+        const btnInfo = document.getElementById('info'); 
+        const contenedor = document.getElementById('contenedor');
+
+        btnCrear.addEventListener('click', () => {
+            const nuevoElemento = document.createElement('div');
+            nuevoElemento.classList.add('elemento');
+            nuevoElemento.innerHTML = `<h1>Elemento creado: ${contador}</h1>`;
+            contenedor.appendChild(nuevoElemento);
+            contador++;
+        });
+
+        btnLimpiar.addEventListener('click', () => {
+            contenedor.innerHTML = '';
+            contador = 0;
+        });
+
+        btnInfo.addEventListener('click', () => {
+            alert(`Cantidad de elementos creados: ${contenedor.childNodes.length}`);
+        });
+    </script>
+
+</body>
+</html>
