@@ -1,0 +1,15 @@
+{
+    "generos": [
+      {"codigo": "G01", "nombre": "Acción"},
+      {"codigo": "G02", "nombre": "Comedia"},
+      {"codigo": "G03", "nombre": "Drama"},
+      {"codigo": "G04", "nombre": "Terror"},
+      {"codigo": "G05", "nombre": "Ciencia Ficción"},
+      {"codigo": "G06", "nombre": "Aventura"},
+      {"codigo": "G07", "nombre": "Romance"},
+      {"codigo": "G08", "nombre": "Fantasía"},
+      {"codigo": "G09", "nombre": "Animación"},
+      {"codigo": "G10", "nombre": "Documental"}
+    ]
+  }
+  

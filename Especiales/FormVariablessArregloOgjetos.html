@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario para Alta - Series y Películas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffe6f2; 
+            color: #880e4f;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        form {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        table {
+            background-color: #ffe6f2;
+            border-spacing: 15px;
+            padding: 20px;
+        }
+
+        input, select {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #880e4f;
+            width: 100%;
+        }
+
+        button {
+            background-color: #ff4081;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #d81b60;
+        }
+
+        footer {
+            background-color: #880e4f;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h2>Formulario para ALTA - Maestro de Series y Películas</h2>
+
+    <form action="Respuesta.html" method="post">
+        <table border ="0">
+            <tr>
+                <td><label for="Pelicula">Pelicula:</label></td>
+                <td><input type="text" id="Pelicula" name="Pelicula"></td>
+                <td><label for="genero">Género:</label></td>
+                <td>
+                    <select id="genero" name="genero">
+                        <option value="accion">Acción</option>
+                        <option value="comedia">Comedia</option>
+                        <option value="drama">Drama</option>
+                        <option value="terror">Terror</option>
+                        <option value="ciencia_ficcion">Ciencia Ficción</option>
+                        <option value="aventura">Aventura</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="descripcion">Descripción:</label></td>
+                <td><input type="text" id="descripcion" name="descripcion"></td>
+                <td><label for="fechaEstreno">Fecha de Estreno:</label></td>
+                <td><input type="date" id="fechaEstreno" name="fechaEstreno"></td>
+            </tr>
+            <tr>
+                <td><label for="Stock">stock:</label></td>
+                <td><input type="number" id="Stock" name="Stock" value="0"></td>
+            </tr>
+            <tr>
+                <td colspan="4" style="text-align:center;">
+                    <button type="submit">ENVIAR</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <footer>
+        <p>Pie del formulario</p>
+    </footer>
+
+<script>
+
+    var textoJSONGeneros = '{"generos": [' +
+        '{"codigo":"G01","nombre":"Acción"},' +
+        '{"codigo":"G02","nombre":"Comedia"},' +
+        '{"codigo":"G03","nombre":"Drama"},' +
+        '{"codigo":"G04","nombre":"Terror"},' +
+        '{"codigo":"G05","nombre":"Ciencia Ficción"},' +
+        '{"codigo":"G06","nombre":"Aventura"}' +
+    ']}';
+
+
+    var objGeneros = JSON.parse(textoJSONGeneros);
+
+
+function llenarSelectGeneros() {
+    var selectGenero = document.getElementById("genero");
+
+    selectGenero.innerHTML = ''; 
+
+    objGeneros.generos.forEach(function(genero) {
+        var opcion = document.createElement("option");
+        opcion.value = genero.codigo;
+        opcion.text = genero.nombre;
+        selectGenero.appendChild(opcion);
+    });
+}
+
+
+window.onload = llenarSelectGeneros;
+</script>
+
+</body>
+</html>

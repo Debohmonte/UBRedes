@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Películas con Formulario en Modal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e3f2fd; 
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .container {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        table {
+            background-color: #bbdefb; 
+            border-spacing: 15px;
+            padding: 20px;
+            border-collapse: collapse;
+            width: 80%;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid #1976d2; 
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #1976d2; 
+            color: white;
+        }
+
+        button {
+            background-color: #0288d1; 
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        button:hover {
+            background-color: #0277bd; 
+        }
+
+        footer {
+            background-color: #1976d2;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Estilos para el modal */
+        #ventanaModal {
+            display: none;
+            position: fixed;
+            z-index: 10;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        #modalContenido {
+            background-color: #fefefe;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 300px;
+            text-align: left;
+            border-radius: 5px;
+        }
+
+        #modalContenido h2 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        #cerrarModal {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #cerrarModal:hover,
+        #cerrarModal:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Listado de Películas</h1>
+
+<div class="container">
+    <table>
+        <thead>
+            <tr>
+                <th>codPel</th>
+                <th>Género</th>
+                <th>Duración</th>
+                <th>Descripción</th>
+                <th>Fecha Estreno</th>
+                <th>Stock Disponible</th>
+            </tr>
+        </thead>
+        <tbody id="tablaPeliculas">
+        </tbody>
+    </table>
+</div>
+
+<div style="text-align: center;">
+    <button id="cargarPeliculas">Cargar Películas</button>
+    <button id="vaciarPeliculas">Vaciar Películas</button>
+    <button id="abrirModal">Cargar Form</button>
+</div>
+
+
+<div id="ventanaModal" class="modal">
+    <div id="modalContenido">
+        <span id="cerrarModal">&times;</span>
+        <h2>Agregar Película</h2>
+        <form id="formPeliculas">
+            <label for="codArt">codPel:</label><br>
+            <input type="text" id="codPel" name="codPel" required><br><br>
+            <label for="genero">Género:</label><br>
+            <input type="text" id="genero" name="genero" required><br><br>
+            <label for="duracion">Duración:</label><br>
+            <input type="text" id="duracion" name="duracion" required><br><br>
+            <label for="descripcion">Descripción:</label><br>
+            <input type="text" id="descripcion" name="descripcion" required><br><br>
+            <label for="fechaEstreno">Fecha Estreno:</label><br>
+            <input type="date" id="fechaEstreno" name="fechaEstreno" required><br><br>
+            <label for="stockDisponible">Stock Disponible:</label><br>
+            <input type="number" id="stockDisponible" name="stockDisponible" value="0" required><br><br>
+            <button type="submit">ENVIAR</button>
+        </form>
+    </div>
+</div>
+
+<footer>
+    <p>Pie del formulario</p>
+</footer>
+
+<script>
+    let peliculas = [
+        { codPel: "PEL001", genero: "Acción", duracion: "120 min", descripcion: "Una película de acción emocionante", fechaEstreno: "2022-05-15", stockDisponible: 10 },
+        { codPel: "PEL002", genero: "Comedia", duracion: "95 min", descripcion: "Comedia hilarante sobre la vida cotidiana", fechaEstreno: "2021-08-10", stockDisponible: 5 },
+        { codPel: "PEL003", genero: "Drama", duracion: "110 min", descripcion: "Un drama profundo sobre la amistad y el sacrificio", fechaEstreno: "2020-10-01", stockDisponible: 8 },
+        { codPel: "PEL004", genero: "Terror", duracion: "105 min", descripcion: "Una película de terror que te mantendrá al borde de tu asiento", fechaEstreno: "2019-12-31", stockDisponible: 4 }
+    ];
+
+  
+    document.getElementById("cargarPeliculas").addEventListener("click", function() {
+        cargarPeliculas();
+    });
+
+    function cargarPeliculas() {
+        const tabla = document.getElementById("tablaPeliculas");
+        tabla.innerHTML = ""; 
+
+        peliculas.forEach(pelicula => {
+            const fila = `<tr>
+                <td>${pelicula.codPel}</td>
+                <td>${pelicula.genero}</td>
+                <td>${pelicula.duracion}</td>
+                <td>${pelicula.descripcion}</td>
+                <td>${pelicula.fechaEstreno}</td>
+                <td>${pelicula.stockDisponible}</td>
+            </tr>`;
+            tabla.innerHTML += fila;
+        });
+    }
+
+    
+    document.getElementById("vaciarPeliculas").addEventListener("click", function() {
+        document.getElementById("tablaPeliculas").innerHTML = "";
+    });
+
+   
+    var modal = document.getElementById("ventanaModal");
+    var abrirModalBtn = document.getElementById("abrirModal");
+    var cerrarModalBtn = document.getElementById("cerrarModal");
+    var formPeliculas = document.getElementById("formPeliculas");
+
+    
+    abrirModalBtn.onclick = function() {
+        modal.style.display = "flex";
+    }
+
+
+    cerrarModalBtn.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    
+    formPeliculas.addEventListener("submit", function(event) {
+        event.preventDefault(); 
+
+        
+        const nuevaPelicula = {
+            codPel: document.getElementById("codPel").value,
+            genero: document.getElementById("genero").value,
+            duracion: document.getElementById("duracion").value,
+            descripcion: document.getElementById("descripcion").value,
+            fechaEstreno: document.getElementById("fechaEstreno").value,
+            stockDisponible: document.getElementById("stockDisponible").value
+        };
+
+        
+        peliculas.push(nuevaPelicula);
+
+    
+        cargarPeliculas();
+
+        formPeliculas.reset();
+        modal.style.display = "none";
+    });
+
+</script>
+
+</body>
+</html>

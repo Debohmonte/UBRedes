@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ventana Modal con Formulario</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #cce7ff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+
+        #contenedor {
+            opacity: 1;
+            pointer-events: auto;
+            transition: opacity 0.3s ease;
+            text-align: center;
+            padding: 20px;
+            flex-grow: 1; 
+        }
+
+        #contenedor.desactivado {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px;
+        }
+
+        #abrirModal {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #abrirModal:hover {
+            background-color: #45a049;
+        }
+
+        #ventanaModal {
+            display: none;
+            position: fixed;
+            z-index: 10;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        #modalContenido {
+            background-color: #fefefe;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 300px;
+            text-align: left;
+            border-radius: 5px;
+        }
+
+        #modalContenido h2 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        #cerrarModal {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #cerrarModal:hover,
+        #cerrarModal:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        footer {
+            background-color: #1976d2;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="contenedor">
+    <h1>Esto es el div contenedor</h1>
+    <button id="abrirModal">Abre DIV modal</button>
+    <p>El div contenedor debe desactivarse cuando se activa la ventana modal.</p>
+</div>
+
+<div id="ventanaModal" class="modal">
+    <div id="modalContenido">
+        <span id="cerrarModal">&times;</span>
+        <h2>Encabezado modal</h2>
+        <form>
+            <label for="Articulo">Articulo:</label><br>
+            <input type="text" id="Articulo" name="Articulo"><br><br>
+            <label for="descripcion">Descripción:</label><br>
+            <input type="text" id="descripcion" name="descripcion"><br><br>
+            <label for="Stock">Stock:</label><br>
+            <input type="number" id="Stock" name="Stock" value="0"><br><br>
+            <button type="submit">ENVIAR</button>
+        </form>
+    </div>
+</div>
+
+<footer>
+    <p>Pie del formulario</p>
+</footer>
+
+<script>
+
+    var modal = document.getElementById("ventanaModal");
+    var abrirModalBtn = document.getElementById("abrirModal");
+    var cerrarModalBtn = document.getElementById("cerrarModal");
+    var contenedor = document.getElementById("contenedor");
+
+
+    abrirModalBtn.onclick = function() {
+        modal.style.display = "flex";
+        contenedor.classList.add("desactivado");
+    }
+
+    cerrarModalBtn.onclick = function() {
+        modal.style.display = "none";
+        contenedor.classList.remove("desactivado");
+    }
+
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+            contenedor.classList.remove("desactivado");
+        }
+    }
+</script>
+
+</body>
+</html>

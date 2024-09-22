@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla de Películas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e3f2fd; 
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+
+        }
+
+        .container {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        table {
+            background-color: #bbdefb; 
+            border-spacing: 15px;
+            padding: 20px;
+            border-collapse: collapse;
+            width: 80%;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid #1976d2; 
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #1976d2; 
+            color: white;
+        }
+
+        button {
+            background-color: #0288d1; 
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        button:hover {
+            background-color: #0277bd; 
+        }
+
+        footer {
+            background-color: #1976d2;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Listado de Películas</h1>
+
+<div class="container">
+    <table>
+        <thead>
+            <tr>
+                <th>codPel</th>
+                <th>Género</th>
+                <th>Duración</th>
+                <th>Descripción</th>
+                <th>Fecha Estreno</th>
+                <th>Stock Disponible</th>
+            </tr>
+        </thead>
+        <tbody id="tablaPeliculas">
+
+        </tbody>
+    </table>
+</div>
+
+<div style="text-align: center;">
+    <button id="cargarPeliculas">Cargar Películas</button>
+    <button id="vaciarPeliculas">Vaciar Películas</button>
+</div>
+
+<footer>
+    <p>Pie del formulario</p>
+</footer>
+
+<script>
+    const peliculas = [
+        { codPel: "PEL001", genero: "Acción", duracion: "120 min", descripcion: "Una película de acción emocionante", fechaEstreno: "2022-05-15", stockDisponible: 10 },
+        { codPel: "PEL002", genero: "Comedia", duracion: "95 min", descripcion: "Comedia hilarante sobre la vida cotidiana", fechaEstreno: "2021-08-10", stockDisponible: 5 },
+        { codPel: "PEL003", genero: "Drama", duracion: "110 min", descripcion: "Un drama profundo sobre la amistad y el sacrificio", fechaEstreno: "2020-10-01", stockDisponible: 8 },
+        { codPel: "PEL004", genero: "Terror", duracion: "105 min", descripcion: "Una película de terror que te mantendrá al borde de tu asiento", fechaEstreno: "2019-12-31", stockDisponible: 4 }
+
+    ];
+
+    document.getElementById("cargarPeliculas").addEventListener("click", function() {
+        const tabla = document.getElementById("tablaPeliculas");
+        tabla.innerHTML = ""; 
+
+        peliculas.forEach(pelicula => {
+            const fila = `<tr>
+                <td>${pelicula.codPel}</td>
+                <td>${pelicula.genero}</td>
+                <td>${pelicula.duracion}</td>
+                <td>${pelicula.descripcion}</td>
+                <td>${pelicula.fechaEstreno}</td>
+                <td>${pelicula.stockDisponible}</td>
+            </tr>`;
+            tabla.innerHTML += fila;
+        });
+    });
+
+    document.getElementById("vaciarPeliculas").addEventListener("click", function() {
+        document.getElementById("tablaPeliculas").innerHTML = "";
+    });
+</script>
+
+</body>
+</html>

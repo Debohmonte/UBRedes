@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Respuesta del Formulario</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffe6f2;
+            color: #880e4f;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .respuesta {
+            background-color: #fce4ec;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        footer {
+            background-color: #880e4f;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Datos Enviados</h2>
+
+    <div class="respuesta">
+        <p><strong>codArt:</strong> <span id="codArtRespuesta"></span></p>
+        <p><strong>Descripción:</strong> <span id="descripcionRespuesta"></span></p>
+        <p><strong>Género:</strong> <span id="generoRespuesta"></span></p>
+        <p><strong>Fecha de Estreno:</strong> <span id="fechaEstrenoRespuesta"></span></p>
+        <p><strong>Saldo stock:</strong> <span id="saldoStockRespuesta"></span></p>
+    </div>
+
+    <footer>
+        <p>Pie del formulario</p>
+    </footer>
+
+    <script>
+    
+        const params = new URLSearchParams(window.location.search);
+
+        document.getElementById("codArtRespuesta").textContent = params.get("codArt");
+        document.getElementById("descripcionRespuesta").textContent = params.get("descripcion");
+        document.getElementById("generoRespuesta").textContent = params.get("genero");
+        document.getElementById("fechaEstrenoRespuesta").textContent = params.get("fechaEstreno");
+        document.getElementById("saldoStockRespuesta").textContent = params.get("saldoStock");
+    </script>
+
+</body>
+</html>
+
