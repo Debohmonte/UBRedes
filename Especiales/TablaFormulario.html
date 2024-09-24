@@ -176,6 +176,33 @@
         { codPel: "PEL004", genero: "Terror", duracion: "105 min", descripcion: "Una película de terror que te mantendrá al borde de tu asiento", fechaEstreno: "2019-12-31", stockDisponible: 4 }
     ];
 
+    var textoJSONGeneros = '{"generos": [' +
+        '{"codigo":"G01","nombre":"Acción"},' +
+        '{"codigo":"G02","nombre":"Comedia"},' +
+        '{"codigo":"G03","nombre":"Drama"},' +
+        '{"codigo":"G04","nombre":"Terror"},' +
+        '{"codigo":"G05","nombre":"Ciencia Ficción"},' +
+        '{"codigo":"G06","nombre":"Aventura"}' +
+        '{"codigo":"G08","nombre":"Amor}' 
+    ']}';
+
+    var objGeneros = JSON.parse(textoJSONGeneros);
+
+    function llenarSelectGeneros() {
+    var selectGenero = document.getElementById("genero");
+
+    selectGenero.innerHTML = ''; 
+
+    objGeneros.generos.forEach(function(genero) {
+        var opcion = document.createElement("option");
+        opcion.value = genero.codigo;
+        opcion.text = genero.nombre;
+        selectGenero.appendChild(opcion);
+    });
+}
+
+
+window.onload = llenarSelectGeneros;
   
     document.getElementById("cargarPeliculas").addEventListener("click", function() {
         cargarPeliculas();
@@ -197,6 +224,7 @@
             tabla.innerHTML += fila;
         });
     }
+    //tbody //thead // tfooter
 
     
     document.getElementById("vaciarPeliculas").addEventListener("click", function() {
