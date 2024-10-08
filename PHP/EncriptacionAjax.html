@@ -3,6 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <script>
+        
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('trigger').addEventListener('click', function() {
                 
@@ -26,7 +27,7 @@
                 };
 
                 
-                fetch("./PHP/respuesta.php", options)
+                fetch("./respuesta.php", options)
                     .then(respuesta => respuesta.text())
                     .then(textoDeRespuesta => {
                     
