@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('trigger').addEventListener('click', function() {
+                
+                document.getElementById('resultado').innerHTML = "<h2>Esperando respuesta ..</h2>";
+                document.getElementById('resultado').classList.add("estiloRecibiendo");
+                document.getElementById('estado').innerHTML = "<h2>Esperando Respuesta ..</h2>";
+
+                const clave = document.getElementById('clave').value;
+
+                
+                const data = new URLSearchParams();
+                data.append('clave', clave);
+
+                // peticoon
+                const options = {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: data
+                };
+
+                
+                fetch("./PHP/respuesta.php", options)
+                    .then(respuesta => respuesta.text())
+                    .then(textoDeRespuesta => {
+                    
+                        document.getElementById('resultado').classList.remove("estiloRecibiendo");
+                        document.getElementById('resultado').innerHTML = "<h1>Resultado:</h1><h4>" + textoDeRespuesta + "</h4>";
+                        document.getElementById('estado').innerHTML = "<h4>Estado del requerimiento: CUMPLIDO</h4>";
+                    })
+                    .catch(error => {
+                      
+                        alert('Error producido:' + error);
+                    });
+            });
+        });
+    </script>
+
+    <style>
+       body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f7f9fc;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+div#contenedor {
+    width: 90%;
+    max-width: 800px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+div#entrada, div#trigger, div#resultado {
+    padding: 15px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+
+div#entrada {
+    flex: 1 1 40%;
+    background-color: #e9f1f7;
+    margin-right: 10px;
+}
+
+div#trigger {
+    flex: 1 1 20%;
+    background-color: #6c63ff;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+div#trigger:hover {
+    background-color: #5849c1;
+}
+
+div#resultado {
+    flex: 1 1 35%;
+    background-color: #ffe69a;
+}
+
+div#estado {
+    flex: 1 1 100%;
+    background-color: #fcefee;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+div.estiloRecibiendo {
+    background-color: #ff7f7f;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+h1, h2, h4 {
+    font-family: 'Georgia', serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-size: 24px;
+    color: #333;
+}
+
+h2 {
+    font-size: 20px;
+    color: #555;
+}
+
+h4 {
+    font-size: 16px;
+    color: #666;
+}
+
+
+    </style>
+</head>
+
+<body>
+    <div id="contenedor">
+        <div id="entrada">
+            <h1>Dato de entrada:</h1>
+            <input id="clave" name="clave" type="text" placeholder="Escribe algo">
+        </div>
+
+        <div id="trigger">
+            <h1>Encriptar</h1>
+        </div>
+
+        <div id="resultado">
+            <h1>Resultado:</h1>
+        </div>
+
+        <div id="estado">
+            <h2>Estado del requerimiento:</h2>
+        </div>
+    </div>
+</body>
+</html>

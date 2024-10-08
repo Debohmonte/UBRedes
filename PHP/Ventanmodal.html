@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> <!--  jQuery para hacer solicitudes AJAX -->
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-sizing: border-box;
+    font-family: 'Roboto Slab', sans-serif;
+}
+
+
+html, body {
+    height: 100%;
+    background: #f2f2f2;
+    color: #333;
+}
+
+
+header {
+    height: 10%;
+    background-color: #f9d5e5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    color: #5a3d5c;
+}
+
+
+footer {
+    height: 10%;
+    background-color: #f9d5e5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    color: #5a3d5c;
+}
+
+
+main {
+    height: 80%;
+    background-color: #ffffff;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+button {
+    height: 45px;
+    padding: 0 20px;
+    background-color: #ffb6b9;
+    color: #fff;
+    border-radius: 20px;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #ff6b6b;
+}
+
+
+div#contenedor {
+    width: 100%;
+    height: 100%;
+    opacity: 1; 
+    pointer-events: auto; 
+}
+
+
+div#ventanaModal {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); 
+    width: 40%;
+    height: 60%;
+    background-color: #fce4ec;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    z-index: 20;
+    overflow-y: auto; 
+    display: none; 
+}
+
+
+div#encabezadoModal {
+    background-color: #ffb6b9;
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    text-align: right; 
+}
+
+div#btCruz {
+    color: #fff;
+    cursor: pointer;
+    font-size: 1.2rem; 
+}
+
+
+div#contenidoModal {
+    padding: 20px;
+    color: #333;
+}
+
+
+ul {
+    list-style: none; 
+    margin: 0;
+    padding: 0;
+}
+
+ul li {
+    margin-bottom: 15px; 
+}
+
+ul li label {
+    font-weight: bold;
+    color: #5a3d5c; 
+}
+
+ul li input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px; 
+    border: 1px solid #ccc; 
+    font-size: 1rem;
+}
+
+
+div#pieForm {
+    margin-top: 20px;
+    text-align: center;
+}
+
+
+button#btEnviar {
+    background-color: #ffb6b9;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+}
+
+button#btEnviar:hover {
+    background-color: #ff6b6b; 
+}
+
+
+div#resultadoModal {
+    margin-top: 20px;
+    text-align: center;
+    color: #5a3d5c;
+}
+</style>
+
+<script>
+/*  documento  listo */
+$(document).ready(function() {
+
+    /* ventana modal  */
+    $("#btPrendeVentana").click(function() {
+        $("#ventanaModal").css("display", "block"); 
+        $("#contenedor").css("opacity", "0.3"); 
+        $("#contenedor").css("pointer-events", "none"); 
+    });
+
+    /* X */
+    $("#btCruz").click(function() {
+        $("#ventanaModal").css("display", "none");
+        $("#contenedor").css("opacity", "1"); 
+        $("#contenedor").css("pointer-events", "auto"); 
+        $("#resultadoModal").empty(); 
+    });
+
+    /* Envía AJAX  */
+    $("#btEnviar").click(function() {
+        if (confirm("¿Está seguro de agregar el registro de factura?")) {
+            $("#resultadoModal").empty(); 
+            $("#resultadoModal").append("<h2>Esperando respuesta...</h2>"); 
+
+            /* datos del formulario */
+            var datosFormulario = new FormData($("#miForm")[0]);
+
+            /* Enviar  */
+            $.ajax({
+                type: 'POST', 
+                url: "./respuesta2.php", 
+                processData: false,  
+                contentType: false,  
+                data: datosFormulario, 
+                success: function(datos) { 
+                    $("#resultadoModal").empty(); 
+                    $("#resultadoModal").append("<h4>Resultado del servidor: </h4>" + datos); 
+                },
+                error: function() { 
+                    $("#resultadoModal").empty(); 
+                    $("#resultadoModal").append("<h4>Error al enviar los datos</h4>"); 
+                }
+            });
+        }
+    });
+});
+</script>
+
+</head>
+<body>
+
+
+<div id="contenedor">
+    <header>Sistema de Facturación</header>
+    <main>
+
+        <button id="btPrendeVentana">Agregar Factura</button>
+    </main>
+    <footer>Gestión de Contabilidad ©</footer>
+</div> 
+
+
+<div id="ventanaModal">
+    <div id="encabezadoModal">
+        <div id="btCruz">X</div>
+    </div>
+    <div id="contenidoModal">
+
+        <form id="miForm"> 
+            <ul>
+                <li>
+                    <label for="numeroFactura">Número de Factura</label><br />
+                    <input type="text" id="numeroFactura" name="numeroFactura" required />
+                </li>
+
+                <li>
+                    <label for="fechaEmision">Fecha de Emisión</label><br />
+                    <input type="date" id="fechaEmision" name="fechaEmision" required />
+                </li>
+
+                <li>
+                    <label for="montoFactura">Monto</label><br />
+                    <input type="text" id="montoFactura" name="montoFactura" required />
+                </li>
+
+                <li>
+                    <label for="descripcion">Descripción</label><br />
+                    <input type="text" id="descripcion" name="descripcion" required />
+                </li>
+            </ul>
+        </form>
+
+
+        <div id="pieForm">
+            <button id="btEnviar">Enviar</button>
+        </div>
+
+
+        <div id="resultadoModal"></div>
+    </div> 
+</div>
+
+</body>
+</html>
