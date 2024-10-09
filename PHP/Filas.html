@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facturación</title>
+ 
+</head>
+<body>
+<style>/* Reset default styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #FCE4EC; /* Light pink background */
+        color: #4A4A4A; /* Text color */
+        padding: 20px;
+    }
+    
+    .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    h1 {
+        color: #D81B60; /* Darker pink for headers */
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 2em;
+    }
+    
+    h2 {
+        color: #D81B60;
+        margin-bottom: 15px;
+        font-size: 1.5em;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        background-color: #FCE4EC; /* Soft pink background for table */
+        border-radius: 6px;
+    }
+    
+    th, td {
+        border: 1px solid #F48FB1;
+        padding: 10px;
+        text-align: left;
+    }
+    
+    th {
+        background-color: #EC407A; /* Strong pink for header */
+        color: white;
+        font-weight: bold;
+    }
+    
+    tfoot {
+        background-color: #EC407A;
+        color: white;
+    }
+    
+    button {
+        background-color: #D81B60; /* Button in a strong pink */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    button:hover {
+        background-color: #C2185B; /* Darker pink on hover */
+    }
+    
+    input, select {
+        width: 100%;
+        padding: 8px;
+        margin: 5px 0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    
+    input[type="text"]:focus, select:focus {
+        border-color: #EC407A;
+        outline: none;
+        box-shadow: 0 0 8px rgba(236, 64, 122, 0.2);
+    }
+    
+    footer {
+        text-align: center;
+        padding: 10px;
+        background-color: #F8BBD0;
+        border-radius: 0 0 8px 8px;
+        color: #4A4A4A;
+        margin-top: 20px;
+    }
+    
+    @media (max-width: 768px) {
+        table {
+            font-size: 14px;
+        }
+    
+        h1 {
+            font-size: 1.5em;
+        }
+    
+        h2 {
+            font-size: 1.2em;
+        }
+    }
+    </style>
+
+
+<div class="container">
+    <h1>Generar Factura</h1>
+    <form action="./proceso.php" method="POST">
+        <table>
+            <thead>
+                <tr>
+                    <th>Tipo de Factura</th>
+                    <th>CUIL Emisor</th>
+                    <th>Nombre Emisor</th>
+                    <th>CUIL Receptor</th>
+                    <th>Nombre Receptor</th>
+                    <th>Nro. de Factura</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <select name="tipo_factura" required>
+                            <!-- You will populate this from the `tipo` table dynamically -->
+                            <option value="1">Factura A</option>
+                            <option value="2">Factura B</option>
+                            <option value="3">Factura C</option>
+                        </select>
+                    </td>
+                    <td><input type="text" name="cuil_emisor" required></td>
+                    <td><input type="text" name="nombre_emisor" required></td>
+                    <td><input type="text" name="cuil_receptor" required></td>
+                    <td><input type="text" name="nombre_receptor" required></td>
+                    <td><input type="text" name="nro_factura" required></td>
+                </tr>
+            </tbody>
+        </table>
+        <h2>Detalles de la Factura</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Monto</th>
+                    <th>Descripción</th>
+                    <th>IVA (%)</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" name="monto" id="monto" required></td>
+                    <td><input type="text" name="descripcion"></td>
+                    <td>
+                        <select name="iva" id="iva" onchange="calculateTotal()">
+                            <option value="0">0%</option>
+                            <option value="10.5">10.5%</option>
+                            <option value="21">21%</option>
+                        </select>
+                    </td>
+                    <td><input type="text" name="total" id="total" readonly></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button type="submit">Generar Factura</button>
+    </form>
+</div>
+
+<script>
+function calculateTotal() {
+    var monto = parseFloat(document.getElementById('monto').value);
+    var iva = parseFloat(document.getElementById('iva').value);
+    if (!isNaN(monto) && !isNaN(iva)) {
+        var total = monto + (monto * iva / 100);
+        document.getElementById('total').value = total.toFixed(2);
+    }
+}
+</script>
+
+</body>
+</html>
