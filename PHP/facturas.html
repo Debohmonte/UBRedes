@@ -97,7 +97,7 @@
                 // Hacer la llamada AJAX a PHP
                 $.ajax({
                     type: "get",
-                    url: "./salidaJsonFacturas.php", 
+                    url: "./salidaJsonFacturasConPrepare.php", 
                     data: {
                         orden: $("#orden").val(),
                         f_factura_numero: $("#f_factura_numero").val(),
@@ -107,25 +107,37 @@
                         f_factura_fechaAlta: $("#f_factura_fechaAlta").val()
                     },
                     success: function(respuestaDelServer) {
-                        // Limpiar la tabla después de recibir los datos
-                        $("#tbDatos").empty();
-                        let facturas = JSON.parse(respuestaDelServer).facturas;
+                        try {
+                            // Intentar parsear la respuesta como JSON
+                            let facturas = JSON.parse(respuestaDelServer).facturas;
 
-                        // Recorrer cada factura y agregarla a la tabla
-                        facturas.forEach(function(factura) {
-                            let tr = $("<tr></tr>");
-                            $("<td></td>").text(factura.nro_factura).appendTo(tr);
-                            $("<td></td>").text(factura.cuil_emisor).appendTo(tr);
-                            $("<td></td>").text(factura.cuil_receptor).appendTo(tr);
-                            $("<td></td>").text(factura.monto).appendTo(tr);
-                            $("<td></td>").text(factura.fechaAlta).appendTo(tr);
-                            $("<td></td>").text(factura.saldoStock).appendTo(tr);
+                            // Limpiar la tabla antes de mostrar los nuevos resultados
+                            $("#tbDatos").empty();
 
-                            $("#tbDatos").append(tr);
-                        });
+                            if (facturas.length > 0) {
+                                // Recorrer cada factura y agregarla a la tabla
+                                facturas.forEach(function(factura) {
+                                    let tr = $("<tr></tr>");
+                                    $("<td></td>").text(factura.nro_factura).appendTo(tr);
+                                    $("<td></td>").text(factura.cuil_emisor).appendTo(tr);
+                                    $("<td></td>").text(factura.cuil_receptor).appendTo(tr);
+                                    $("<td></td>").text(factura.monto).appendTo(tr);
+                                    $("<td></td>").text(factura.fechaAlta).appendTo(tr);
+                                    $("<td></td>").text(factura.saldoStock).appendTo(tr);
+                                    $("#tbDatos").append(tr);
+                                });
+                            } else {
+                                // Si no hay facturas, mostrar un mensaje en la tabla
+                                $("#tbDatos").html("<tr><td colspan='6'>No se encontraron facturas</td></tr>");
+                            }
 
-                        // Actualizar el número de registros en la tabla
-                        $("#totalRegistros").text("Nro de registros: " + facturas.length);
+                            // Actualizar el número de registros en la tabla
+                            $("#totalRegistros").text("Nro de registros: " + facturas.length);
+                        } catch (e) {
+                            // Si algo sale mal con el JSON, mostrar el error en la consola
+                            console.error("Error al procesar la respuesta del servidor: ", e);
+                            console.error("Respuesta recibida: ", respuestaDelServer);
+                        }
                     }
                 });
             }
