@@ -1,6 +1,11 @@
 <?php
 header('Content-Type: application/json');
 
+// Habilitar la visualización de errores
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // Datos de conexión a la base de datos
 $dbhost = 'localhost';  // Asegúrate de usar el host correcto proporcionado por DonWeb
 $dbuser = 'c2660848_UBRedes';  // Usuario proporcionado por DonWeb
@@ -49,8 +54,8 @@ if ($result) {
     echo json_encode(['facturas' => $facturas]);
 
 } else {
-    // Devolver el error en caso de fallo de la consulta
-    echo json_encode(['error' => 'Error en la consulta: ' . mysqli_error($conn)]);
+    // Mostrar el error SQL si la consulta falla
+    die(json_encode(['error' => 'Error en la consulta: ' . mysqli_error($conn)]));
 }
 
 // Cerrar la conexión
