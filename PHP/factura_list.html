@@ -51,6 +51,9 @@
         .filter-form label {
             margin-right: 10px;
         }
+        .filter-form button {
+            margin-left: 10px;
+        }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -90,6 +93,7 @@
         <input type="text" id="tipo_id" name="tipo_id">
         
         <button type="submit">Filtrar</button>
+        <button type="button" id="clearFilters">Vaciar Filtros</button>
     </form>
 
     <!-- Table for displaying filtered data -->
@@ -137,6 +141,12 @@
             $("#filterForm").on('submit', function(e) {
                 e.preventDefault(); // Prevent default form submission
                 loadFacturas(); // Load data with filters
+            });
+
+            // Clear all filters and reload the table with all data
+            $("#clearFilters").on('click', function() {
+                $('#filterForm')[0].reset(); // Reset all the form fields
+                loadFacturas(); // Reload the table with all data
             });
         });
     </script>
