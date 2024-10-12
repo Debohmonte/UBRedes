@@ -45,25 +45,36 @@
     // Execute the query
     $result = mysqli_query($conn, $sql);
 
+    // Initialize variables to store results
+    $html = '';
+    $count = 0;
+
     // Check if there are results
     if (mysqli_num_rows($result) > 0) {
-        // Fetch data row by row and output in HTML format
+        // Fetch data row by row and build HTML
         while($row = mysqli_fetch_assoc($result)) {
-            echo '<tr>';
-            echo '<td>' . $row["id"] . '</td>';
-            echo '<td>' . $row["nro_factura"] . '</td>';
-            echo '<td>' . $row["cuil_emisor"] . '</td>';
-            echo '<td>' . $row["cuil_receptor"] . '</td>';
-            echo '<td>' . $row["monto"] . '</td>';
-            echo '<td>' . $row["descripcion"] . '</td>';
-            echo '<td>' . $row["iva"] . '</td>';
-            echo '<td>' . $row["total"] . '</td>';
-            echo '<td>' . $row["tipo_id"] . '</td>';
-            echo '</tr>';
+            $html .= '<tr>';
+            $html .= '<td>' . $row["id"] . '</td>';
+            $html .= '<td>' . $row["nro_factura"] . '</td>';
+            $html .= '<td>' . $row["cuil_emisor"] . '</td>';
+            $html .= '<td>' . $row["cuil_receptor"] . '</td>';
+            $html .= '<td>' . $row["monto"] . '</td>';
+            $html .= '<td>' . $row["descripcion"] . '</td>';
+            $html .= '<td>' . $row["iva"] . '</td>';
+            $html .= '<td>' . $row["total"] . '</td>';
+            $html .= '<td>' . $row["tipo_id"] . '</td>';
+            $html .= '</tr>';
+            $count++;
         }
     } else {
-        echo "<tr><td colspan='9'>No records found.</td></tr>";
+        $html = "<tr><td colspan='9'>No records found.</td></tr>";
     }
+
+    // Return the HTML and the count as a JSON response
+    echo json_encode([
+        'html' => $html,
+        'count' => $count
+    ]);
 
     // Close the connection
     mysqli_close($conn);

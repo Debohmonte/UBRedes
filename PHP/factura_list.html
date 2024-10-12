@@ -59,6 +59,11 @@
             margin-top: 20px;
             text-align: center;
         }
+        .row-count {
+            margin-top: 10px;
+            text-align: right;
+            font-size: 1.2em;
+        }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -121,6 +126,11 @@
         </tbody>
     </table>
 
+    <!-- Display row count -->
+    <div class="row-count" id="rowCount">
+        Nro de registros: 0
+    </div>
+
     <footer>
         <p>&copy; 2024 Listado de Facturas</p>
     </footer>
@@ -133,7 +143,8 @@
                 type: 'GET',
                 data: $('#filterForm').serialize(), // Get the filter form data
                 success: function(data) {
-                    $("#factura-data").html(data); // Inject the returned data into the table
+                    $("#factura-data").html(data.html); // Inject the returned data into the table
+                    $("#rowCount").text("Nro de registros: " + data.count); // Update the row count
                 }
             });
         }
