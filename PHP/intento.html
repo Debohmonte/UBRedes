@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Facturas</title>
+    <style>
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        th {
+            background-color: #FF8A80; /* Softer shade of pink */
+            color: white;
+        }
+        td {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        tr:nth-child(even) td {
+            background-color: #f2f2f2; /* Lighter color for alternating rows */
+        }
+        tr:hover td {
+            background-color: #ddd; /* Hover effect */
+        }
+        .filter-form {
+            margin-bottom: 20px;
+        }
+        .filter-form label {
+            margin-right: 10px;
+        }
+        .filter-form button {
+            margin-left: 10px;
+        }
+        footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .row-count {
+            margin-top: 10px;
+            text-align: right;
+            font-size: 1.2em;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <h1>Listado de Facturas</h1>
+
+    <!-- Filter form -->
+    <form id="filterForm" class="filter-form">
+        <label for="id">ID:</label>
+        <input type="text" id="id" name="id">
+        
+        <label for="nro_factura">Nro Factura:</label>
+        <input type="text" id="nro_factura" name="nro_factura">
+        
+        <label for="cuil_emisor">CUIL Emisor:</label>
+        <input type="text" id="cuil_emisor" name="cuil_emisor">
+        
+        <label for="cuil_receptor">CUIL Receptor:</label>
+        <input type="text" id="cuil_receptor" name="cuil_receptor">
+        
+        <label for="monto">Monto:</label>
+        <input type="text" id="monto" name="monto">
+        
+        <label for="descripcion">Descripción:</label>
+        <input type="text" id="descripcion" name="descripcion">
+        
+        <label for="iva">IVA:</label>
+        <select id="iva" name="iva">
+            <option value="">Todos</option>
+            <option value="10.5">10.5%</option>
+            <option value="21">21%</option>
+            <option value="27">27%</option>
+        </select>
+        
+        <label for="tipo_id">Tipo ID:</label>
+        <input type="text" id="tipo_id" name="tipo_id">
+        
+        <button type="submit">Filtrar</button>
+        <button type="button" id="clearFilters">Vaciar Filtros</button>
+    </form>
+
+    <!-- Table for displaying filtered data (Initially hidden) -->
+    <table id="facturaTable" style="display: none;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nro Factura</th>
+                <th>CUIL Emisor</th>
+                <th>CUIL Receptor</th>
+                <th>Monto</th>
+                <th>Descripción</th>
+                <th>IVA</th>
+                <th>Total</th>
+                <th>Tipo ID</th>
+            </tr>
+        </thead>
+        <tbody id="factura-data">
+            <!-- Data from the PHP script will be injected here -->
+        </tbody>
+    </table>
+
+    <!-- Display row count -->
+    <div class="row-count" id="rowCount" style="display: none;">
+        Nro de registros: 0
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Listado de Facturas</p>
+    </footer>
+
+    <script>
+        // Function to load factura data based on the filters
+        function loadFacturas() {
+            $.ajax({
+                url: './conexion2.php',
+                type: 'GET',
+                data: $('#filterForm').serialize(), // Get the filter form data
+                success: function(data) {
+                    $("#factura-data").html(data.html); // Inject the returned data into the table
+                    $("#rowCount").text("Nro de registros: " + data.count); // Update the row count
+                    
+                    // Only display the table and row count if there's data
+                    if (data.count > 0) {
+                        $("#facturaTable").show();
+                        $("#rowCount").show();
+                    } else {
+                        $("#facturaTable").hide();
+                        $("#rowCount").hide();
+                    }
+                }
+            });
+        }
+
+        // Load data only when the user submits the filter form
+        $(document).ready(function() {
+            // Bind the filter form submit event to load the data
+            $("#filterForm").on('submit', function(e) {
+                e.preventDefault(); // Prevent default form submission
+                loadFacturas(); // Load data based on filters
+            });
+
+            // Clear all filters and hide the table and row count
+            $("#clearFilters").on('click', function() {
+                $('#filterForm')[0].reset(); // Reset all the form fields
+                $("#facturaTable").hide(); // Hide the table
+                $("#rowCount").hide(); // Hide the row count
+            });
+        });
+    </script>
+
+</body>
+</html>
