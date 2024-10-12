@@ -2,7 +2,7 @@
 header('Content-Type: application/json');
 
 try {
-    // Conectar a la base de datos (reemplaza los valores con los correctos para tu configuración)
+    // Conectar a la base de datos
     $conexion = new PDO("mysql:host=localhost;dbname=c2660848_UBRedes", "c2660848", "po06kiSOto");
     $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -35,11 +35,18 @@ try {
 
     // Obtener los resultados y devolverlos como JSON
     $facturas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    echo json_encode(['facturas' => $facturas]);
+
+    // Comprobar si hay facturas
+    if ($facturas) {
+        echo json_encode(['facturas' => $facturas]);
+    } else {
+        echo json_encode(['facturas' => []]); // Devolver un array vacío si no hay resultados
+    }
 
 } catch (PDOException $e) {
     // En caso de error, devolver el mensaje de error en formato JSON
     echo json_encode(['error' => $e->getMessage()]);
 }
 ?>
+
 
