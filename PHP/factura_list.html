@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listado de Facturas</title>
     <style>
-        /* Estilos generales */
+       
         * {
             margin: 0;
             padding: 0;
@@ -61,7 +61,7 @@
 
     <h1>Listado de Facturas</h1>
 
-    <!-- Filter form -->
+  
     <form id="filterForm" class="filter-form">
         <label for="id">ID:</label>
         <input type="text" id="id" name="id">
@@ -96,7 +96,7 @@
         <button type="button" id="clearFilters">Vaciar Filtros</button>
     </form>
 
-    <!-- Table for displaying filtered data -->
+   
     <table>
         <thead>
             <tr>
@@ -112,7 +112,7 @@
             </tr>
         </thead>
         <tbody id="factura-data">
-            <!-- Data from the PHP script will be injected here -->
+            <!-- DATOS PHP -->
         </tbody>
     </table>
 
@@ -121,32 +121,32 @@
     </footer>
 
     <script>
-        // Function to load factura data based on the filters
+        // CARGA FACTURA
         function loadFacturas() {
             $.ajax({
                 url: './conexion.php',
                 type: 'GET',
-                data: $('#filterForm').serialize(), // Get the filter form data
+                data: $('#filterForm').serialize(), // FILTROS
                 success: function(data) {
-                    $("#factura-data").html(data); // Inject the returned data into the table
+                    $("#factura-data").html(data);
                 }
             });
         }
 
-        // Load all data on page load
+        // CARGA INFO FACTURA
         $(document).ready(function() {
-            loadFacturas(); // Load the data initially
+            loadFacturas();
 
-            // Bind the filter form submit event to reload the data with filters
+            // FILTRA
             $("#filterForm").on('submit', function(e) {
-                e.preventDefault(); // Prevent default form submission
-                loadFacturas(); // Load data with filters
+                e.preventDefault(); 
+                loadFacturas(); 
             });
 
-            // Clear all filters and reload the table with all data
+            //BORRA FILTRSOS
             $("#clearFilters").on('click', function() {
-                $('#filterForm')[0].reset(); // Reset all the form fields
-                loadFacturas(); // Reload the table with all data
+                $('#filterForm')[0].reset(); 
+                loadFacturas(); 
             });
         });
     </script>

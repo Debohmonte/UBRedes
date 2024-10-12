@@ -1,22 +1,22 @@
 <?php
-    // Database connection details
+    // CONEXION BASSE DE DATOS
     $dbhost = 'localhost';
     $dbuser = 'c2660848_UBRedes';
     $dbpass = 'po06kiSOto';
     $dbname = 'c2660848_UBRedes';
 
-    // Create connection
+    // CREA CINEXION
     $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
 
-    // Check connection
+    // VALIDA CONEXION
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
     }
 
-    // Start building the query
+    // QUERY DE FACTURA
     $sql = "SELECT id, nro_factura, cuil_emisor, cuil_receptor, monto, descripcion, iva, total, tipo_id FROM factura WHERE 1=1";
 
-    // Check for each filter and add to the query if present
+    // VALDIA DATOS FACTURA
     if (!empty($_GET['id'])) {
         $sql .= " AND id = " . intval($_GET['id']);
     }
@@ -42,12 +42,12 @@
         $sql .= " AND tipo_id = " . intval($_GET['tipo_id']);
     }
 
-    // Execute the query
+    // EJECUTA LA QUERY
     $result = mysqli_query($conn, $sql);
 
-    // Check if there are results
+    // VALDIA RESULTADOS DE LA  UERY
     if (mysqli_num_rows($result) > 0) {
-        // Fetch data row by row and output in HTML format
+        
         while($row = mysqli_fetch_assoc($result)) {
             echo '<tr>';
             echo '<td>' . $row["id"] . '</td>';
@@ -65,6 +65,6 @@
         echo "<tr><td colspan='9'>No records found.</td></tr>";
     }
 
-    // Close the connection
+    // CIERRA CONEXION
     mysqli_close($conn);
 ?>
