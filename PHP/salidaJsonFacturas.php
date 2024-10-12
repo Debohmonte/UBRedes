@@ -2,6 +2,9 @@
 header('Content-Type: application/json');
 
 try {
+    // Simular una espera de 3 segundos antes de procesar la solicitud
+    sleep(3);
+
     // Conectar a la base de datos
     $conexion = new PDO("mysql:host=localhost;dbname=c2660848_UBRedes", "c2660848", "po06kiSOto");
     $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -48,4 +51,4 @@ try {
     echo json_encode(['error' => $e->getMessage()]);
 }
 ?>
-``
+
