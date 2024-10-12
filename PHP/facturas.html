@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facturas</title>
     <style>
-        /*Estilo global*/
+        /* Estilos globales */
         * {
             margin: 0;
             padding: 0;
@@ -38,10 +39,6 @@
             padding: 10px;
         }
 
-        div.contenedorTabla header label {
-            margin-right: 10px;
-        }
-
         div.contenedorTabla header button {
             padding: 10px 15px;
             background-color: #FF7361;
@@ -56,10 +53,6 @@
 
         div.contenedorTabla thead {
             background-color: #FF7361;
-        }
-
-        div.contenedorTabla thead tr {
-            height: 50px;
         }
 
         div.contenedorTabla thead th {
@@ -77,10 +70,6 @@
             text-align: center;
         }
 
-        div.contenedorTabla tfoot {
-            background-color: #FF7361;
-        }
-
         div.contenedorTabla tfoot td {
             font-weight: bold;
             padding: 10px;
@@ -88,28 +77,24 @@
         }
 
         div.contenedorTabla footer {
-            display: flex;
-            justify-content: space-between;
             background-color: beige;
             padding: 10px;
         }
     </style>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
             $("#btAccionCarga").click(function() {
                 cargarFacturas();
             });
 
-            $("#btAccionVacia").click(function() {
-                $("#tbDatos").empty();
-            });
-
             function cargarFacturas() {
+                // Limpiar los datos actuales de la tabla
                 $("#tbDatos").empty();
                 $("#tbDatos").html("<p>Esperando respuesta...</p>");
 
+                // Hacer la llamada AJAX a PHP
                 $.ajax({
                     type: "get",
                     url: "./salidaJsonFacturas.php", 
@@ -122,9 +107,11 @@
                         f_total: $("#f_factura_total").val()
                     },
                     success: function(respuestaDelServer) {
+                        // Limpiar la tabla después de recibir los datos
                         $("#tbDatos").empty();
                         let facturas = JSON.parse(respuestaDelServer).facturas;
 
+                        // Recorrer cada factura y agregarla a la tabla
                         facturas.forEach(function(factura) {
                             let tr = $("<tr></tr>");
                             $("<td></td>").text(factura.numero).appendTo(tr);
@@ -137,6 +124,7 @@
                             $("#tbDatos").append(tr);
                         });
 
+                        // Actualizar el número de registros en la tabla
                         $("#totalRegistros").text("Nro de registros: " + facturas.length);
                     }
                 });
@@ -149,7 +137,6 @@
         <header>
             <h1>Facturas</h1>
             <button id="btAccionCarga">Cargar datos</button>
-            <button id="btAccionVacia">Vaciar datos</button>
         </header>
 
         <table>
@@ -176,16 +163,10 @@
 
             <tfoot>
                 <tr>
-                    <td colspan="6" id="totalRegistros"></td>
+                    <td colspan="6" id="totalRegistros">Nro de registros: 0</td>
                 </tr>
             </tfoot>
         </table>
-
-        <footer>
-            <div id="totalRegistros">
-                Nro de registros: 0
-            </div>
-        </footer>
     </div>
 </body>
 </html>

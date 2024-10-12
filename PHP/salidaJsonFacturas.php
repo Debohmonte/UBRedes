@@ -1,6 +1,5 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+header('Content-Type: application/json');
 
 try {
     // Conectar a la base de datos
@@ -40,7 +39,7 @@ try {
     echo json_encode(['facturas' => $facturas]);
 
 } catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
+    echo json_encode(['error' => $e->getMessage()]);
 }
 ?>
 
