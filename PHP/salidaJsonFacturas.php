@@ -2,11 +2,8 @@
 header('Content-Type: application/json');
 
 try {
-    // Simular una espera de 3 segundos antes de procesar la solicitud
-    sleep(3);
-
-    // Conectar a la base de datos
-    $conexion = new PDO("mysql:host=localhost;dbname=c2660848_UBRedes", "c2660848", "po06kiSOto");
+    // Asegúrate de usar el host correcto que te proporcionó DonWeb
+    $conexion = new PDO("mysql:host=mysql.donweb.com;dbname=c2660848_UBRedes", "c2660848", "po06kiSOto"); 
     $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Obtener los filtros desde la URL
@@ -51,4 +48,3 @@ try {
     echo json_encode(['error' => $e->getMessage()]);
 }
 ?>
-

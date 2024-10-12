@@ -80,6 +80,34 @@
             background-color: beige;
             padding: 10px;
         }
+
+        /* Estilos para el spinner de carga */
+        .loader {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #FF7361;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+
+        .loader-container {
+            display: none; /* Oculto inicialmente */
+            text-align: center;
+        }
+
     </style>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -92,7 +120,7 @@
             function cargarFacturas() {
                 // Limpiar los datos actuales de la tabla
                 $("#tbDatos").empty();
-                $("#tbDatos").html("<p>Esperando respuesta...</p>");
+                $(".loader-container").show(); // Mostrar el spinner de carga
 
                 // Hacer la llamada AJAX a PHP
                 $.ajax({
@@ -113,6 +141,7 @@
 
                             // Limpiar la tabla antes de mostrar los nuevos resultados
                             $("#tbDatos").empty();
+                            $(".loader-container").hide(); // Ocultar el spinner de carga
 
                             if (facturas.length > 0) {
                                 // Recorrer cada factura y agregarla a la tabla
@@ -137,6 +166,7 @@
                             // Si algo sale mal con el JSON, mostrar el error en la consola
                             console.error("Error al procesar la respuesta del servidor: ", e);
                             console.error("Respuesta recibida: ", respuestaDelServer);
+                            $(".loader-container").hide(); // Ocultar el spinner en caso de error
                         }
                     }
                 });
@@ -150,6 +180,11 @@
             <h1>Facturas</h1>
             <button id="btAccionCarga">Cargar datos</button>
         </header>
+
+        <div class="loader-container">
+            <div class="loader"></div>
+            <div class="loading-text">Cargando datos...</div>
+        </div>
 
         <table>
             <thead>
