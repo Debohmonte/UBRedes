@@ -13,8 +13,36 @@
         die("Connection failed: " . mysqli_connect_error());
     }
 
-    // SQL query to select all data from factura
-    $sql = "SELECT id, nro_factura, cuil_emisor, cuil_receptor, monto, descripcion, iva, total, tipo_id FROM factura";
+    // Start building the query
+    $sql = "SELECT id, nro_factura, cuil_emisor, cuil_receptor, monto, descripcion, iva, total, tipo_id FROM factura WHERE 1=1";
+
+    // Check for each filter and add to the query if present
+    if (!empty($_GET['id'])) {
+        $sql .= " AND id = " . intval($_GET['id']);
+    }
+    if (!empty($_GET['nro_factura'])) {
+        $sql .= " AND nro_factura LIKE '%" . mysqli_real_escape_string($conn, $_GET['nro_factura']) . "%'";
+    }
+    if (!empty($_GET['cuil_emisor'])) {
+        $sql .= " AND cuil_emisor LIKE '%" . mysqli_real_escape_string($conn, $_GET['cuil_emisor']) . "%'";
+    }
+    if (!empty($_GET['cuil_receptor'])) {
+        $sql .= " AND cuil_receptor LIKE '%" . mysqli_real_escape_string($conn, $_GET['cuil_receptor']) . "%'";
+    }
+    if (!empty($_GET['monto'])) {
+        $sql .= " AND monto = " . floatval($_GET['monto']);
+    }
+    if (!empty($_GET['descripcion'])) {
+        $sql .= " AND descripcion LIKE '%" . mysqli_real_escape_string($conn, $_GET['descripcion']) . "%'";
+    }
+    if (!empty($_GET['iva'])) {
+        $sql .= " AND iva = " . floatval($_GET['iva']);
+    }
+    if (!empty($_GET['tipo_id'])) {
+        $sql .= " AND tipo_id = " . intval($_GET['tipo_id']);
+    }
+
+    // Execute the query
     $result = mysqli_query($conn, $sql);
 
     // Check if there are results
