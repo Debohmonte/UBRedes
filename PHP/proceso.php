@@ -1,6 +1,26 @@
 <?php
+// Enable error reporting for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Database connection details for Donweb
+$servername = "mysql.donweb.com";  // Replace with actual host provided by Donweb
+$username = "cc2660848";  // Replace with your actual database username
+$password = "febaMA14ku";  // Replace with your actual password
+$dbname = "c2660848_UBRedes";  // Your database name
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check if the connection works
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Capturing the form data
+    // Retrieve form data
     $tipo_factura = $_POST['tipo_factura'];
     $cuil_emisor = $_POST['cuil_emisor'];
     $nombre_emisor = $_POST['nombre_emisor'];
@@ -12,34 +32,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $iva = $_POST['iva'];
     $total = $_POST['total'];
 
-    // Database connection
-    $conn = new mysqli('localhost', 'username', 'password', 'facturacion_db');
+    // Insert data into the factura table
+    $sql = "INSERT INTO factura (nro_factura, cuil_emisor, cuil_receptor, monto, descripcion, iva, total, tipo_id) 
+            VALUES ('$nro_factura', '$cuil_emisor', '$cuil_receptor', '$monto', '$descripcion', '$iva', '$total', '$tipo_factura')";
 
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    // Insert into the emisor_receptor table
-    $sql_emisor_receptor = "INSERT INTO emisor_receptor (nombre_emisor, nombre_receptor, cuil_emisor, cuil_receptor)
-                            VALUES ('$nombre_emisor', '$nombre_receptor', '$cuil_emisor', '$cuil_receptor')";
-    
-    if ($conn->query($sql_emisor_receptor) === TRUE) {
-        $emisor_receptor_id = $conn->insert_id; // Get the inserted id for foreign key
-    } else {
-        echo "Error: " . $sql_emisor_receptor . "<br>" . $conn->error;
-        exit;
-    }
-
-    // Insert into the factura table
-    $sql_factura = "INSERT INTO factura (nro_factura, cuil_emisor, cuil_receptor, monto, descripcion, iva, total, tipo_id)
-                    VALUES ('$nro_factura', '$cuil_emisor', '$cuil_receptor', '$monto', '$descripcion', '$iva', '$total', '$tipo_factura')";
-    
-    if ($conn->query($sql_factura) === TRUE) {
+    // Execute the query and check for errors
+    if ($conn->query($sql) === TRUE) {
         echo "Factura generada exitosamente.";
     } else {
-        echo "Error: " . $sql_factura . "<br>" . $conn->error;
+        echo "Error: " . $sql . "<br>" . $conn->error;
     }
-
-    $conn->close();
 }
+
+// Close the database connection
+$conn->close();
 ?>
