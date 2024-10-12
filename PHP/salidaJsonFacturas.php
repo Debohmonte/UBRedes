@@ -2,30 +2,36 @@
 // Conectar a la base de datos
 $conexion = new PDO("mysql:host=localhost;dbname=c2660848_UBRedes", "c2660848", "po06kiSOto");
 
-// Obtener filtros
-$orden = isset($_GET['orden']) ? $_GET['orden'] : 'numero';
-$filtroNumero = isset($_GET['f_factura_numero']) ? $_GET['f_factura_numero'] : '';
-$filtroFamilia = isset($_GET['f_factura_familia']) ? $_GET['f_factura_familia'] : '';
-$filtroDescripcion = isset($_GET['f_factura_descripcion']) ? $_GET['f_factura_descripcion'] : '';
-$filtroFechaAlta = isset($_GET['f_factura_fechaAlta']) ? $_GET['f_factura_fechaAlta'] : '';
-$filtroSaldoStock = isset($_GET['f_factura_saldoStock']) ? $_GET['f_factura_saldoStock'] : '';
+/
+// Obtener los filtros si existen
+$filtroNumero = isset($_GET['f_numero']) ? $_GET['f_numero'] : '';
+$filtroCuilEmisor = isset($_GET['f_cuil_emisor']) ? $_GET['f_cuil_emisor'] : '';
+$filtroCuilReceptor = isset($_GET['f_cuil_receptor']) ? $_GET['f_cuil_receptor'] : '';
+$filtroMonto = isset($_GET['f_monto']) ? $_GET['f_monto'] : '';
+$filtroIva = isset($_GET['f_iva']) ? $_GET['f_iva'] : '';
+$filtroTotal = isset($_GET['f_total']) ? $_GET['f_total'] : '';
 
-// Preparar consulta con filtros
-$sql = "SELECT numero, familia, descripcion, fechaAlta, saldoStock FROM facturas 
-        WHERE numero LIKE :numero AND familia LIKE :familia 
-        AND descripcion LIKE :descripcion AND fechaAlta LIKE :fechaAlta
-        AND saldoStock LIKE :saldoStock
-        ORDER BY $orden";
+// Consultar las facturas con los filtros aplicados
+$sql = "SELECT nro_factura as numero, cuil_emisor, cuil_receptor, monto, iva, total 
+        FROM factura 
+        WHERE nro_factura LIKE :numero 
+        AND cuil_emisor LIKE :cuil_emisor 
+        AND cuil_receptor LIKE :cuil_receptor
+        AND monto LIKE :monto 
+        AND iva LIKE :iva 
+        AND total LIKE :total";
+
 $stmt = $conexion->prepare($sql);
 $stmt->execute([
     ':numero' => "%$filtroNumero%",
-    ':familia' => "%$filtroFamilia%",
-    ':descripcion' => "%$filtroDescripcion%",
-    ':fechaAlta' => "%$filtroFechaAlta%",
-    ':saldoStock' => "%$filtroSaldoStock%"
+    ':cuil_emisor' => "%$filtroCuilEmisor%",
+    ':cuil_receptor' => "%$filtroCuilReceptor%",
+    ':monto' => "%$filtroMonto%",
+    ':iva' => "%$filtroIva%",
+    ':total' => "%$filtroTotal%"
 ]);
 
-// Devolver los resultados en formato JSON
+// Obtener los resultados y devolver en formato JSON
 $facturas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 echo json_encode(['facturas' => $facturas]);
 ?>
