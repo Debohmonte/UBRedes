@@ -1,4 +1,7 @@
 <?php
+// Establecer el tipo de contenido para JSON
+header('Content-Type: application/json');
+
 // Conectar a la base de datos
 $dbhost = 'localhost';
 $dbuser = 'c2660848_UBRedes';
@@ -10,21 +13,19 @@ try {
     $dsn = "mysql:host=$dbhost;dbname=$dbname";
     $dbh = new PDO($dsn, $dbuser, $dbpass);
     $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
+} catch (PDOException $e) {
     // Manejo de error en la conexión
     echo json_encode(["error" => "Error de conexión: " . $e->getMessage()]);
     exit;
 }
 
-sleep(2); // Simulación de retraso para pruebas
-
 // Capturar los filtros enviados por GET
 $orden = isset($_GET["orden"]) && !empty($_GET["orden"]) ? $_GET["orden"] : 'f.nro_factura';
-$filterNroFactura = '%' . $_GET['filterNroFactura'] . '%';
-$filterEmisor = '%' . $_GET['filterEmisor'] . '%';
-$filterReceptor = '%' . $_GET['filterReceptor'] . '%';
-$filterMonto = '%' . $_GET['filterMonto'] . '%';
-$filterFecha = '%' . $_GET['filterFecha'] . '%'; // Filtrar por fecha
+$filterNroFactura = '%' . (isset($_GET['filterNroFactura']) ? $_GET['filterNroFactura'] : '') . '%';
+$filterEmisor = '%' . (isset($_GET['filterEmisor']) ? $_GET['filterEmisor'] : '') . '%';
+$filterReceptor = '%' . (isset($_GET['filterReceptor']) ? $_GET['filterReceptor'] : '') . '%';
+$filterMonto = '%' . (isset($_GET['filterMonto']) ? $_GET['filterMonto'] : '') . '%';
+$filterFecha = '%' . (isset($_GET['filterFecha']) ? $_GET['filterFecha'] : '') . '%';
 
 try {
     // Consulta SQL para facturas con unión de emisor_receptor y tipo de factura
@@ -37,10 +38,8 @@ try {
                 e.nombre_emisor LIKE :Emisor AND 
                 e.nombre_receptor LIKE :Receptor AND 
                 f.monto LIKE :Monto AND 
-                f.fecha LIKE :Fecha"; // Filtrar por fecha
-
-    // Ordenar según el campo elegido
-    $sql .= " ORDER BY " . $orden;
+                f.fecha LIKE :Fecha
+            ORDER BY " . $orden;
 
     // Preparar la consulta
     $stmt2 = $dbh->prepare($sql);
@@ -50,7 +49,7 @@ try {
     $stmt2->bindParam(':Emisor', $filterEmisor);
     $stmt2->bindParam(':Receptor', $filterReceptor);
     $stmt2->bindParam(':Monto', $filterMonto);
-    $stmt2->bindParam(':Fecha', $filterFecha); // Vincular el parámetro de fecha
+    $stmt2->bindParam(':Fecha', $filterFecha);
 
     // Ejecutar la consulta
     $stmt2->setFetchMode(PDO::FETCH_ASSOC);
@@ -68,7 +67,7 @@ try {
         $objFactura->IVA = $fila['iva'];
         $objFactura->Total = $fila['total'];
         $objFactura->Tipo = $fila['nombre_tipo'];
-        $objFactura->Fecha = $fila['fecha']; // Agregar el valor de la fecha
+        $objFactura->Fecha = $fila['fecha']; // Agregar la fecha
         array_push($facturas, $objFactura);
     }
 

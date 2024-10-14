@@ -31,7 +31,7 @@
                 <th>IVA</th>
                 <th>Total</th>
                 <th>Tipo de Factura</th>
-                <th>Fecha</th> <!-- Agregar la columna de fecha -->
+                <th>Fecha</th> <!-- Nueva columna para fecha -->
             </tr>
             <tr id="FiltrosTR">
                 <td><input type="text" id="filterNroFactura" placeholder="Número de Factura"></td>
@@ -64,7 +64,7 @@
                 $("#filterEmisor").val('');
                 $("#filterReceptor").val('');
                 $("#filterMonto").val('');
-                $("#filterFecha").val(''); // Limpiar el filtro de fecha
+                $("#filterFecha").val('');
                 $("#order").val('');
                 $("#tbDatos").empty();
                 $("#totalRegistros").text('');
@@ -84,30 +84,36 @@
                         filterEmisor: $("#filterEmisor").val(),
                         filterReceptor: $("#filterReceptor").val(),
                         filterMonto: $("#filterMonto").val(),
-                        filterFecha: $("#filterFecha").val() // Enviar el filtro de fecha
+                        filterFecha: $("#filterFecha").val() // Filtro de fecha
                     },
                     success: function (response) {
                         $("#tbDatos").empty(); // Limpiar tabla una vez que se reciben los datos
-                        const data = JSON.parse(response);
-                        if (data.facturas.length > 0) {
-                            data.facturas.forEach(factura => {
-                                let row = `
-                                    <tr>
-                                        <td>${factura.NroFactura}</td>
-                                        <td>${factura.Emisor}</td>
-                                        <td>${factura.Receptor}</td>
-                                        <td>${factura.Monto}</td>
-                                        <td>${factura.Descripcion}</td>
-                                        <td>${factura.IVA}</td>
-                                        <td>${factura.Total}</td>
-                                        <td>${factura.Tipo}</td>
-                                        <td>${factura.Fecha}</td> <!-- Mostrar la fecha -->
-                                    </tr>`;
-                                $("#tbDatos").append(row);
-                            });
-                            $("#totalRegistros").html(`Total de Facturas: ${data.facturas.length}`);
-                        } else {
-                            $("#tbDatos").html("<tr><td colspan='9'>No se encontraron resultados.</td></tr>");
+                        try {
+                            const data = JSON.parse(response);
+                            if (data.facturas && data.facturas.length > 0) {
+                                data.facturas.forEach(factura => {
+                                    let row = `
+                                        <tr>
+                                            <td>${factura.NroFactura}</td>
+                                            <td>${factura.Emisor}</td>
+                                            <td>${factura.Receptor}</td>
+                                            <td>${factura.Monto}</td>
+                                            <td>${factura.Descripcion}</td>
+                                            <td>${factura.IVA}</td>
+                                            <td>${factura.Total}</td>
+                                            <td>${factura.Tipo}</td>
+                                            <td>${factura.Fecha}</td> <!-- Mostrar la fecha -->
+                                        </tr>`;
+                                    $("#tbDatos").append(row);
+                                });
+                                $("#totalRegistros").html(`Total de Facturas: ${data.facturas.length}`);
+                            } else {
+                                $("#tbDatos").html("<tr><td colspan='9'>No se encontraron resultados.</td></tr>");
+                            }
+                        } catch (e) {
+                            console.error("Error al procesar el JSON: ", e);
+                            console.log("Respuesta recibida: ", response);
+                            alert("Error al procesar los datos del servidor.");
                         }
                     },
                     error: function () {
