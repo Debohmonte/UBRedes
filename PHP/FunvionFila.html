@@ -28,10 +28,10 @@
                 <th>Receptor</th>
                 <th>Monto</th>
                 <th>Descripción</th>
-                <th>IVA</th>
+                <th>IVA</th> <!-- Desplegable de IVA -->
                 <th>Total</th>
                 <th>Tipo de Factura</th>
-                <th>Fecha</th> <!-- Nueva columna para fecha -->
+                <th>Fecha</th> <!-- Filtro por fecha -->
             </tr>
             <tr id="FiltrosTR">
                 <td><input type="text" id="filterNroFactura" placeholder="Número de Factura"></td>
@@ -43,10 +43,10 @@
                     <select id="filterIVA">
                         <option value="">Seleccionar IVA</option>
                     </select>
-                </td> <!-- Filtro de IVA como desplegable -->
-                <td><input type="text" id="filterTotal" placeholder="Total" disabled></td> <!-- Desactivado ya que depende del cálculo -->
+                </td>
+                <td><input type="text" id="filterTotal" placeholder="Total" disabled></td> <!-- Desactivado -->
                 <td><input type="text" id="filterTipo" placeholder="Tipo de Factura"></td>
-                <td><input type="date" id="filterFecha" placeholder="Fecha"></td> <!-- Filtro de fecha -->
+                <td><input type="date" id="filterFecha" placeholder="Fecha"></td> <!-- Filtro por fecha -->
             </tr>
         </thead>
         <tbody id="tbDatos"></tbody>
@@ -66,19 +66,28 @@
                 type: "GET",
                 url: "./facturasJSON.php",
                 success: function(response) {
-                    const data = JSON.parse(response);
-                    const selectIVA = $("#filterIVA");
+                    try {
+                        const data = JSON.parse(response);
+                        const selectIVA = $("#filterIVA");
 
-                    // Rellenar el desplegable de IVA
-                    if (data.ivas && data.ivas.length > 0) {
-                        data.ivas.forEach(iva => {
-                            selectIVA.append(new Option(iva.iva, iva.iva));
-                        });
+                        // Rellenar el desplegable de IVA
+                        if (data.ivas && data.ivas.length > 0) {
+                            data.ivas.forEach(iva => {
+                                selectIVA.append(new Option(iva.iva, iva.iva));
+                            });
+                        }
+                    } catch (e) {
+                        console.error("Error al procesar el JSON: ", e);
+                        console.log("Respuesta recibida: ", response);
+                        alert("Error al procesar los datos del servidor.");
                     }
+                },
+                error: function() {
+                    alert("Error al cargar los datos de IVA");
                 }
             });
 
-            // Cargar datos
+            // Cargar datos de facturas
             $("#cargar").click(function () {
                 cargaTabla();
             });
@@ -115,7 +124,7 @@
                         filterMonto: $("#filterMonto").val(),
                         filterDescripcion: $("#filterDescripcion").val(),
                         filterIVA: $("#filterIVA").val(),
-                        filterFecha: $("#filterFecha").val() // Filtro de fecha
+                        filterFecha: $("#filterFecha").val()
                     },
                     success: function (response) {
                         $("#tbDatos").empty(); // Limpiar tabla una vez que se reciben los datos
