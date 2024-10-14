@@ -28,10 +28,10 @@
                 <th>Receptor</th>
                 <th>Monto</th>
                 <th>Descripción</th>
-                <th>IVA</th> <!-- Desplegable de IVA -->
+                <th>IVA</th>
                 <th>Total</th>
                 <th>Tipo de Factura</th>
-                <th>Fecha</th> <!-- Filtro por fecha -->
+                <th>Fecha</th>
             </tr>
             <tr id="FiltrosTR">
                 <td><input type="text" id="filterNroFactura" placeholder="Número de Factura"></td>
@@ -44,9 +44,9 @@
                         <option value="">Seleccionar IVA</option>
                     </select>
                 </td>
-                <td><input type="text" id="filterTotal" placeholder="Total" disabled></td> <!-- Desactivado -->
+                <td><input type="text" id="filterTotal" placeholder="Total" disabled></td>
                 <td><input type="text" id="filterTipo" placeholder="Tipo de Factura"></td>
-                <td><input type="date" id="filterFecha" placeholder="Fecha"></td> <!-- Filtro por fecha -->
+                <td><input type="date" id="filterFecha" placeholder="Fecha"></td>
             </tr>
         </thead>
         <tbody id="tbDatos"></tbody>
@@ -66,70 +66,17 @@
                 type: "GET",
                 url: "./facturasJSON.php",
                 success: function(response) {
+                    console.log("Respuesta recibida: ", response); // Verifica que estás recibiendo el objeto
                     try {
-                        const data = JSON.parse(response);
-                        const selectIVA = $("#filterIVA");
+                        // No necesitamos JSON.parse(response) porque ya es un objeto
+                        const data = response;
 
-                        // Rellenar el desplegable de IVA
-                        if (data.ivas && data.ivas.length > 0) {
-                            data.ivas.forEach(iva => {
-                                selectIVA.append(new Option(iva.iva, iva.iva));
-                            });
-                        }
-                    } catch (e) {
-                        console.error("Error al procesar el JSON: ", e);
-                        console.log("Respuesta recibida: ", response);
-                        alert("Error al procesar los datos del servidor.");
-                    }
-                },
-                error: function() {
-                    alert("Error al cargar los datos de IVA");
-                }
-            });
-
-            // Cargar datos de facturas
-            $("#cargar").click(function () {
-                cargaTabla();
-            });
-
-            // Vaciar filtros
-            $("#vaciar").click(function () {
-                $("#filterNroFactura").val('');
-                $("#filterEmisor").val('');
-                $("#filterReceptor").val('');
-                $("#filterMonto").val('');
-                $("#filterDescripcion").val('');
-                $("#filterIVA").val('');
-                $("#filterTotal").val('');
-                $("#filterTipo").val('');
-                $("#filterFecha").val('');
-                $("#order").val('');
-                $("#tbDatos").empty();
-                $("#totalRegistros").text('');
-            });
-
-            // Función para cargar los datos
-            function cargaTabla() {
-                $("#tbDatos").empty(); // Limpiar tabla antes de cargar nuevos datos
-                $("#tbDatos").html("<p>Esperando respuesta... <span class='loader'></span></p>"); // Mostrar mensaje de carga
-
-                $.ajax({
-                    type: "GET",
-                    url: "./facturasJSON.php",
-                    data: {
-                        orden: $("#order").val(),
-                        filterNroFactura: $("#filterNroFactura").val(),
-                        filterEmisor: $("#filterEmisor").val(),
-                        filterReceptor: $("#filterReceptor").val(),
-                        filterMonto: $("#filterMonto").val(),
-                        filterDescripcion: $("#filterDescripcion").val(),
-                        filterIVA: $("#filterIVA").val(),
-                        filterFecha: $("#filterFecha").val()
-                    },
-                    success: function (response) {
-                        $("#tbDatos").empty(); // Limpiar tabla una vez que se reciben los datos
-                        try {
-                            const data = JSON.parse(response);
+                        if (data.error) {
+                            console.error("Error del servidor: " + data.error);
+                            alert(data.error);
+                        } else {
+                            // Procesar los datos de las facturas
+                            $("#tbDatos").empty(); // Limpiar la tabla antes de agregar nuevos datos
                             if (data.facturas && data.facturas.length > 0) {
                                 data.facturas.forEach(factura => {
                                     let row = `
@@ -142,7 +89,7 @@
                                             <td>${factura.IVA}</td>
                                             <td>${factura.Total}</td>
                                             <td>${factura.Tipo}</td>
-                                            <td>${factura.Fecha}</td> <!-- Mostrar la fecha -->
+                                            <td>${factura.Fecha}</td>
                                         </tr>`;
                                     $("#tbDatos").append(row);
                                 });
@@ -150,18 +97,25 @@
                             } else {
                                 $("#tbDatos").html("<tr><td colspan='9'>No se encontraron resultados.</td></tr>");
                             }
-                        } catch (e) {
-                            console.error("Error al procesar el JSON: ", e);
-                            console.log("Respuesta recibida: ", response);
-                            alert("Error al procesar los datos del servidor.");
+
+                            // Llenar el campo de IVA si tiene datos
+                            if (data.ivas && data.ivas.length > 0) {
+                                const selectIVA = $("#filterIVA");
+                                selectIVA.empty(); // Limpiar el desplegable antes de agregar nuevos valores
+                                data.ivas.forEach(iva => {
+                                    selectIVA.append(new Option(iva.iva, iva.iva));
+                                });
+                            }
                         }
-                    },
-                    error: function () {
-                        $("#tbDatos").empty(); // Limpiar la tabla si ocurre un error
-                        alert("Error al cargar los datos");
+                    } catch (e) {
+                        console.error("Error al procesar el JSON: ", e);
+                        alert("Error al procesar los datos del servidor.");
                     }
-                });
-            }
+                },
+                error: function() {
+                    alert("Error al realizar la solicitud al servidor.");
+                }
+            });
         });
     </script>
 </body>
