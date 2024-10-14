@@ -10,7 +10,7 @@
 
     // VALIDA CONEXION
     if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
+        die("conexionfallida: " . mysqli_connect_error());
     }
 
     // QUERY DE FACTURA
@@ -62,7 +62,7 @@
             echo '</tr>';
         }
     } else {
-        echo "<tr><td colspan='9'>No records found.</td></tr>";
+        echo "<tr><td colspan='9'>nose encontro nada.</td></tr>";
     }
 
     // CIERRA CONEXION
