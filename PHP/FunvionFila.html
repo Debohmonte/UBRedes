@@ -66,17 +66,56 @@
                 type: "GET",
                 url: "./facturasJSON.php",
                 success: function(response) {
-                    console.log("Respuesta recibida: ", response); // Verifica que estás recibiendo el objeto
                     try {
-                        // No necesitamos JSON.parse(response) porque ya es un objeto
                         const data = response;
 
                         if (data.error) {
                             console.error("Error del servidor: " + data.error);
                             alert(data.error);
                         } else {
-                            // Procesar los datos de las facturas
-                            $("#tbDatos").empty(); // Limpiar la tabla antes de agregar nuevos datos
+                            // Llenar el campo de IVA si tiene datos
+                            if (data.ivas && data.ivas.length > 0) {
+                                const selectIVA = $("#filterIVA");
+                                selectIVA.empty();
+                                data.ivas.forEach(iva => {
+                                    selectIVA.append(new Option(iva.iva, iva.iva));
+                                });
+                            }
+                        }
+                    } catch (e) {
+                        console.error("Error al procesar el JSON: ", e);
+                        alert("Error al procesar los datos del servidor.");
+                    }
+                },
+                error: function() {
+                    alert("Error al realizar la solicitud al servidor.");
+                }
+            });
+
+            // Cargar datos filtrados de facturas
+            $("#cargar").click(function () {
+                cargaTabla();
+            });
+
+            // Función para cargar los datos filtrados
+            function cargaTabla() {
+                $.ajax({
+                    type: "GET",
+                    url: "./facturasJSON.php",
+                    data: {
+                        orden: $("#order").val(),
+                        filterNroFactura: $("#filterNroFactura").val(),
+                        filterEmisor: $("#filterEmisor").val(),
+                        filterReceptor: $("#filterReceptor").val(),
+                        filterMonto: $("#filterMonto").val(),
+                        filterDescripcion: $("#filterDescripcion").val(),
+                        filterIVA: $("#filterIVA").val(),
+                        filterFecha: $("#filterFecha").val()
+                    },
+                    success: function (response) {
+                        $("#tbDatos").empty();
+                        try {
+                            const data = response;
                             if (data.facturas && data.facturas.length > 0) {
                                 data.facturas.forEach(factura => {
                                     let row = `
@@ -97,24 +136,31 @@
                             } else {
                                 $("#tbDatos").html("<tr><td colspan='9'>No se encontraron resultados.</td></tr>");
                             }
-
-                            // Llenar el campo de IVA si tiene datos
-                            if (data.ivas && data.ivas.length > 0) {
-                                const selectIVA = $("#filterIVA");
-                                selectIVA.empty(); // Limpiar el desplegable antes de agregar nuevos valores
-                                data.ivas.forEach(iva => {
-                                    selectIVA.append(new Option(iva.iva, iva.iva));
-                                });
-                            }
+                        } catch (e) {
+                            console.error("Error al procesar el JSON: ", e);
+                            alert("Error al procesar los datos del servidor.");
                         }
-                    } catch (e) {
-                        console.error("Error al procesar el JSON: ", e);
-                        alert("Error al procesar los datos del servidor.");
+                    },
+                    error: function () {
+                        $("#tbDatos").empty();
+                        alert("Error al cargar los datos");
                     }
-                },
-                error: function() {
-                    alert("Error al realizar la solicitud al servidor.");
-                }
+                });
+            }
+
+            // Vaciar los filtros
+            $("#vaciar").click(function () {
+                $("#filterNroFactura").val('');
+                $("#filterEmisor").val('');
+                $("#filterReceptor").val('');
+                $("#filterMonto").val('');
+                $("#filterDescripcion").val('');
+                $("#filterIVA").val('');
+                $("#filterTotal").val('');
+                $("#filterTipo").val('');
+                $("#filterFecha").val('');
+                $("#tbDatos").empty();
+                $("#totalRegistros").text('');
             });
         });
     </script>

@@ -1,5 +1,5 @@
 <?php
-header('Content-Type: application/json'); // Asegura que el contenido devuelto es JSON
+header('Content-Type: application/json');
 
 // Conectar a la base de datos
 $dbhost = 'localhost';
@@ -8,24 +8,20 @@ $dbpass = 'po06kiSOto';
 $dbname = 'c2660848_UBRedes';
 
 try {
-    // Establecer conexión con PDO
     $dsn = "mysql:host=$dbhost;dbname=$dbname";
     $dbh = new PDO($dsn, $dbuser, $dbpass);
     $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-    // Enviar error de conexión como JSON
     echo json_encode(["error" => "Error de conexión: " . $e->getMessage()]);
     exit;
 }
 
-// Obtener los valores de IVA desde la tabla factura
 try {
-    $sql = "SELECT DISTINCT iva FROM factura"; // Obtiene los valores únicos de IVA
+    $sql = "SELECT DISTINCT iva FROM factura";
     $stmt = $dbh->prepare($sql);
     $stmt->execute();
-    $ivas = $stmt->fetchAll(PDO::FETCH_ASSOC); // Almacena los valores de IVA
+    $ivas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    // Enviar error de consulta SQL como JSON
     echo json_encode(["error" => "Error al obtener IVA: " . $e->getMessage()]);
     exit;
 }
@@ -37,11 +33,10 @@ $filterEmisor = '%' . (isset($_GET['filterEmisor']) ? $_GET['filterEmisor'] : ''
 $filterReceptor = '%' . (isset($_GET['filterReceptor']) ? $_GET['filterReceptor'] : '') . '%';
 $filterMonto = '%' . (isset($_GET['filterMonto']) ? $_GET['filterMonto'] : '') . '%';
 $filterFecha = '%' . (isset($_GET['filterFecha']) ? $_GET['filterFecha'] : '') . '%';
-$filterIVA = isset($_GET['filterIVA']) ? $_GET['filterIVA'] : ''; // Filtro de IVA
+$filterIVA = isset($_GET['filterIVA']) ? $_GET['filterIVA'] : ''; 
 $filterDescripcion = '%' . (isset($_GET['filterDescripcion']) ? $_GET['filterDescripcion'] : '') . '%';
 
 try {
-    // Consulta SQL para obtener facturas
     $sql = "SELECT f.nro_factura, e.nombre_emisor, e.nombre_receptor, f.monto, f.descripcion, f.iva, f.total, t.nombre_tipo, f.fecha
             FROM factura f
             LEFT JOIN emisor_receptor e ON f.cuil_emisor = e.cuil_emisor
@@ -55,15 +50,13 @@ try {
                 f.fecha LIKE :Fecha";
     
     if (!empty($filterIVA)) {
-        $sql .= " AND f.iva = :IVA";  // Filtro adicional para IVA si está presente
+        $sql .= " AND f.iva = :IVA";
     }
 
     $sql .= " ORDER BY " . $orden;
 
-    // Preparar la consulta
     $stmt2 = $dbh->prepare($sql);
 
-    // Vincular los parámetros
     $stmt2->bindParam(':NroFactura', $filterNroFactura);
     $stmt2->bindParam(':Emisor', $filterEmisor);
     $stmt2->bindParam(':Receptor', $filterReceptor);
@@ -75,11 +68,9 @@ try {
         $stmt2->bindParam(':IVA', $filterIVA);
     }
 
-    // Ejecutar la consulta
     $stmt2->setFetchMode(PDO::FETCH_ASSOC);
     $stmt2->execute();
 
-    // Crear un array para almacenar las facturas
     $facturas = [];
     while ($fila = $stmt2->fetch()) {
         $objFactura = new stdClass();
@@ -95,21 +86,17 @@ try {
         array_push($facturas, $objFactura);
     }
 
-    // Crear el objeto JSON con la lista de facturas y valores de IVA
     $objFacturas = new stdClass();
     $objFacturas->facturas = $facturas;
     $objFacturas->cuenta = count($facturas);
-    $objFacturas->ivas = $ivas; // Valores de IVA obtenidos
+    $objFacturas->ivas = $ivas;
 
-    // Enviar la respuesta en formato JSON
     echo json_encode($objFacturas);
 
 } catch (PDOException $e) {
-    // Enviar error de consulta SQL como JSON
     echo json_encode(["error" => "Error en la consulta SQL: " . $e->getMessage()]);
     exit;
 }
 
-// Cerrar la conexión
 $dbh = null;
 ?>
