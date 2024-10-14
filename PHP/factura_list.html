@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listado de Facturas</title>
     <style>
-            * {
+                    * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -16,6 +16,9 @@
             background-color: #ffd1e1; /* Light pink background */
             padding: 0;
             margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         h1 {
@@ -52,11 +55,14 @@
         }
 
         footer {
-            margin-top: 20px;
-            text-align: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
             background-color: #ff5bb5; /* Bright pink background for footer */
             padding: 10px;
             color: white;
+            text-align: center;
         }
 
         .filter-form {
@@ -98,6 +104,11 @@
             background-color: #ff5bb5; /* Matching the theme for hover */
         }
 
+        .main-content {
+            flex-grow: 1;
+            padding-bottom: 60px; /* Prevent overlap with the footer */
+        }
+
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -105,65 +116,70 @@
 
     <h1>Listado de Facturas</h1>
 
-  
-    <form id="filterForm" class="filter-form">
-        <label for="id">ID:</label>
-        <input type="text" id="id" name="id">
-        
-        <label for="nro_factura">Nro Factura:</label>
-        <input type="text" id="nro_factura" name="nro_factura">
-        
-        <label for="cuil_emisor">CUIL Emisor:</label>
-        <input type="text" id="cuil_emisor" name="cuil_emisor">
-        
-        <label for="cuil_receptor">CUIL Receptor:</label>
-        <input type="text" id="cuil_receptor" name="cuil_receptor">
-        
-        <label for="monto">Monto:</label>
-        <input type="text" id="monto" name="monto">
-        
-        <label for="descripcion">Descripción:</label>
-        <input type="text" id="descripcion" name="descripcion">
-        
-        <label for="iva">IVA:</label>
-        <select id="iva" name="iva">
-            <option value="">Todos</option>
-            <option value="10.5">10.5%</option>
-            <option value="21">21%</option>
-            <option value="27">27%</option>
-        </select>
-        
-        <label for="tipo_id">Tipo ID:</label>
-        <input type="text" id="tipo_id" name="tipo_id">
-        
-        <button type="submit">Filtrar</button>
-        <button type="button" id="clearFilters">Vaciar Filtros</button>
-    </form>
+    <div class="main-content">
+        <form id="filterForm" class="filter-form">
+            <label for="id">ID:</label>
+            <input type="text" id="id" name="id">
+            
+            <label for="nro_factura">Nro Factura:</label>
+            <input type="text" id="nro_factura" name="nro_factura">
+            
+            <label for="cuil_emisor">CUIL Emisor:</label>
+            <input type="text" id="cuil_emisor" name="cuil_emisor">
+            
+            <label for="cuil_receptor">CUIL Receptor:</label>
+            <input type="text" id="cuil_receptor" name="cuil_receptor">
+            
+            <label for="monto">Monto:</label>
+            <input type="text" id="monto" name="monto">
+            
+            <label for="descripcion">Descripción:</label>
+            <input type="text" id="descripcion" name="descripcion">
+            
+            <label for="iva">IVA:</label>
+            <select id="iva" name="iva">
+                <option value="">Todos</option>
+                <option value="10.5">10.5%</option>
+                <option value="21">21%</option>
+                <option value="27">27%</option>
+            </select>
+            
+            <label for="tipo_id">Tipo ID:</label>
+            <input type="text" id="tipo_id" name="tipo_id">
+            
+            <!-- Campo Fecha Agregado -->
+            <label for="fecha">Fecha:</label>
+            <input type="date" id="fecha" name="fecha">
+            
+            <button type="submit">Filtrar</button>
+            <button type="button" id="clearFilters">Vaciar Filtros</button>
+        </form>
 
-   
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nro Factura</th>
-                <th>CUIL Emisor</th>
-                <th>CUIL Receptor</th>
-                <th>Monto</th>
-                <th>Descripción</th>
-                <th>IVA</th>
-                <th>Total</th>
-                <th>Tipo ID</th>
-            </tr>
-        </thead>
-        <tbody id="factura-data">
-            <!-- DATOS PHP -->
-        </tbody>
-    </table>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nro Factura</th>
+                    <th>CUIL Emisor</th>
+                    <th>CUIL Receptor</th>
+                    <th>Monto</th>
+                    <th>Descripción</th>
+                    <th>IVA</th>
+                    <th>Total</th>
+                    <th>Tipo ID</th>
+                </tr>
+            </thead>
+            <tbody id="factura-data">
+                <!-- DATOS PHP -->
+            </tbody>
+        </table>
+    </div>
 
     <footer>
         <p>&copy; 2024 Listado de Facturas</p>
     </footer>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // CARGA FACTURA
         function loadFacturas() {
