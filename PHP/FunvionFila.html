@@ -61,7 +61,7 @@
 
     <script>
         $(document).ready(function () {
-            let sortOrder = "ASC"; // Valor inicial de orden ascendente
+            let sortOrder = "DESC"; // Siempre en orden descendente
     
             // Cargar los valores de IVA al cargar la página
             $.ajax({
@@ -100,13 +100,13 @@
             });
     
             // Función para cargar los datos filtrados
-            function cargaTabla(orderBy = "nro_factura", sortOrder = "ASC") {
+            function cargaTabla(orderBy = "nro_factura", sortOrder = "DESC") {
                 $.ajax({
                     type: "GET",
                     url: "./facturasJSON.php",
                     data: {
                         orden: orderBy,
-                        direccion: sortOrder, // Enviar la dirección de ordenación
+                        direccion: sortOrder, // Siempre descendente
                         filterNroFactura: $("#filterNroFactura").val(),
                         filterEmisor: $("#filterEmisor").val(),
                         filterReceptor: $("#filterReceptor").val(),
@@ -151,11 +151,11 @@
                 });
             }
     
-            // Escucha los clics en los encabezados de las columnas para ordenar
+            // Escucha los clics en los encabezados de las columnas para ordenar siempre en DESC
             $("th").click(function () {
                 let orderBy = $(this).attr("campo-dato"); // Obtener el campo por el que se quiere ordenar
-                sortOrder = sortOrder === "ASC" ? "DESC" : "ASC"; // Cambiar el orden de ascendente a descendente
-                cargaTabla(orderBy, sortOrder); // Llamar la función con el campo de orden y la dirección
+                $("#order").val(orderBy); // Actualizar el cuadro de texto con el nombre de la columna por la que se ordena
+                cargaTabla(orderBy, sortOrder); // Cargar los datos siempre en orden descendente
             });
     
             // Vaciar los filtros
@@ -169,11 +169,13 @@
                 $("#filterTotal").val('');
                 $("#filterTipo").val('');
                 $("#filterFecha").val('');
+                $("#order").val(''); // Limpiar el campo de orden
                 $("#tbDatos").empty();
                 $("#totalRegistros").text('');
             });
         });
     </script>
+    
     
 </body>
 </html>
