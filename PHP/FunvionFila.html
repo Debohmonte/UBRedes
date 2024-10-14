@@ -61,9 +61,9 @@
 
     <script>
         $(document).ready(function () {
-            let sortOrder = "DESC"; // Siempre en orden descendente
+            let sortOrder = "DESC"; //el orden desendente no funciona
     
-            // Cargar los valores de IVA al cargar la página
+            // iva
             $.ajax({
                 type: "GET",
                 url: "./facturasJSON.php",
@@ -75,7 +75,7 @@
                             console.error("Error del servidor: " + data.error);
                             alert(data.error);
                         } else {
-                            // Llenar el campo de IVA si tiene datos
+                        
                             if (data.ivas && data.ivas.length > 0) {
                                 const selectIVA = $("#filterIVA");
                                 selectIVA.empty();
@@ -94,19 +94,19 @@
                 }
             });
     
-            // Cargar datos filtrados de facturas
+            // filtros 
             $("#cargar").click(function () {
                 cargaTabla();
             });
     
-            // Función para cargar los datos filtrados
+            // datos filtrados
             function cargaTabla(orderBy = "nro_factura", sortOrder = "DESC") {
                 $.ajax({
                     type: "GET",
                     url: "./facturasJSON.php",
                     data: {
                         orden: orderBy,
-                        direccion: sortOrder, // Siempre descendente
+                        direccion: sortOrder, 
                         filterNroFactura: $("#filterNroFactura").val(),
                         filterEmisor: $("#filterEmisor").val(),
                         filterReceptor: $("#filterReceptor").val(),
@@ -151,14 +151,14 @@
                 });
             }
     
-            // Escucha los clics en los encabezados de las columnas para ordenar siempre en DESC
+            
             $("th").click(function () {
-                let orderBy = $(this).attr("campo-dato"); // Obtener el campo por el que se quiere ordenar
-                $("#order").val(orderBy); // Actualizar el cuadro de texto con el nombre de la columna por la que se ordena
-                cargaTabla(orderBy, sortOrder); // Cargar los datos siempre en orden descendente
+                let orderBy = $(this).attr("campo-dato"); 
+                $("#order").val(orderBy);
+                cargaTabla(orderBy, sortOrder);
             });
     
-            // Vaciar los filtros
+            // Vaciar filtros
             $("#vaciar").click(function () {
                 $("#filterNroFactura").val('');
                 $("#filterEmisor").val('');
@@ -169,7 +169,7 @@
                 $("#filterTotal").val('');
                 $("#filterTipo").val('');
                 $("#filterFecha").val('');
-                $("#order").val(''); // Limpiar el campo de orden
+                $("#order").val(''); 
                 $("#tbDatos").empty();
                 $("#totalRegistros").text('');
             });

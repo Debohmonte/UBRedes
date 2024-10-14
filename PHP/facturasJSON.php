@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-// Conectar a la base de datos
+// Coonexion
 $dbhost = 'localhost';
 $dbuser = 'c2660848_UBRedes';
 $dbpass = 'po06kiSOto';
@@ -26,9 +26,8 @@ try {
     exit;
 }
 
-// Capturar los filtros enviados por GET
+//GETS
 $orden = isset($_GET["orden"]) ? $_GET["orden"] : 'f.nro_factura';
-$direccion = isset($_GET["direccion"]) ? $_GET["direccion"] : 'ASC'; // Nueva variable para la dirección de orden
 $filterNroFactura = '%' . (isset($_GET['filterNroFactura']) ? $_GET['filterNroFactura'] : '') . '%';
 $filterEmisor = '%' . (isset($_GET['filterEmisor']) ? $_GET['filterEmisor'] : '') . '%';
 $filterReceptor = '%' . (isset($_GET['filterReceptor']) ? $_GET['filterReceptor'] : '') . '%';
@@ -54,7 +53,7 @@ try {
         $sql .= " AND f.iva = :IVA";
     }
 
-    // Aplicar orden y dirección
+    // ORDEN
     $sql .= " ORDER BY $orden $direccion";
 
     $stmt2 = $dbh->prepare($sql);
