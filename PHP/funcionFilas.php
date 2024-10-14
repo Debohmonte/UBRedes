@@ -24,11 +24,11 @@ $filterNroFactura = '%' . $_GET['filterNroFactura'] . '%';
 $filterEmisor = '%' . $_GET['filterEmisor'] . '%';
 $filterReceptor = '%' . $_GET['filterReceptor'] . '%';
 $filterMonto = '%' . $_GET['filterMonto'] . '%';
-$filterFecha = '%' . $_GET['filterFecha'] . '%';
+$filterFecha = '%' . $_GET['filterFecha'] . '%'; // Filtrar por fecha
 
 try {
     // Consulta SQL para facturas con unión de emisor_receptor y tipo de factura
-    $sql = "SELECT f.nro_factura, e.nombre_emisor, e.nombre_receptor, f.monto, f.descripcion, f.iva, f.total, t.nombre_tipo 
+    $sql = "SELECT f.nro_factura, e.nombre_emisor, e.nombre_receptor, f.monto, f.descripcion, f.iva, f.total, t.nombre_tipo, f.fecha
             FROM factura f
             LEFT JOIN emisor_receptor e ON f.cuil_emisor = e.cuil_emisor
             LEFT JOIN tipo t ON f.tipo_id = t.id
@@ -37,7 +37,7 @@ try {
                 e.nombre_emisor LIKE :Emisor AND 
                 e.nombre_receptor LIKE :Receptor AND 
                 f.monto LIKE :Monto AND 
-                f.fecha LIKE :Fecha";
+                f.fecha LIKE :Fecha"; // Filtrar por fecha
 
     // Ordenar según el campo elegido
     $sql .= " ORDER BY " . $orden;
@@ -50,7 +50,7 @@ try {
     $stmt2->bindParam(':Emisor', $filterEmisor);
     $stmt2->bindParam(':Receptor', $filterReceptor);
     $stmt2->bindParam(':Monto', $filterMonto);
-    $stmt2->bindParam(':Fecha', $filterFecha);
+    $stmt2->bindParam(':Fecha', $filterFecha); // Vincular el parámetro de fecha
 
     // Ejecutar la consulta
     $stmt2->setFetchMode(PDO::FETCH_ASSOC);
@@ -68,6 +68,7 @@ try {
         $objFactura->IVA = $fila['iva'];
         $objFactura->Total = $fila['total'];
         $objFactura->Tipo = $fila['nombre_tipo'];
+        $objFactura->Fecha = $fila['fecha']; // Agregar el valor de la fecha
         array_push($facturas, $objFactura);
     }
 

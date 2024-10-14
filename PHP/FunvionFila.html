@@ -23,27 +23,28 @@
     <table style="width: 100%;">
         <thead>
             <tr>
-                <th><button id="btnNroFactura">Nro Factura</button></th>
-                <th><button id="btnEmisor">Emisor</button></th>
-                <th><button id="btnReceptor">Receptor</button></th>
-                <th><button id="btnMonto">Monto</button></th>
-                <th><button id="btnDescripcion">Descripción</button></th>
-                <th><button id="btnIVA">IVA</button></th>
-                <th><button id="btnTotal">Total</button></th>
-                <th><button id="btnTipo">Tipo de Factura</button></th>
+                <th>Nro Factura</th>
+                <th>Emisor</th>
+                <th>Receptor</th>
+                <th>Monto</th>
+                <th>Descripción</th>
+                <th>IVA</th>
+                <th>Total</th>
+                <th>Tipo de Factura</th>
+                <th>Fecha</th> <!-- Agregar la columna de fecha -->
             </tr>
             <tr id="FiltrosTR">
                 <td><input type="text" id="filterNroFactura" placeholder="Número de Factura"></td>
                 <td><input type="text" id="filterEmisor" placeholder="Emisor"></td>
                 <td><input type="text" id="filterReceptor" placeholder="Receptor"></td>
                 <td><input type="text" id="filterMonto" placeholder="Monto"></td>
-                <td><input type="date" id="filterFecha" placeholder="Fecha"></td>
+                <td><input type="date" id="filterFecha" placeholder="Fecha"></td> <!-- Filtro de fecha -->
             </tr>
         </thead>
         <tbody id="tbDatos"></tbody>
         <tfoot>
             <tr>
-                <td colspan="8"><span id="totalRegistros"></span></td>
+                <td colspan="9"><span id="totalRegistros"></span></td>
             </tr>
         </tfoot>
     </table>
@@ -63,28 +64,10 @@
                 $("#filterEmisor").val('');
                 $("#filterReceptor").val('');
                 $("#filterMonto").val('');
-                $("#filterFecha").val('');
+                $("#filterFecha").val(''); // Limpiar el filtro de fecha
                 $("#order").val('');
                 $("#tbDatos").empty();
                 $("#totalRegistros").text('');
-            });
-
-            // Funciones para ordenar por campos
-            $("#btnNroFactura").click(function () {
-                $("#order").val("f.nro_factura");
-                cargaTabla();
-            });
-            $("#btnEmisor").click(function () {
-                $("#order").val("e.nombre_emisor");
-                cargaTabla();
-            });
-            $("#btnReceptor").click(function () {
-                $("#order").val("e.nombre_receptor");
-                cargaTabla();
-            });
-            $("#btnMonto").click(function () {
-                $("#order").val("f.monto");
-                cargaTabla();
             });
 
             // Función para cargar los datos
@@ -94,14 +77,14 @@
 
                 $.ajax({
                     type: "GET",
-                    url: "./facturasJSON.php",
+                    url: "./funcionFilas.php",
                     data: {
                         orden: $("#order").val(),
                         filterNroFactura: $("#filterNroFactura").val(),
                         filterEmisor: $("#filterEmisor").val(),
                         filterReceptor: $("#filterReceptor").val(),
                         filterMonto: $("#filterMonto").val(),
-                        filterFecha: $("#filterFecha").val()
+                        filterFecha: $("#filterFecha").val() // Enviar el filtro de fecha
                     },
                     success: function (response) {
                         $("#tbDatos").empty(); // Limpiar tabla una vez que se reciben los datos
@@ -118,12 +101,13 @@
                                         <td>${factura.IVA}</td>
                                         <td>${factura.Total}</td>
                                         <td>${factura.Tipo}</td>
+                                        <td>${factura.Fecha}</td> <!-- Mostrar la fecha -->
                                     </tr>`;
                                 $("#tbDatos").append(row);
                             });
                             $("#totalRegistros").html(`Total de Facturas: ${data.facturas.length}`);
                         } else {
-                            $("#tbDatos").html("<tr><td colspan='8'>No se encontraron resultados.</td></tr>");
+                            $("#tbDatos").html("<tr><td colspan='9'>No se encontraron resultados.</td></tr>");
                         }
                     },
                     error: function () {
