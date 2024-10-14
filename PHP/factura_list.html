@@ -5,55 +5,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listado de Facturas</title>
     <style>
-       
-        * {
+            * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            padding: 20px;
+            background-color: #ffd1e1; /* Light pink background */
+            padding: 0;
+            margin: 0;
         }
+
         h1 {
             text-align: center;
-            color: #333;
+            color: white;
+            background-color: #ff5bb5; /* Bright pink background for header */
+            padding: 20px;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
             background-color: white;
         }
+
         th, td {
             padding: 12px;
-            border: 1px solid #ccc;
+            border: 1px solid #ff5bb5; /* Border color */
             text-align: center;
         }
+
         th {
-            background-color: #FF7361;
+            background-color: #ff5bb5; /* Bright pink background for table header */
             color: white;
         }
+
         tr:nth-child(even) {
-            background-color: #f2f2f2;
+            background-color: #f4f4f9; /* Light grey for even rows */
         }
+
         tr:hover {
-            background-color: #ddd;
+            background-color: #f4c2c2; /* Hover effect on rows */
         }
+
         footer {
             margin-top: 20px;
             text-align: center;
+            background-color: #ff5bb5; /* Bright pink background for footer */
+            padding: 10px;
+            color: white;
         }
+
         .filter-form {
-            margin-bottom: 20px;
+            background-color: #ffacd1; /* Light pink for the filter form */
+            padding: 20px;
+            text-align: center;
         }
+
         .filter-form label {
             margin-right: 10px;
+            font-weight: bold;
         }
+
+        .filter-form input, .filter-form select {
+            padding: 10px;
+            border: 1px solid #ff5bb5; /* Border matching the pink theme */
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
         .filter-form button {
-            margin-left: 10px;
+            padding: 10px 20px;
+            background-color: #ff5bb5;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
         }
+
+        .filter-form button:hover {
+            background-color: #ff3b8d; /* Darker pink for hover effect */
+        }
+
+        #clearFilters {
+            background-color: #ff7db5; /* Lighter pink for the clear filter button */
+        }
+
+        #clearFilters:hover {
+            background-color: #ff5bb5; /* Matching the theme for hover */
+        }
+
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
