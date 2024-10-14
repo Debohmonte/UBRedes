@@ -27,7 +27,8 @@ try {
 }
 
 // Capturar los filtros enviados por GET
-$orden = isset($_GET["orden"]) && !empty($_GET["orden"]) ? $_GET["orden"] : 'f.nro_factura';
+$orden = isset($_GET["orden"]) ? $_GET["orden"] : 'f.nro_factura';
+$direccion = isset($_GET["direccion"]) ? $_GET["direccion"] : 'ASC'; // Nueva variable para la dirección de orden
 $filterNroFactura = '%' . (isset($_GET['filterNroFactura']) ? $_GET['filterNroFactura'] : '') . '%';
 $filterEmisor = '%' . (isset($_GET['filterEmisor']) ? $_GET['filterEmisor'] : '') . '%';
 $filterReceptor = '%' . (isset($_GET['filterReceptor']) ? $_GET['filterReceptor'] : '') . '%';
@@ -53,7 +54,8 @@ try {
         $sql .= " AND f.iva = :IVA";
     }
 
-    $sql .= " ORDER BY " . $orden;
+    // Aplicar orden y dirección
+    $sql .= " ORDER BY $orden $direccion";
 
     $stmt2 = $dbh->prepare($sql);
 
