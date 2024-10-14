@@ -61,6 +61,8 @@
 
     <script>
         $(document).ready(function () {
+            let sortOrder = "ASC"; // Valor inicial de orden ascendente
+    
             // Cargar los valores de IVA al cargar la página
             $.ajax({
                 type: "GET",
@@ -68,7 +70,7 @@
                 success: function(response) {
                     try {
                         const data = response;
-
+    
                         if (data.error) {
                             console.error("Error del servidor: " + data.error);
                             alert(data.error);
@@ -91,19 +93,20 @@
                     alert("Error al realizar la solicitud al servidor.");
                 }
             });
-
+    
             // Cargar datos filtrados de facturas
             $("#cargar").click(function () {
                 cargaTabla();
             });
-
+    
             // Función para cargar los datos filtrados
-            function cargaTabla() {
+            function cargaTabla(orderBy = "nro_factura", sortOrder = "ASC") {
                 $.ajax({
                     type: "GET",
                     url: "./facturasJSON.php",
                     data: {
-                        orden: $("#order").val(),
+                        orden: orderBy,
+                        direccion: sortOrder, // Enviar la dirección de ordenación
                         filterNroFactura: $("#filterNroFactura").val(),
                         filterEmisor: $("#filterEmisor").val(),
                         filterReceptor: $("#filterReceptor").val(),
@@ -147,7 +150,14 @@
                     }
                 });
             }
-
+    
+            // Escucha los clics en los encabezados de las columnas para ordenar
+            $("th").click(function () {
+                let orderBy = $(this).attr("campo-dato"); // Obtener el campo por el que se quiere ordenar
+                sortOrder = sortOrder === "ASC" ? "DESC" : "ASC"; // Cambiar el orden de ascendente a descendente
+                cargaTabla(orderBy, sortOrder); // Llamar la función con el campo de orden y la dirección
+            });
+    
             // Vaciar los filtros
             $("#vaciar").click(function () {
                 $("#filterNroFactura").val('');
@@ -164,5 +174,6 @@
             });
         });
     </script>
+    
 </body>
 </html>
