@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <title>Lista de Facturas</title>
+</head>
+
+<body>
+    <div class="head">
+        <header>
+            <h3>Facturas</h3>
+        </header>
+        <div class="command">
+            <p>Ordenar por</p>
+            <input type="text" id="order" placeholder="nro_factura, cuil_emisor, etc."></input>
+            <button id="cargar">Cargar Facturas</button>
+            <button id="vaciar">Vaciar Filtros</button>
+        </div>
+    </div>
+
+    <table style="width: 100%;">
+        <thead>
+            <tr>
+                <th><button id="btnNroFactura">Nro Factura</button></th>
+                <th><button id="btnEmisor">Cuil Emisor</button></th>
+                <th><button id="btnReceptor">Cuil Receptor</button></th>
+                <th><button id="btnMonto">Monto</button></th>
+                <th><button id="btnDescripcion">Descripción</button></th>
+                <th><button id="btnIVA">IVA</button></th>
+                <th><button id="btnTotal">Total</button></th>
+                <th><button id="btnTipo">Tipo</button></th>
+            </tr>
+            <tr id="FiltrosTR">
+                <td><input type="text" id="filterID" placeholder="Número de Factura"></td>
+                <td><input type="text" id="filterEmisor" placeholder="Cuil Emisor"></td>
+                <td><input type="text" id="filterReceptor" placeholder="Cuil Receptor"></td>
+                <td><input type="text" id="filterMonto" placeholder="Monto"></td>
+                <td><input type="date" id="filterFecha" placeholder="Fecha"></td>
+            </tr>
+        </thead>
+        <tbody id="tbDatos"></tbody>
+        <tfoot>
+            <tr>
+                <td colspan="8"><span id="totalRegistros"></span></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <footer>© Facturas System</footer>
+</body>
+
+<script>
+    $(document).ready(function () {
+        // Cargar datos
+        $("#cargar").click(function () {
+            cargaTabla();
+        });
+
+        // Vaciar filtros
+        $("#vaciar").click(function () {
+            $("#filterID").val('');
+            $("#filterEmisor").val('');
+            $("#filterReceptor").val('');
+            $("#filterMonto").val('');
+            $("#filterFecha").val('');
+            $("#order").val('');
+            $("#tbDatos").empty();
+            $("#totalRegistros").text('');
+        });
+
+        // Funciones para ordenar por campos
+        $("#btnNroFactura").click(function () {
+            $("#order").val("f.nro_factura");
+            cargaTabla();
+        });
+        $("#btnEmisor").click(function () {
+            $("#order").val("f.cuil_emisor");
+            cargaTabla();
+        });
+        $("#btnReceptor").click(function () {
+            $("#order").val("f.cuil_receptor");
+            cargaTabla();
+        });
+        $("#btnMonto").click(function () {
+            $("#order").val("f.monto");
+            cargaTabla();
+        });
+
+        // Función para cargar los datos
+        function cargaTabla() {
+            $("#tbDatos").empty(); // Limpiar tabla antes de cargar nuevos datos
+            $("#tbDatos").html("<p>Esperando respuesta... <span class='loader'></span></p>"); // Mostrar mensaje de carga
+
+            $.ajax({
+                type: "GET",
+                url: "./funcionFilas.php",
+                data: {
+                    orden: $("#order").val(),
+                    filterID: $("#filterID").val(),
+                    filterEmisor: $("#filterEmisor").val(),
+                    filterReceptor: $("#filterReceptor").val(),
+                    filterMonto: $("#filterMonto").val(),
+                    filterFecha: $("#filterFecha").val()
+                },
+                success: function (response) {
+                    $("#tbDatos").empty(); // Limpiar tabla una vez que se reciben los datos
+                    const data = JSON.parse(response);
+                    if (data.facturas.length > 0) {
+                        data.facturas.forEach(factura => {
+                            let row = `
+                                <tr>
+                                    <td>${factura.NroFactura}</td>
+                                    <td>${factura.CuilEmisor}</td>
+                                    <td>${factura.CuilReceptor}</td>
+                                    <td>${factura.Monto}</td>
+                                    <td>${factura.Descripcion}</td>
+                                    <td>${factura.IVA}</td>
+                                    <td>${factura.Total}</td>
+                                    <td>${factura.Tipo}</td>
+                                </tr>`;
+                            $("#tbDatos").append(row);
+                        });
+                        $("#totalRegistros").html(`Total de Facturas: ${data.facturas.length}`);
+                    } else {
+                        $("#tbDatos").html("<tr><td colspan='8'>No se encontraron resultados.</td></tr>");
+                    }
+                },
+                error: function () {
+                    $("#tbDatos").empty(); // Limpiar la tabla si ocurre un error
+                    alert("Error al cargar los datos");
+                }
+            });
+        }
+    });
+</script>
+
+</html>
