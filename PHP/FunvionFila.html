@@ -38,6 +38,14 @@
                 <td><input type="text" id="filterEmisor" placeholder="Emisor"></td>
                 <td><input type="text" id="filterReceptor" placeholder="Receptor"></td>
                 <td><input type="text" id="filterMonto" placeholder="Monto"></td>
+                <td><input type="text" id="filterDescripcion" placeholder="Descripción"></td>
+                <td>
+                    <select id="filterIVA">
+                        <option value="">Seleccionar IVA</option>
+                    </select>
+                </td> <!-- Filtro de IVA como desplegable -->
+                <td><input type="text" id="filterTotal" placeholder="Total" disabled></td> <!-- Desactivado ya que depende del cálculo -->
+                <td><input type="text" id="filterTipo" placeholder="Tipo de Factura"></td>
                 <td><input type="date" id="filterFecha" placeholder="Fecha"></td> <!-- Filtro de fecha -->
             </tr>
         </thead>
@@ -53,6 +61,23 @@
 
     <script>
         $(document).ready(function () {
+            // Cargar los valores de IVA al cargar la página
+            $.ajax({
+                type: "GET",
+                url: "./facturasJSON.php",
+                success: function(response) {
+                    const data = JSON.parse(response);
+                    const selectIVA = $("#filterIVA");
+
+                    // Rellenar el desplegable de IVA
+                    if (data.ivas && data.ivas.length > 0) {
+                        data.ivas.forEach(iva => {
+                            selectIVA.append(new Option(iva.iva, iva.iva));
+                        });
+                    }
+                }
+            });
+
             // Cargar datos
             $("#cargar").click(function () {
                 cargaTabla();
@@ -64,6 +89,10 @@
                 $("#filterEmisor").val('');
                 $("#filterReceptor").val('');
                 $("#filterMonto").val('');
+                $("#filterDescripcion").val('');
+                $("#filterIVA").val('');
+                $("#filterTotal").val('');
+                $("#filterTipo").val('');
                 $("#filterFecha").val('');
                 $("#order").val('');
                 $("#tbDatos").empty();
@@ -77,13 +106,15 @@
 
                 $.ajax({
                     type: "GET",
-                    url: "./funcionFilas.php",
+                    url: "./facturasJSON.php",
                     data: {
                         orden: $("#order").val(),
                         filterNroFactura: $("#filterNroFactura").val(),
                         filterEmisor: $("#filterEmisor").val(),
                         filterReceptor: $("#filterReceptor").val(),
                         filterMonto: $("#filterMonto").val(),
+                        filterDescripcion: $("#filterDescripcion").val(),
+                        filterIVA: $("#filterIVA").val(),
                         filterFecha: $("#filterFecha").val() // Filtro de fecha
                     },
                     success: function (response) {
