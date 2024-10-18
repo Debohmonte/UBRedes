@@ -53,8 +53,10 @@ try {
 
     header('Content-Type: application/json');
     echo json_encode(['facturas' => $facturas]);
+
+    // Debugging: Muestra si hay datos en la respuesta
+    var_dump($facturas);
 } catch (Exception $e) {
     echo json_encode(['error' => $e->getMessage()]);
 }
 ?>
-
