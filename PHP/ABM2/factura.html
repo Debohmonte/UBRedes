@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./rosastyle.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <title>Lista de Facturas</title>
+</head>
+<body>
+    <div class="head">
+        <header>
+            <h3>Facturas</h3>
+        </header>
+        <div class="command">
+            <p>Ordenar por:</p>
+            <input type="text" id="order" placeholder="Nro de Factura, Emisor, etc." readonly>
+            <button id="cargar">Cargar Facturas</button>
+            <button id="vaciar">Vaciar Filtros</button>
+            <button id="altaFactura">Alta de Factura</button>
+        </div>
+    </div>
+
+    <table style="width: 100%;">
+        <thead>
+            <tr>
+                <th data-column="nro_factura">Nro Factura</th>
+                <th data-column="emisor">Emisor</th>
+                <th data-column="receptor">Receptor</th>
+                <th data-column="monto">Monto</th>
+                <th data-column="descripcion">Descripción</th>
+                <th data-column="iva">IVA</th>
+                <th data-column="total">Total</th>
+                <th data-column="tipo_factura">Tipo de Factura</th>
+                <th data-column="fecha">Fecha</th>
+            </tr>
+            <tr id="FiltrosTR">
+                <td><input type="text" id="filterNroFactura" placeholder="Número de Factura"></td>
+                <td><input type="text" id="filterEmisor" placeholder="Emisor"></td>
+                <td><input type="text" id="filterReceptor" placeholder="Receptor"></td>
+                <td><input type="text" id="filterMonto" placeholder="Monto"></td>
+                <td><input type="text" id="filterDescripcion" placeholder="Descripción"></td>
+                <td>
+                    <select id="filterIVA">
+                        <option value="">Seleccionar IVA</option>
+                        <option value="10%">10%</option>
+                        <option value="21%">21%</option>
+                    </select>
+                </td>
+                <td><input type="text" id="filterTotal" placeholder="Total" disabled></td>
+                <td><input type="text" id="filterTipo" placeholder="Tipo de Factura"></td>
+                <td><input type="date" id="filterFecha" placeholder="Fecha"></td>
+            </tr>
+        </thead>
+        <tbody id="tbDatos"></tbody>
+        <tfoot>
+            <tr>
+                <td colspan="9"><span id="totalRegistros"></span></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <footer>© Facturas System</footer>
+
+    <script>
+        $(document).ready(function () {
+            let sortOrder = "ASC"; // Inicialmente el orden es ascendente
+            let orderBy = "nro_factura"; // Orden predeterminado
+
+            // Cargar datos con filtros y orden seleccionado
+            function cargaTabla() {
+                $.ajax({
+                    type: "GET",
+                    url: "./facturasJSON.php",
+                    data: {
+                        filterNroFactura: $("#filterNroFactura").val(),
+                        filterEmisor: $("#filterEmisor").val(),
+                        filterReceptor: $("#filterReceptor").val(),
+                        filterMonto: $("#filterMonto").val(),
+                        filterDescripcion: $("#filterDescripcion").val(),
+                        filterIVA: $("#filterIVA").val(),
+                        filterFecha: $("#filterFecha").val(),
+                        orden: orderBy,
+                        direccion: sortOrder
+                    },
+                    success: function (response) {
+                        $("#tbDatos").empty();
+                        try {
+                            const data = JSON.parse(response);
+                            if (data.facturas && data.facturas.length > 0) {
+                                data.facturas.forEach(factura => {
+                                    let row = `
+                                        <tr>
+                                            <td>${factura.nro_factura}</td>
+                                            <td>${factura.emisor}</td>
+                                            <td>${factura.receptor}</td>
+                                            <td>${factura.monto}</td>
+                                            <td>${factura.descripcion}</td>
+                                            <td>${factura.iva}</td>
+                                            <td>${factura.total}</td>
+                                            <td>${factura.tipo_factura}</td>
+                                            <td>${factura.fecha}</td>
+                                        </tr>`;
+                                    $("#tbDatos").append(row);
+                                });
+                                $("#totalRegistros").html(`Total de Facturas: ${data.facturas.length}`);
+                            } else {
+                                $("#tbDatos").html("<tr><td colspan='9'>No se encontraron resultados.</td></tr>");
+                            }
+                        } catch (e) {
+                            console.error("Error al procesar el JSON: ", e);
+                            alert("Error al procesar los datos del servidor.");
+                        }
+                    },
+                    error: function () {
+                        $("#tbDatos").empty();
+                        alert("Error al cargar los datos");
+                    }
+                });
+            }
+
+            // Al hacer clic en las cabeceras de la tabla para ordenar
+            $("th").click(function () {
+                orderBy = $(this).data("column"); // Obtener el nombre de la columna
+                $("#order").val($(this).text());  // Mostrar el nombre de la columna en el input de orden
+                sortOrder = (sortOrder === "ASC") ? "DESC" : "ASC"; // Alternar entre ASC y DESC
+                cargaTabla(); // Cargar tabla con nueva ordenación
+            });
+
+            // Cargar facturas cuando se haga clic en el botón de carga
+            $("#cargar").click(function () {
+                cargaTabla();
+            });
+
+            // Vaciar filtros y la tabla
+            $("#vaciar").click(function () {
+                $("#filterNroFactura").val('');
+                $("#filterEmisor").val('');
+                $("#filterReceptor").val('');
+                $("#filterMonto").val('');
+                $("#filterDescripcion").val('');
+                $("#filterIVA").val('');
+                $("#filterTotal").val('');
+                $("#filterTipo").val('');
+                $("#filterFecha").val('');
+                $("#tbDatos").empty();
+                $("#totalRegistros").text('');
+            });
+
+            // Alta de factura (redireccionar a página de alta)
+            $("#altaFactura").click(function () {
+                window.location.href = "altaFactura.php";
+            });
+        });
+    </script>
+</body>
+</html>
+
