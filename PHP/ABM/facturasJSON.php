@@ -36,7 +36,7 @@ try {
     }
 
     // Construcción de la consulta con filtros
-    $sql = "SELECT * FROM facturas";
+    $sql = "SELECT * FROM factura";
     if (!empty($where)) {
         $sql .= " WHERE " . implode(" AND ", $where);
     }
