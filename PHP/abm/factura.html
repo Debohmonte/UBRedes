@@ -170,7 +170,7 @@
         }
 
         // Abrir el modal para crear una nueva factura
-        openAltaModalBtn.onclick = function() {
+        document.getElementById('btAltaRegistro').onclick = function() {
             document.getElementById('modalTitle').textContent = "Crear nueva Factura";
             document.getElementById('formFactura').reset();  // Limpiar el formulario
             document.getElementById('formFactura').action = "alta_factura.php";  // Acción para crear nueva
@@ -178,7 +178,7 @@
         }
 
         // Cerrar el modal
-        closeAltaModalBtn.onclick = function() {
+        document.getElementById('closeAltaModal').onclick = function() {
             altaModal.style.display = "none";
         }
 
@@ -187,6 +187,23 @@
                 altaModal.style.display = "none";
             }
         }
+
+        // Agregar eventos de input a los filtros
+        document.querySelectorAll('thead input, thead select').forEach(input => {
+            input.addEventListener('input', function() {
+                document.getElementById('btCargarDatos').click();  // Recargar los datos al cambiar un filtro
+            });
+        });
+
+        // Limpiar filtros
+        document.getElementById('btLimpiarFiltros').addEventListener('click', function() {
+            document.querySelectorAll('thead input, thead select').forEach(input => input.value = '');
+        });
+
+        // Vaciar datos
+        document.getElementById('btVaciarDatos').addEventListener('click', function() {
+            document.querySelector('#data-table tbody').innerHTML = ''; // Limpiar tabla
+        });
     </script>
 </body>
 </html>
