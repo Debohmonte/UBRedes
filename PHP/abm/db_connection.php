@@ -1,16 +1,17 @@
 <?php
-// Database connection
-$host = 'localhost';     // Database host (usually localhost)
-$dbname = 'c2660848_UBRedes';  // Database name
-$username = 'root';      // Database username
-$password = '';          // Database password (leave blank if no password)
+// Database connection settings
+$dbhost = 'localhost';
+$dbuser = 'c2660848_UBRedes';
+$dbpass = 'po06kiSOto';
+$dbname = 'c2660848_UBRedes';
 
-// PDO connection
-try {
-    $dbh = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-    // Enable exceptions for errors
-    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Error: " . $e->getMessage());
+// Create connection
+$conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
+
+// Check connection
+if (!$conn) {
+    die("Error de conexión: " . mysqli_connect_error());
 }
+
+// Connection successful
 ?>
