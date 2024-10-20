@@ -1,8 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 require_once 'db_connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -16,15 +12,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $descripcion = $_POST['descripcion'];
     $fecha = $_POST['fecha'];
 
+    // Handle PDF upload
+    $pdf_path = null;
+    if (!empty($_FILES['pdf_file']['name'])) {
+        $upload_dir = 'uploads/';
+        $pdf_filename = basename($_FILES['pdf_file']['name']);
+        $target_file = $upload_dir . $pdf_filename;
+
+        if (move_uploaded_file($_FILES['pdf_file']['tmp_name'], $target_file)) {
+            $pdf_path = $target_file;  // Save the file path to store in the DB
+        }
+    }
+
     // Insert data into the database
-    $sql = "INSERT INTO factura (nro_factura, cuil_emisor, cuil_receptor, monto, iva, total, descripcion, fecha)
-            VALUES ('$nro_factura', '$cuil_emisor', '$cuil_receptor', '$monto', '$iva', '$total', '$descripcion', '$fecha')";
+    $sql = "INSERT INTO factura (nro_factura, cuil_emisor, cuil_receptor, monto, iva, total, descripcion, fecha, pdf_path)
+            VALUES ('$nro_factura', '$cuil_emisor', '$cuil_receptor', '$monto', '$iva', '$total', '$descripcion', '$fecha', '$pdf_path')";
 
     if (mysqli_query($conn, $sql)) {
-        // Perform the redirect before any output
         header("Location: factura.html");
-        exit(); // Ensure the script stops here to avoid any output
+        exit();
     } else {
         echo "Error al insertar la factura: " . mysqli_error($conn);
     }
 }
+?>
