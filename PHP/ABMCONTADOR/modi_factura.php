@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sql = "UPDATE factura SET nro_factura='$nro_factura', cuil_emisor='$cuil_emisor', cuil_receptor='$cuil_receptor', monto='$monto', iva='$iva',  descripcion='$descripcion', fecha='$fecha' WHERE id='$id_factura'";
 
     if (mysqli_query($conn, $sql)) {
-        header("Location: factura.html"); // Redirect to factura.html
+        header("Location: factura.html"); 
         exit();
     } else {
         echo "Error: " . mysqli_error($conn);

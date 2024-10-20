@@ -18,8 +18,7 @@ if ($result->num_rows > 0) {
     }
     echo json_encode($facturas);
 } else {
-    echo json_encode([]);  // Devuelve un array vacío si no hay registros
-}
+    echo json_encode([]);  //aaray vacio si no hay facturas
 
 mysqli_close($conn);
 ?>
