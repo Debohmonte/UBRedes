@@ -10,7 +10,7 @@ $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
 
 // VALIDA CONEXION
 if (!$conn) {
-    die("Conexion fallida: " . mysqli_connect_error());
+    die(json_encode(["error" => "Conexion fallida: " . mysqli_connect_error()]));
 }
 
 // OBTENER DATOS DEL FORMULARIO

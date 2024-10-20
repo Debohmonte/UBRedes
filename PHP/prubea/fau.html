@@ -4,72 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./rosastyle.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <title>Lista de Facturas</title>
+    <title>Alta de Factura - Ventana Modal</title>
+    <style>
+        /* Estilos para el modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semitransparente */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 400px;
+        }
+
+        .desactivado {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+    </style>
 </head>
 <body>
-    <div class="head">
-        <header>
-            <h3>Facturas</h3>
-        </header>
-        <div class="command">
-            <p>Ordenar por:</p>
-            <input type="text" id="filterNroFactura" placeholder="Nro de Factura, Emisor, etc.">
-            <button id="cargar">Cargar Facturas</button>
-            <button id="vaciar">Vaciar Filtros</button>
-            <button id="altaFacturaBtn">Alta Factura</button> <!-- Botón para abrir la ventana modal -->
-        </div>
+    <div id="contenedor">
+        <h2>Alta de Factura</h2>
+        <button id="abrirModal">Abrir Modal</button>
+        <!-- Tu tabla de facturas iría aquí -->
     </div>
 
-    <table style="width: 100%;">
-        <thead>
-            <tr>
-                <th>Nro Factura</th>
-                <th>Emisor</th>
-                <th>Receptor</th>
-                <th>Monto</th>
-                <th>Descripción</th>
-                <th>IVA</th>
-                <th>Total</th>
-                <th>Tipo de Factura</th>
-                <th>Fecha</th>
-            </tr>
-            <tr id="FiltrosTR">
-                <td><input type="text" id="filterNroFactura" placeholder="Número de Factura"></td>
-                <td><input type="text" id="filterEmisor" placeholder="Emisor"></td>
-                <td><input type="text" id="filterReceptor" placeholder="Receptor"></td>
-                <td><input type="text" id="filterMonto" placeholder="Monto"></td>
-                <td><input type="text" id="filterDescripcion" placeholder="Descripción"></td>
-                <td>
-                    <select id="filterIVA">
-                        <option value="">Seleccionar IVA</option>
-                        <option value="10.50">10%</option>
-                        <option value="21">21%</option>
-                    </select>
-                </td>
-                <td><input type="text" id="filterTotal" placeholder="Total" disabled></td>
-                <td><input type="text" id="filterTipo" placeholder="Tipo de Factura"></td>
-                <td><input type="date" id="filterFecha" placeholder="Fecha"></td>
-            </tr>
-        </thead>
-        <tbody id="tbDatos"></tbody>
-        <tfoot>
-            <tr>
-                <td colspan="9"><span id="totalRegistros"></span></td>
-            </tr>
-        </tfoot>
-    </table>
-
-    <footer>© Facturas System</footer>
-
-    <!-- Ventana Modal para Alta de Factura -->
-    <div id="modalAltaFactura" style="display:none;">
+    <!-- Ventana Modal -->
+    <div id="ventanaModal" class="modal">
         <div class="modal-content">
-            <h2>Alta de Factura</h2>
+            <h2>Agregar Nueva Factura</h2>
             <form id="altaFacturaForm">
                 <label for="nro_factura">Número de Factura:</label>
                 <input type="text" id="nro_factura" name="nro_factura" required><br><br>
-                
+
                 <label for="emisor">Emisor:</label>
                 <input type="text" id="emisor" name="emisor" required><br><br>
 
@@ -77,7 +55,7 @@
                 <input type="text" id="receptor" name="receptor" required><br><br>
 
                 <label for="monto">Monto:</label>
-                <input type="text" id="monto" name="monto" required><br><br>
+                <input type="number" id="monto" name="monto" required><br><br>
 
                 <label for="descripcion">Descripción:</label>
                 <input type="text" id="descripcion" name="descripcion"><br><br>
@@ -92,104 +70,65 @@
                 <input type="date" id="fecha" name="fecha" required><br><br>
 
                 <button type="submit">Guardar</button>
-                <button type="button" id="cerrarModal">Cancelar</button>
+                <button type="button" id="cerrarModal">Cerrar</button>
             </form>
         </div>
     </div>
 
     <script>
-        $(document).ready(function () {
-            // Mostrar la ventana modal cuando se hace clic en "Alta Factura"
-            $("#altaFacturaBtn").click(function () {
-                $("#modalAltaFactura").show();
-            });
+        // Obtener elementos del DOM
+        var modal = document.getElementById("ventanaModal");
+        var abrirModalBtn = document.getElementById("abrirModal");
+        var cerrarModalBtn = document.getElementById("cerrarModal");
+        var contenedor = document.getElementById("contenedor");
 
-            // Cerrar la ventana modal
-            $("#cerrarModal").click(function () {
-                $("#modalAltaFactura").hide();
-            });
+        // Abrir la ventana modal
+        abrirModalBtn.onclick = function() {
+            modal.style.display = "flex"; // Mostrar el modal
+            contenedor.classList.add("desactivado"); // Desactivar fondo
+        }
 
-            // Procesar el formulario de alta factura
-            $("#altaFacturaForm").submit(function (event) {
-                event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+        // Cerrar la ventana modal
+        cerrarModalBtn.onclick = function() {
+            modal.style.display = "none"; // Ocultar el modal
+            contenedor.classList.remove("desactivado"); // Reactivar fondo
+        }
 
-                $.ajax({
-                    type: "POST",
-                    url: "./altafactura.php",
-                    data: $(this).serialize(), // Enviar todos los datos del formulario
-                    success: function (response) {
-                        alert("Factura añadida correctamente");
-                        $("#modalAltaFactura").hide();
-                        cargaTabla(); // Recargar la tabla de facturas después de agregar una nueva
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("Error en la solicitud AJAX:", error);
-                        alert("Hubo un error al agregar la factura.");
-                    }
-                });
-            });
-
-            // Función para cargar los datos de las facturas
-            function cargaTabla() {
-                $.ajax({
-                    type: "GET",
-                    url: "./facturasJSON.php",
-                    data: {
-                        filterNroFactura: $("#filterNroFactura").val(),
-                        filterEmisor: $("#filterEmisor").val(),
-                        filterReceptor: $("#filterReceptor").val(),
-                        filterMonto: $("#filterMonto").val(),
-                        filterDescripcion: $("#filterDescripcion").val(),
-                        filterIVA: $("#filterIVA").val(),
-                        filterFecha: $("#filterFecha").val()
-                    },
-                    success: function (response) {
-                        $("#tbDatos").empty(); // Limpiar la tabla antes de cargar nuevos datos
-
-                        if (response.facturas && response.facturas.length > 0) {
-                            response.facturas.forEach(function (factura) {
-                                let row = `
-                                    <tr>
-                                        <td>${factura.nro_factura}</td>
-                                        <td>${factura.cuil_emisor}</td>
-                                        <td>${factura.cuil_receptor}</td>
-                                        <td>${factura.monto}</td>
-                                        <td>${factura.descripcion}</td>
-                                        <td>${factura.iva}</td>
-                                        <td>${factura.total}</td>
-                                        <td>${factura.tipo_id}</td>
-                                        <td>${factura.fecha}</td>
-                                    </tr>`;
-                                $("#tbDatos").append(row);
-                            });
-                        } else {
-                            $("#tbDatos").html("<tr><td colspan='9'>No se encontraron resultados.</td></tr>");
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("Error en la solicitud AJAX:", error);
-                        alert("Hubo un error al cargar las facturas.");
-                    }
-                });
+        // Cerrar modal al hacer clic fuera del contenido
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none"; // Ocultar modal
+                contenedor.classList.remove("desactivado"); // Reactivar fondo
             }
+        }
 
-            // Botón para cargar los datos
-            $("#cargar").click(function () {
-                cargaTabla();
-            });
+        // Procesar el formulario
+        document.getElementById('altaFacturaForm').onsubmit = function(event) {
+            event.preventDefault(); // Prevenir el envío por defecto
 
-            // Botón para vaciar los filtros
-            $("#vaciar").click(function () {
-                $("#filterNroFactura").val('');
-                $("#filterEmisor").val('');
-                $("#filterReceptor").val('');
-                $("#filterMonto").val('');
-                $("#filterDescripcion").val('');
-                $("#filterIVA").val('');
-                $("#filterFecha").val('');
-                $("#tbDatos").empty();
+            // Crear la solicitud AJAX para enviar los datos
+            var formData = new FormData(this);
+
+            fetch('./altafactura.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Factura añadida correctamente.");
+                    modal.style.display = "none"; // Cerrar el modal
+                    contenedor.classList.remove("desactivado"); // Reactivar fondo
+                    // Aquí puedes recargar la tabla o actualizar el contenido
+                } else {
+                    alert("Error al añadir factura: " + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Hubo un problema con la solicitud.");
             });
-        });
+        }
     </script>
 </body>
 </html>
