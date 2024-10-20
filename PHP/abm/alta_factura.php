@@ -7,12 +7,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $cuil_receptor = mysqli_real_escape_string($conn, $_POST['cuil_receptor']);
     $monto = mysqli_real_escape_string($conn, $_POST['monto']);
     $iva = mysqli_real_escape_string($conn, $_POST['iva']);
-    $total = mysqli_real_escape_string($conn, $_POST['total']);
+
     $descripcion = mysqli_real_escape_string($conn, $_POST['descripcion']);
     $fecha = mysqli_real_escape_string($conn, $_POST['fecha']);
 
-    $sql = "INSERT INTO factura (nro_factura, cuil_emisor, cuil_receptor, monto, iva, total, descripcion, fecha)
-            VALUES ('$nro_factura', '$cuil_emisor', '$cuil_receptor', '$monto', '$iva', '$total', '$descripcion', '$fecha')";
+    $sql = "INSERT INTO factura (nro_factura, cuil_emisor, cuil_receptor, monto, iva,  descripcion, fecha)
+            VALUES ('$nro_factura', '$cuil_emisor', '$cuil_receptor', '$monto', '$iva', '$descripcion', '$fecha')";
 
     if (mysqli_query($conn, $sql)) {
         header("Location: factura.html");

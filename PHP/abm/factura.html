@@ -48,7 +48,6 @@
                         <th data-column="cuil_receptor">CUIL Receptor</th>
                         <th data-column="monto">Monto</th>
                         <th data-column="iva">IVA</th>
-                        <th data-column="total">Total</th>
                         <th data-column="descripcion">Descripción</th>
                         <th data-column="fecha">Fecha</th>
                         <th>Modificar</th>
@@ -66,7 +65,6 @@
                                 <option value="21.00">21.00</option>
                             </select>
                         </td>
-                        <td><input type="number" id="filter_total" placeholder="Total"></td>
                         <td><input type="text" id="filter_descripcion" placeholder="Descripción"></td>
                         <td><input type="date" id="filter_fecha" placeholder="Fecha"></td>
                     </tr>
@@ -93,12 +91,12 @@
                 <input type="text" id="cuil_receptor" name="cuil_receptor" required>
                 <label for="monto">Monto</label>
                 <input type="number" id="monto" name="monto" required>
+                <label for="iva">IVA</label>
+                <!-- Campo IVA convertido en desplegable -->
                 <select id="iva" name="iva" required>
                     <option value="10.50">10.50</option>
                     <option value="21.00">21.00</option>
-                <input type="number" id="iva" name="iva" required>
-                <label for="total">Total</label>
-                <input type="number" id="total" name="total" required>
+                </select>
                 <label for="descripcion">Descripción</label>
                 <input type="text" id="descripcion" name="descripcion" required>
                 <label for="fecha">Fecha</label>
@@ -128,7 +126,6 @@
                                     <td>${item.cuil_receptor}</td>
                                     <td>${item.monto}</td>
                                     <td>${item.iva}</td>
-                                    <td>${item.total}</td>
                                     <td>${item.descripcion}</td>
                                     <td>${item.fecha}</td>
                                     <td><button onclick='modificarFactura(${JSON.stringify(item)})'>Modificar</button></td>
@@ -150,7 +147,6 @@
                 cuil_receptor: document.getElementById('filter_cuil_receptor').value.toLowerCase(),
                 monto: document.getElementById('filter_monto').value,
                 iva: document.getElementById('filter_iva').value,
-                total: document.getElementById('filter_total').value,
                 descripcion: document.getElementById('filter_descripcion').value.toLowerCase(),
                 fecha: document.getElementById('filter_fecha').value
             };
@@ -161,7 +157,6 @@
                     (!filters.cuil_receptor || item.cuil_receptor.toLowerCase().includes(filters.cuil_receptor)) &&
                     (!filters.monto || item.monto == filters.monto) &&
                     (!filters.iva || item.iva == filters.iva) &&
-                    (!filters.total || item.total == filters.total) &&
                     (!filters.descripcion || item.descripcion.toLowerCase().includes(filters.descripcion)) &&
                     (!filters.fecha || item.fecha == filters.fecha);
             });
@@ -214,7 +209,6 @@
             document.getElementById('cuil_receptor').value = item.cuil_receptor;
             document.getElementById('monto').value = item.monto;
             document.getElementById('iva').value = item.iva;
-            document.getElementById('total').value = item.total;
             document.getElementById('descripcion').value = item.descripcion;
             document.getElementById('fecha').value = item.fecha;
         }
