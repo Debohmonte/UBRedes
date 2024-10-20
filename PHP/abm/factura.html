@@ -13,6 +13,7 @@
         button { background-color: lightgray; border: 1px solid black; height: 50px; width: 150px; cursor: pointer; }
         button:hover { background-color: #ddd; }
         .container { background-color: beige; padding: 10px; margin-top: 100px; margin-bottom: 50px; }
+        .table-container { max-height: 300px; overflow-y: auto; } /* Añadido para barra de desplazamiento */
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         table, th, td { border: 1px solid #ddd; }
         th, td { padding: 12px; text-align: center; cursor: pointer; }
@@ -38,39 +39,41 @@
     </header>
 
     <div class="container">
-        <table id="data-table">
-            <thead>
-                <tr>
-                    <th data-column="nro_factura">Número Factura</th>
-                    <th data-column="cuil_emisor">CUIL Emisor</th>
-                    <th data-column="cuil_receptor">CUIL Receptor</th>
-                    <th data-column="monto">Monto</th>
-                    <th data-column="iva">IVA</th>
-                    <th data-column="total">Total</th>
-                    <th data-column="descripcion">Descripción</th>
-                    <th data-column="fecha">Fecha</th>
-                    <th>Modificar</th>
-                    <th>Eliminar</th>
-                </tr>
-                <tr>
-                    <td><input type="text" id="filter_nro_factura" placeholder="Número de Factura"></td>
-                    <td><input type="text" id="filter_cuil_emisor" placeholder="Emisor"></td>
-                    <td><input type="text" id="filter_cuil_receptor" placeholder="Receptor"></td>
-                    <td><input type="number" id="filter_monto" placeholder="Monto"></td>
-                    <td>
-                        <select id="filter_iva">
-                            <option value="">IVA</option>
-                            <option value="10.50">10.50</option>
-                            <option value="21.00">21.00</option>
-                        </select>
-                    </td>
-                    <td><input type="number" id="filter_total" placeholder="Total"></td>
-                    <td><input type="text" id="filter_descripcion" placeholder="Descripción"></td>
-                    <td><input type="date" id="filter_fecha" placeholder="Fecha"></td>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+        <div class="table-container">
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th data-column="nro_factura">Número Factura</th>
+                        <th data-column="cuil_emisor">CUIL Emisor</th>
+                        <th data-column="cuil_receptor">CUIL Receptor</th>
+                        <th data-column="monto">Monto</th>
+                        <th data-column="iva">IVA</th>
+                        <th data-column="total">Total</th>
+                        <th data-column="descripcion">Descripción</th>
+                        <th data-column="fecha">Fecha</th>
+                        <th>Modificar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="filter_nro_factura" placeholder="Número de Factura"></td>
+                        <td><input type="text" id="filter_cuil_emisor" placeholder="Emisor"></td>
+                        <td><input type="text" id="filter_cuil_receptor" placeholder="Receptor"></td>
+                        <td><input type="number" id="filter_monto" placeholder="Monto"></td>
+                        <td>
+                            <select id="filter_iva">
+                                <option value="">IVA</option>
+                                <option value="10.50">10.50</option>
+                                <option value="21.00">21.00</option>
+                            </select>
+                        </td>
+                        <td><input type="number" id="filter_total" placeholder="Total"></td>
+                        <td><input type="text" id="filter_descripcion" placeholder="Descripción"></td>
+                        <td><input type="date" id="filter_fecha" placeholder="Fecha"></td>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
     </div>
 
     <footer>© 2024 Gestión de Facturas</footer>
@@ -104,31 +107,6 @@
     </div>
 
     <script>
-        // Función para aplicar los filtros
-        function applyFilters(data) {
-            const filters = {
-                nro_factura: document.getElementById('filter_nro_factura').value.toLowerCase(),
-                cuil_emisor: document.getElementById('filter_cuil_emisor').value.toLowerCase(),
-                cuil_receptor: document.getElementById('filter_cuil_receptor').value.toLowerCase(),
-                monto: document.getElementById('filter_monto').value,
-                iva: document.getElementById('filter_iva').value,
-                total: document.getElementById('filter_total').value,
-                descripcion: document.getElementById('filter_descripcion').value.toLowerCase(),
-                fecha: document.getElementById('filter_fecha').value
-            };
-
-            return data.filter(item => {
-                return (!filters.nro_factura || item.nro_factura.toLowerCase().includes(filters.nro_factura)) &&
-                    (!filters.cuil_emisor || item.cuil_emisor.toLowerCase().includes(filters.cuil_emisor)) &&
-                    (!filters.cuil_receptor || item.cuil_receptor.toLowerCase().includes(filters.cuil_receptor)) &&
-                    (!filters.monto || item.monto == filters.monto) &&
-                    (!filters.iva || item.iva == filters.iva) &&
-                    (!filters.total || item.total == filters.total) &&
-                    (!filters.descripcion || item.descripcion.toLowerCase().includes(filters.descripcion)) &&
-                    (!filters.fecha || item.fecha == filters.fecha);
-            });
-        }
-
         // Cargar datos
         document.getElementById('btCargarDatos').addEventListener('click', function() {
             const orden = document.getElementById('orden').value;
@@ -159,6 +137,50 @@
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
+            });
+        });
+
+        // Función para aplicar los filtros
+        function applyFilters(data) {
+            const filters = {
+                nro_factura: document.getElementById('filter_nro_factura').value.toLowerCase(),
+                cuil_emisor: document.getElementById('filter_cuil_emisor').value.toLowerCase(),
+                cuil_receptor: document.getElementById('filter_cuil_receptor').value.toLowerCase(),
+                monto: document.getElementById('filter_monto').value,
+                iva: document.getElementById('filter_iva').value,
+                total: document.getElementById('filter_total').value,
+                descripcion: document.getElementById('filter_descripcion').value.toLowerCase(),
+                fecha: document.getElementById('filter_fecha').value
+            };
+
+            return data.filter(item => {
+                return (!filters.nro_factura || item.nro_factura.toLowerCase().includes(filters.nro_factura)) &&
+                    (!filters.cuil_emisor || item.cuil_emisor.toLowerCase().includes(filters.cuil_emisor)) &&
+                    (!filters.cuil_receptor || item.cuil_receptor.toLowerCase().includes(filters.cuil_receptor)) &&
+                    (!filters.monto || item.monto == filters.monto) &&
+                    (!filters.iva || item.iva == filters.iva) &&
+                    (!filters.total || item.total == filters.total) &&
+                    (!filters.descripcion || item.descripcion.toLowerCase().includes(filters.descripcion)) &&
+                    (!filters.fecha || item.fecha == filters.fecha);
+            });
+        }
+
+        // Ordenar datos al hacer clic en el encabezado
+        document.querySelectorAll('thead th[data-column]').forEach(th => {
+            th.addEventListener('click', function() {
+                const column = th.getAttribute('data-column');
+                const currentOrder = document.getElementById('orden').value;
+                const currentDirection = document.getElementById('orden_direccion').value;
+
+                // Cambiar la dirección de la ordenación
+                if (currentOrder === column) {
+                    document.getElementById('orden_direccion').value = currentDirection === 'asc' ? 'desc' : 'asc';
+                } else {
+                    document.getElementById('orden').value = column;
+                    document.getElementById('orden_direccion').value = 'asc';
+                }
+
+                document.getElementById('btCargarDatos').click();  // Recargar datos con la nueva orden
             });
         });
 
