@@ -13,7 +13,7 @@
         button { background-color: lightgray; border: 1px solid black; height: 50px; width: 150px; cursor: pointer; }
         button:hover { background-color: #ddd; }
         .container { background-color: beige; padding: 10px; margin-top: 100px; margin-bottom: 50px; }
-        .table-container { max-height: 300px; overflow-y: auto; } /* Añadido para barra de desplazamiento */
+        .table-container { max-height: 500px; overflow-y: auto; } /* Aumentar la altura a 500px para más espacio */
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         table, th, td { border: 1px solid #ddd; }
         th, td { padding: 12px; text-align: center; cursor: pointer; }
@@ -94,7 +94,12 @@
                 <label for="monto">Monto</label>
                 <input type="number" id="monto" name="monto" required>
                 <label for="iva">IVA</label>
-                <input type="number" id="iva" name="iva" required>
+                <!-- Campo IVA convertido en desplegable -->
+                <select id="iva" name="iva" required>
+                    <option value="0">0</option>
+                    <option value="10.50">10.50</option>
+                    <option value="21.00">21.00</option>
+                </select>
                 <label for="total">Total</label>
                 <input type="number" id="total" name="total" required>
                 <label for="descripcion">Descripción</label>
@@ -137,50 +142,6 @@
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
-            });
-        });
-
-        // Función para aplicar los filtros
-        function applyFilters(data) {
-            const filters = {
-                nro_factura: document.getElementById('filter_nro_factura').value.toLowerCase(),
-                cuil_emisor: document.getElementById('filter_cuil_emisor').value.toLowerCase(),
-                cuil_receptor: document.getElementById('filter_cuil_receptor').value.toLowerCase(),
-                monto: document.getElementById('filter_monto').value,
-                iva: document.getElementById('filter_iva').value,
-                total: document.getElementById('filter_total').value,
-                descripcion: document.getElementById('filter_descripcion').value.toLowerCase(),
-                fecha: document.getElementById('filter_fecha').value
-            };
-
-            return data.filter(item => {
-                return (!filters.nro_factura || item.nro_factura.toLowerCase().includes(filters.nro_factura)) &&
-                    (!filters.cuil_emisor || item.cuil_emisor.toLowerCase().includes(filters.cuil_emisor)) &&
-                    (!filters.cuil_receptor || item.cuil_receptor.toLowerCase().includes(filters.cuil_receptor)) &&
-                    (!filters.monto || item.monto == filters.monto) &&
-                    (!filters.iva || item.iva == filters.iva) &&
-                    (!filters.total || item.total == filters.total) &&
-                    (!filters.descripcion || item.descripcion.toLowerCase().includes(filters.descripcion)) &&
-                    (!filters.fecha || item.fecha == filters.fecha);
-            });
-        }
-
-        // Ordenar datos al hacer clic en el encabezado
-        document.querySelectorAll('thead th[data-column]').forEach(th => {
-            th.addEventListener('click', function() {
-                const column = th.getAttribute('data-column');
-                const currentOrder = document.getElementById('orden').value;
-                const currentDirection = document.getElementById('orden_direccion').value;
-
-                // Cambiar la dirección de la ordenación
-                if (currentOrder === column) {
-                    document.getElementById('orden_direccion').value = currentDirection === 'asc' ? 'desc' : 'asc';
-                } else {
-                    document.getElementById('orden').value = column;
-                    document.getElementById('orden_direccion').value = 'asc';
-                }
-
-                document.getElementById('btCargarDatos').click();  // Recargar datos con la nueva orden
             });
         });
 
