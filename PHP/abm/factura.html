@@ -35,7 +35,7 @@
             <h1 style="margin-right: auto;">Facturas</h1>
             <label for="orden">Orden:</label>
             <input type="text" id="orden" name="orden" value="fecha" readonly>
-            <input type="hidden" id="orden_direccion" value="asc"> <!-- Keeps track of sorting direction -->
+            <input type="hidden" id="orden_direccion" value="asc">
             <button id="btCargarDatos">Cargar datos</button>
             <button id="btVaciarDatos">Vaciar datos</button>
             <button id="btLimpiarFiltros">Limpiar filtros</button>
@@ -53,8 +53,9 @@
                     <th data-column="total">Total</th>
                     <th data-column="descripcion">Descripción</th>
                     <th data-column="fecha">Fecha</th>
+                    <th>Eliminar</th> <!-- Nueva columna para el botón de borrado -->
                 </tr>
-                <!-- Row for filters -->
+                <!-- Fila de filtros -->
                 <tr>
                     <td><input type="text" id="filter_nro_factura" placeholder="Número de Factura"></td>
                     <td><input type="text" id="filter_cuil_emisor" placeholder="Emisor"></td>
@@ -78,99 +79,34 @@
 
     <footer></footer>
 
-    <!-- Alta Modal -->
-    <div id="altaModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeAltaModal">&times;</span>
-            <h2>Crear Nueva Factura</h2>
-            <form id="formAlta" method="POST" action="alta_factura.php">
-                <label for="nro_factura">Número Factura</label>
-                <input type="text" id="nro_factura" name="nro_factura" required>
-
-                <label for="cuil_emisor">CUIL Emisor</label>
-                <input type="text" id="cuil_emisor" name="cuil_emisor" required>
-
-                <label for="cuil_receptor">CUIL Receptor</label>
-                <input type="text" id="cuil_receptor" name="cuil_receptor" required>
-
-                <label for="monto">Monto</label>
-                <input type="number" id="monto" name="monto" required min="0" step="0.01">
-
-                <label for="iva">IVA</label>
-                <input type="number" id="iva" name="iva" required min="0" step="0.01">
-
-                <label for="total">Total</label>
-                <input type="number" id="total" name="total" required min="0" step="0.01">
-
-                <label for="descripcion">Descripción de Factura</label>
-                <input type="text" id="descripcion" name="descripcion" required>
-
-                <label for="fecha">Fecha</label>
-                <input type="date" id="fecha" name="fecha" required>
-
-                <button type="submit">Guardar Factura</button>
-            </form>
-        </div>
-    </div>
-
     <script>
-        var altaModal = document.getElementById("altaModal");
-        var openAltaModalBtn = document.getElementById("btAltaRegistro");
-        var closeAltaModalBtn = document.getElementById("closeAltaModal");
-
-        openAltaModalBtn.onclick = function() {
-            altaModal.style.display = "block";
-        }
-        closeAltaModalBtn.onclick = function() {
-            altaModal.style.display = "none";
-        }
-        window.onclick = function(event) {
-            if (event.target == altaModal) {
-                altaModal.style.display = "none";
+        // Función para eliminar facturas
+        function eliminarFactura(id) {
+            if (confirm("¿Estás seguro de que deseas eliminar esta factura?")) {
+                fetch(`baja_factura.php?id=${id}`, { method: 'GET' })
+                .then(response => response.text())
+                .then(message => {
+                    alert(message);  // Mostrar el mensaje de éxito o error
+                    document.getElementById('btCargarDatos').click();  // Recargar los datos
+                })
+                .catch(error => {
+                    console.error('Error deleting factura:', error);
+                });
             }
-        }
-
-        // Function to apply filters based on the user's input
-        function applyFilters(data) {
-            const filters = {
-                nro_factura: document.getElementById('filter_nro_factura').value.toLowerCase(),
-                cuil_emisor: document.getElementById('filter_cuil_emisor').value.toLowerCase(),
-                cuil_receptor: document.getElementById('filter_cuil_receptor').value.toLowerCase(),
-                monto: document.getElementById('filter_monto').value.toLowerCase(),
-                iva: document.getElementById('filter_iva').value,
-                total: document.getElementById('filter_total').value.toLowerCase(),
-                descripcion: document.getElementById('filter_descripcion').value.toLowerCase(),
-                fecha: document.getElementById('filter_fecha').value
-            };
-
-            const filteredData = data.filter(item => {
-                return (
-                    (!filters.nro_factura || item.nro_factura.toLowerCase().includes(filters.nro_factura)) &&
-                    (!filters.cuil_emisor || item.cuil_emisor.toLowerCase().includes(filters.cuil_emisor)) &&
-                    (!filters.cuil_receptor || item.cuil_receptor.toLowerCase().includes(filters.cuil_receptor)) &&
-                    (!filters.monto || item.monto.includes(filters.monto)) &&
-                    (!filters.iva || item.iva == filters.iva) &&
-                    (!filters.total || item.total.includes(filters.total)) &&
-                    (!filters.descripcion || item.descripcion.toLowerCase().includes(filters.descripcion)) &&
-                    (!filters.fecha || item.fecha == filters.fecha)
-                );
-            });
-
-            return filteredData;
         }
 
         // Cargar datos
         document.getElementById('btCargarDatos').addEventListener('click', function() {
-            const orden = document.getElementById('orden').value;  // Get the current order
-            const ordenDireccion = document.getElementById('orden_direccion').value;  // Get current sorting direction
+            const orden = document.getElementById('orden').value;
+            const ordenDireccion = document.getElementById('orden_direccion').value;
 
             fetch(`cargar_datos.php?orden=${orden}&direccion=${ordenDireccion}`, { method: 'GET' })
             .then(response => response.json())
             .then(data => {
-                const filteredData = applyFilters(data);  // Apply filters
                 const tableBody = document.querySelector('#data-table tbody');
-                tableBody.innerHTML = '';  // Clear previous data
-                filteredData.forEach(item => {
+                tableBody.innerHTML = '';  // Limpiar datos anteriores
+
+                data.forEach(item => {
                     const row = `<tr>
                                     <td>${item.nro_factura}</td>
                                     <td>${item.cuil_emisor}</td>
@@ -180,6 +116,7 @@
                                     <td>${item.total}</td>
                                     <td>${item.descripcion}</td>
                                     <td>${item.fecha}</td>
+                                    <td><button onclick="eliminarFactura(${item.id})">Borrar</button></td>
                                 </tr>`;
                     tableBody.innerHTML += row;
                 });
@@ -189,41 +126,32 @@
             });
         });
 
-        // Add event listeners to table headers for ordering
+        // Agregar eventos de ordenamiento a los encabezados
         document.querySelectorAll('thead th').forEach(th => {
             th.addEventListener('click', function() {
                 const column = th.getAttribute('data-column');
                 const currentOrder = document.getElementById('orden').value;
                 const currentDirection = document.getElementById('orden_direccion').value;
 
-                // Toggle the sorting direction based on current settings
                 if (currentOrder === column) {
                     document.getElementById('orden_direccion').value = currentDirection === 'asc' ? 'desc' : 'asc';
                 } else {
                     document.getElementById('orden').value = column;
-                    document.getElementById('orden_direccion').value = 'asc';  // Default to ascending
+                    document.getElementById('orden_direccion').value = 'asc';
                 }
 
-                document.getElementById('btCargarDatos').click();  // Reload data with new order
+                document.getElementById('btCargarDatos').click();  // Recargar datos
             });
-        });
-
-        // Event listeners for filter input fields
-        const filterInputs = document.querySelectorAll('thead input, thead select');
-        filterInputs.forEach(input => {
-            input.addEventListener('input', function() {
-                document.getElementById('btCargarDatos').click();  // Reapply filters on data
-            });
-        });
-
-        // Vaciar datos
-        document.getElementById('btVaciarDatos').addEventListener('click', function() {
-            document.querySelector('#data-table tbody').innerHTML = ''; // Clear table data
         });
 
         // Limpiar filtros
         document.getElementById('btLimpiarFiltros').addEventListener('click', function() {
-            document.querySelectorAll('thead input, thead select').forEach(input => input.value = '');  // Reset all filters
+            document.querySelectorAll('thead input, thead select').forEach(input => input.value = '');
+        });
+
+        // Vaciar datos
+        document.getElementById('btVaciarDatos').addEventListener('click', function() {
+            document.querySelector('#data-table tbody').innerHTML = ''; // Limpiar tabla
         });
     </script>
 </body>
