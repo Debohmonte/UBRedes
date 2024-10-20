@@ -133,6 +133,7 @@
                     <th data-column="total">Total</th>
                     <th data-column="descripcion">Descripción</th>
                     <th data-column="fecha">Fecha</th>
+                    <th>Modificar</th>
                     <th>Eliminar</th>
                 </tr>
                 <!-- Fila de filtros -->
@@ -159,12 +160,13 @@
 
     <footer>© 2024 Gestión de Facturas</footer>
 
-    <!-- Modal para el alta de facturas -->
+    <!-- Modal para el alta/modificación de facturas -->
     <div id="altaModal" class="modal">
         <div class="modal-content">
             <span id="closeAltaModal" class="close">&times;</span>
-            <h2>Crear nueva factura</h2>
-            <form>
+            <h2 id="modalTitle">Crear nueva factura</h2>
+            <form id="formFactura">
+                <input type="hidden" id="id_factura"> <!-- Campo oculto para almacenar el ID de la factura si se modifica -->
                 <label for="nro_factura">Número de Factura</label>
                 <input type="text" id="nro_factura" name="nro_factura" required>
 
@@ -208,6 +210,26 @@
                     console.error('Error deleting factura:', error);
                 });
             }
+        }
+
+        // Función para modificar facturas
+        function modificarFactura(item) {
+            // Abrir el modal
+            altaModal.style.display = "block";
+            
+            // Cambiar el título del modal
+            document.getElementById('modalTitle').textContent = "Modificar Factura";
+            
+            // Rellenar el formulario con los datos existentes
+            document.getElementById('id_factura').value = item.id;
+            document.getElementById('nro_factura').value = item.nro_factura;
+            document.getElementById('cuil_emisor').value = item.cuil_emisor;
+            document.getElementById('cuil_receptor').value = item.cuil_receptor;
+            document.getElementById('monto').value = item.monto;
+            document.getElementById('iva').value = item.iva;
+            document.getElementById('total').value = item.total;
+            document.getElementById('descripcion').value = item.descripcion;
+            document.getElementById('fecha').value = item.fecha;
         }
 
         // Función para aplicar los filtros en los datos
@@ -261,6 +283,7 @@
                                     <td>${item.total}</td>
                                     <td>${item.descripcion}</td>
                                     <td>${item.fecha}</td>
+                                    <td><button onclick='modificarFactura(${JSON.stringify(item)})'>Modificar</button></td>
                                     <td><button onclick="eliminarFactura(${item.id})">Borrar</button></td>
                                 </tr>`;
                     tableBody.innerHTML += row;
@@ -295,6 +318,11 @@
 
         // Abrir el modal al hacer clic en "Alta registro"
         openAltaModalBtn.onclick = function() {
+            // Cambiar el título del modal
+            document.getElementById('modalTitle').textContent = "Crear nueva Factura";
+            
+            // Limpiar el formulario
+            document.getElementById('formFactura').reset();
             altaModal.style.display = "block";
         }
 
