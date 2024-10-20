@@ -35,6 +35,7 @@
             <h1 style="margin-right: auto;">Facturas</h1>
             <label for="orden">Orden:</label>
             <input type="text" id="orden" name="orden" value="fecha" readonly>
+            <input type="hidden" id="orden_direccion" value="asc"> <!-- Keeps track of sorting direction -->
             <button id="btCargarDatos">Cargar datos</button>
             <button id="btVaciarDatos">Vaciar datos</button>
             <button id="btLimpiarFiltros">Limpiar filtros</button>
@@ -161,7 +162,9 @@
         // Cargar datos
         document.getElementById('btCargarDatos').addEventListener('click', function() {
             const orden = document.getElementById('orden').value;  // Get the current order
-            fetch(`cargar_datos.php?orden=${orden}`, { method: 'GET' })
+            const ordenDireccion = document.getElementById('orden_direccion').value;  // Get current sorting direction
+
+            fetch(`cargar_datos.php?orden=${orden}&direccion=${ordenDireccion}`, { method: 'GET' })
             .then(response => response.json())
             .then(data => {
                 const filteredData = applyFilters(data);  // Apply filters
@@ -190,7 +193,17 @@
         document.querySelectorAll('thead th').forEach(th => {
             th.addEventListener('click', function() {
                 const column = th.getAttribute('data-column');
-                document.getElementById('orden').value = column;  // Set the order input value
+                const currentOrder = document.getElementById('orden').value;
+                const currentDirection = document.getElementById('orden_direccion').value;
+
+                // Toggle the sorting direction based on current settings
+                if (currentOrder === column) {
+                    document.getElementById('orden_direccion').value = currentDirection === 'asc' ? 'desc' : 'asc';
+                } else {
+                    document.getElementById('orden').value = column;
+                    document.getElementById('orden_direccion').value = 'asc';  // Default to ascending
+                }
+
                 document.getElementById('btCargarDatos').click();  // Reload data with new order
             });
         });
@@ -215,4 +228,3 @@
     </script>
 </body>
 </html>
-
