@@ -1,7 +1,9 @@
 <?php
 require_once 'db_connection.php';
 
-$sql = "SELECT * FROM factura";  // Replace with your actual invoice table
+header('Content-Type: application/json');  // Ensure the response is JSON
+
+$sql = "SELECT * FROM factura";
 $result = mysqli_query($conn, $sql);
 
 $facturas = array();

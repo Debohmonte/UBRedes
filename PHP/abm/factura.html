@@ -194,27 +194,34 @@
         }
 
         // Cargar datos
+                // Cargar datos
         document.getElementById('btCargarDatos').addEventListener('click', function() {
-            fetch('cargar_datos.php')
-                .then(response => response.json())
-                .then(data => {
-                    const tableBody = document.querySelector('#data-table tbody');
-                    tableBody.innerHTML = '';  // Clear previous data
-                    data.forEach(item => {
-                        const row = `<tr>
-                                        <td>${item.nro_factura}</td>
-                                        <td>${item.cuil_emisor}</td>
-                                        <td>${item.cuil_receptor}</td>
-                                        <td>${item.monto}</td>
-                                        <td>${item.iva}</td>
-                                        <td>${item.total}</td>
-                                        <td>${item.tipo}</td>
-                                        <td>${item.fecha}</td>
-                                     </tr>`;
-                        tableBody.innerHTML += row;
-                    });
+            fetch('cargar_datos.php', {
+                method: 'GET'  // Ensure you're using GET for fetching data
+            })
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.querySelector('#data-table tbody');
+                tableBody.innerHTML = '';  // Clear previous data
+                data.forEach(item => {
+                    const row = `<tr>
+                                    <td>${item.nro_factura}</td>
+                                    <td>${item.cuil_emisor}</td>
+                                    <td>${item.cuil_receptor}</td>
+                                    <td>${item.monto}</td>
+                                    <td>${item.iva}</td>
+                                    <td>${item.total}</td>
+                                    <td>${item.tipo}</td>
+                                    <td>${item.fecha}</td>
+                                </tr>`;
+                    tableBody.innerHTML += row;
                 });
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
         });
+
 
         // Vaciar datos
         document.getElementById('btVaciarDatos').addEventListener('click', function() {
