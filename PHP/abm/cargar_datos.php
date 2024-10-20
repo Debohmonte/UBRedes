@@ -1,26 +1,27 @@
 <?php
 require_once 'db_connection.php';
 
-// Send JSON response header
+// Ensure the response is JSON
 header('Content-Type: application/json');
 
-// Prepare SQL query to get all invoices (facturas)
-$sql = "SELECT * FROM factura";  // Replace with the actual table name
-$result = $conn->query($sql);
+// Query to retrieve all invoices
+$sql = "SELECT * FROM factura";
+$result = mysqli_query($conn, $sql);
 
+// Initialize an array to hold invoice data
 $facturas = array();
 
-// Check if any rows are returned
 if ($result->num_rows > 0) {
-    // Fetch rows and store in the array
-    while ($row = $result->fetch_assoc()) {
+    // Fetch each row as an associative array and add it to the $facturas array
+    while ($row = mysqli_fetch_assoc($result)) {
         $facturas[] = $row;
     }
-    // Return the result as a JSON response
+    // Encode the array as JSON and return it
     echo json_encode($facturas);
 } else {
-    echo json_encode([]);  // Return an empty array if no records found
+    // Return an empty array if no invoices are found
+    echo json_encode([]);
 }
 
-$conn->close();  // Close the database connection
+mysqli_close($conn);  // Close the database connection
 ?>

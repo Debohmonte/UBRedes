@@ -11,16 +11,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $tipo = $_POST['tipo'];
     $fecha = $_POST['fecha'];
 
+    // Prepare the SQL query
     $sql = "INSERT INTO factura (nro_factura, cuil_emisor, cuil_receptor, monto, iva, total, tipo, fecha)
             VALUES ('$nro_factura', '$cuil_emisor', '$cuil_receptor', '$monto', '$iva', '$total', '$tipo', '$fecha')";
 
+    // Execute the query
     if (mysqli_query($conn, $sql)) {
         echo "Factura insertada correctamente.";
     } else {
         echo "Error al insertar la factura: " . mysqli_error($conn);
     }
 
-    header("Location: factura.html");  // Redirect after submission
+    // Redirect to the main page after submission
+    header("Location: factura.html");
     exit();
 }
 ?>

@@ -194,33 +194,43 @@
         }
 
         // Cargar datos
-                // Cargar datos
-        document.getElementById('btCargarDatos').addEventListener('click', function() {
-            fetch('cargar_datos.php', {
-                method: 'GET'  // Ensure you're using GET for fetching data
-            })
-            .then(response => response.json())
-            .then(data => {
-                const tableBody = document.querySelector('#data-table tbody');
-                tableBody.innerHTML = '';  // Clear previous data
-                data.forEach(item => {
-                    const row = `<tr>
-                                    <td>${item.nro_factura}</td>
-                                    <td>${item.cuil_emisor}</td>
-                                    <td>${item.cuil_receptor}</td>
-                                    <td>${item.monto}</td>
-                                    <td>${item.iva}</td>
-                                    <td>${item.total}</td>
-                                    <td>${item.tipo}</td>
-                                    <td>${item.fecha}</td>
-                                </tr>`;
-                    tableBody.innerHTML += row;
+                    document.getElementById('btCargarDatos').addEventListener('click', function() {
+                fetch('cargar_datos.php', {
+                    method: 'GET'  // Use GET to retrieve data
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();  // Parse the JSON response
+                })
+                .then(data => {
+                    const tableBody = document.querySelector('#data-table tbody');
+                    tableBody.innerHTML = '';  // Clear previous data
+
+                    if (data.length === 0) {
+                        tableBody.innerHTML = '<tr><td colspan="8">No invoices found.</td></tr>';
+                    } else {
+                        data.forEach(item => {
+                            const row = `<tr>
+                                            <td>${item.nro_factura}</td>
+                                            <td>${item.cuil_emisor}</td>
+                                            <td>${item.cuil_receptor}</td>
+                                            <td>${item.monto}</td>
+                                            <td>${item.iva}</td>
+                                            <td>${item.total}</td>
+                                            <td>${item.tipo}</td>
+                                            <td>${item.fecha}</td>
+                                        </tr>`;
+                            tableBody.innerHTML += row;
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                    alert('Error fetching data. Please try again later.');
                 });
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
             });
-        });
 
 
         // Vaciar datos
