@@ -40,7 +40,7 @@ try {
     $direccion = $_GET['direccion'] ?? 'ASC';
 
     // Construcción de la consulta con filtros y orden
-    $sql = "SELECT * FROM facturas";
+    $sql = "SELECT * FROM factura";
     if (!empty($where)) {
         $sql .= " WHERE " . implode(" AND ", $where);
     }
@@ -54,10 +54,10 @@ try {
 
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
-    $facturas = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $factura = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
     header('Content-Type: application/json');
-    echo json_encode(['facturas' => $facturas]);
+    echo json_encode(['factura' => $factura]);
 } catch (Exception $e) {
     echo json_encode(['error' => $e->getMessage()]);
 }

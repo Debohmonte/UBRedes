@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tipo_factura = $_POST['tipo_factura'];
     $fecha = $_POST['fecha'];
 
-    $query = "UPDATE facturas SET emisor = '$emisor', receptor = '$receptor', monto = '$monto', descripcion = '$descripcion', iva = '$iva', total = '$total', tipo_factura = '$tipo_factura', fecha = '$fecha' WHERE nro_factura = '$nro_factura'";
+    $query = "UPDATE factura SET emisor = '$emisor', receptor = '$receptor', monto = '$monto', descripcion = '$descripcion', iva = '$iva', total = '$total', tipo_factura = '$tipo_factura', fecha = '$fecha' WHERE nro_factura = '$nro_factura'";
     
     if (mysqli_query($conn, $query)) {
         header('Location: mostrarFacturas.php');
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 } else {
     $nro_factura = $_GET['nro_factura'];
-    $query = "SELECT * FROM facturas WHERE nro_factura = '$nro_factura'";
+    $query = "SELECT * FROM factura WHERE nro_factura = '$nro_factura'";
     $result = mysqli_query($conn, $query);
     $factura = mysqli_fetch_assoc($result);
 }

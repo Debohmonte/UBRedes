@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tipo_factura = $_POST['tipo_factura'];
     $fecha = $_POST['fecha'];
 
-    $sql = "INSERT INTO facturas (nro_factura, emisor, receptor, monto, descripcion, iva, total, tipo_factura, fecha) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO factura (nro_factura, emisor, receptor, monto, descripcion, iva, total, tipo_factura, fecha) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
     if ($stmt->execute([$nro_factura, $emisor, $receptor, $monto, $descripcion, $iva, $total, $tipo_factura, $fecha])) {
         header("Location: mostrarFacturas.php");
