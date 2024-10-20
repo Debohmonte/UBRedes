@@ -21,6 +21,11 @@
         .modal-content { background-color: #fff; margin: 10% auto; padding: 20px; border: 1px solid #888; width: 50%; border-radius: 8px; }
         .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
         .close:hover { color: black; }
+        input[type="text"], input[type="number"], input[type="date"], select {
+            width: 100%;
+            padding: 5px;
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body>
@@ -45,8 +50,25 @@
                     <th>Monto</th>
                     <th>IVA</th>
                     <th>Total</th>
-                    <th>Descripción</th> <!-- Updated to 'Descripción' -->
+                    <th>Descripción</th>
                     <th>Fecha</th>
+                </tr>
+                <!-- Row for filters -->
+                <tr>
+                    <td><input type="text" id="filter_nro_factura" placeholder="Número de Factura"></td>
+                    <td><input type="text" id="filter_cuil_emisor" placeholder="Emisor"></td>
+                    <td><input type="text" id="filter_cuil_receptor" placeholder="Receptor"></td>
+                    <td><input type="number" id="filter_monto" placeholder="Monto"></td>
+                    <td>
+                        <select id="filter_iva">
+                            <option value="">IVA</option>
+                            <option value="10.50">10.50</option>
+                            <option value="21.00">21.00</option>
+                        </select>
+                    </td>
+                    <td><input type="number" id="filter_total" placeholder="Total"></td>
+                    <td><input type="text" id="filter_descripcion" placeholder="Descripción"></td>
+                    <td><input type="date" id="filter_fecha" placeholder="Fecha"></td>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -79,7 +101,6 @@
                 <label for="total">Total</label>
                 <input type="number" id="total" name="total" required min="0" step="0.01">
 
-                <!-- Updated to 'Descripción' -->
                 <label for="descripcion">Descripción de Factura</label>
                 <input type="text" id="descripcion" name="descripcion" required>
 
@@ -108,6 +129,35 @@
             }
         }
 
+        // Function to apply filters based on the user's input
+        function applyFilters(data) {
+            const filters = {
+                nro_factura: document.getElementById('filter_nro_factura').value.toLowerCase(),
+                cuil_emisor: document.getElementById('filter_cuil_emisor').value.toLowerCase(),
+                cuil_receptor: document.getElementById('filter_cuil_receptor').value.toLowerCase(),
+                monto: document.getElementById('filter_monto').value.toLowerCase(),
+                iva: document.getElementById('filter_iva').value,
+                total: document.getElementById('filter_total').value.toLowerCase(),
+                descripcion: document.getElementById('filter_descripcion').value.toLowerCase(),
+                fecha: document.getElementById('filter_fecha').value
+            };
+
+            const filteredData = data.filter(item => {
+                return (
+                    (!filters.nro_factura || item.nro_factura.toLowerCase().includes(filters.nro_factura)) &&
+                    (!filters.cuil_emisor || item.cuil_emisor.toLowerCase().includes(filters.cuil_emisor)) &&
+                    (!filters.cuil_receptor || item.cuil_receptor.toLowerCase().includes(filters.cuil_receptor)) &&
+                    (!filters.monto || item.monto.includes(filters.monto)) &&
+                    (!filters.iva || item.iva == filters.iva) &&
+                    (!filters.total || item.total.includes(filters.total)) &&
+                    (!filters.descripcion || item.descripcion.toLowerCase().includes(filters.descripcion)) &&
+                    (!filters.fecha || item.fecha == filters.fecha)
+                );
+            });
+
+            return filteredData;
+        }
+
         // Cargar datos
         document.getElementById('btCargarDatos').addEventListener('click', function() {
             fetch('cargar_datos.php', { method: 'GET' })
@@ -115,7 +165,10 @@
             .then(data => {
                 const tableBody = document.querySelector('#data-table tbody');
                 tableBody.innerHTML = '';  // Clear previous data
-                data.forEach(item => {
+
+                let filteredData = applyFilters(data);
+
+                filteredData.forEach(item => {
                     const row = `<tr>
                                     <td>${item.nro_factura}</td>
                                     <td>${item.cuil_emisor}</td>
@@ -123,7 +176,7 @@
                                     <td>${item.monto}</td>
                                     <td>${item.iva}</td>
                                     <td>${item.total}</td>
-                                    <td>${item.descripcion}</td> <!-- Updated to 'descripcion' -->
+                                    <td>${item.descripcion}</td>
                                     <td>${item.fecha}</td>
                                 </tr>`;
                     tableBody.innerHTML += row;
@@ -134,6 +187,14 @@
             });
         });
 
+        // Event listeners for filter input fields
+        const filterInputs = document.querySelectorAll('thead input, thead select');
+        filterInputs.forEach(input => {
+            input.addEventListener('input', function() {
+                document.getElementById('btCargarDatos').click();  // Reapply filters on data
+            });
+        });
+
         // Vaciar datos
         document.getElementById('btVaciarDatos').addEventListener('click', function() {
             document.querySelector('#data-table tbody').innerHTML = ''; // Clear table data
@@ -141,7 +202,7 @@
 
         // Limpiar filtros
         document.getElementById('btLimpiarFiltros').addEventListener('click', function() {
-            document.getElementById('orden').value = 'fecha'; // Reset filters
+            document.querySelectorAll('thead input, thead select').forEach(input => input.value = '');  // Reset all filters
         });
     </script>
 </body>
