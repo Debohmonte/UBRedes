@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Facturas</title>
+    <script src="./jquery.js"></script>
+</head>
+<body>
+    <h1>Listado de Facturas</h1>
+    
+    <!-- Filtros de búsqueda -->
+    <div>
+        <label for="f_facturas_nro_factura">Nro Factura:</label>
+        <input type="text" id="f_facturas_nro_factura">
+        
+        <label for="f_facturas_cuil_emisor">CUIL Emisor:</label>
+        <input type="text" id="f_facturas_cuil_emisor">
+
+        <label for="f_facturas_cuil_receptor">CUIL Receptor:</label>
+        <input type="text" id="f_facturas_cuil_receptor">
+
+        <label for="f_facturas_monto">Monto:</label>
+        <input type="text" id="f_facturas_monto">
+        
+        <button id="btCargarFacturas">Buscar</button>
+        <button id="btLimpiarFiltros">Limpiar Filtros</button>
+    </div>
+
+    <!-- Tabla de facturas -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nro Factura</th>
+                <th>CUIL Emisor</th>
+                <th>CUIL Receptor</th>
+                <th>Monto</th>
+                <th>Descripción</th>
+                <th>IVA</th>
+                <th>Total</th>
+                <th>Tipo Factura</th>
+                <th>Fecha</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tablaFacturas">
+            <!-- Aquí se cargarán los datos de las facturas -->
+        </tbody>
+    </table>
+
+    <script>
+        $(document).ready(function() {
+            $('#btCargarFacturas').click(function() {
+                cargarFacturas();
+            });
+
+            $('#btLimpiarFiltros').click(function() {
+                $('#f_facturas_nro_factura').val('');
+                $('#f_facturas_cuil_emisor').val('');
+                $('#f_facturas_cuil_receptor').val('');
+                $('#f_facturas_monto').val('');
+            });
+
+            function cargarFacturas() {
+                $.ajax({
+                    url: 'SalidaJsonFacturas.php',
+                    type: 'GET',
+                    data: {
+                        f_facturas_nro_factura: $('#f_facturas_nro_factura').val(),
+                        f_facturas_cuil_emisor: $('#f_facturas_cuil_emisor').val(),
+                        f_facturas_cuil_receptor: $('#f_facturas_cuil_receptor').val(),
+                        f_facturas_monto: $('#f_facturas_monto').val()
+                    },
+                    success: function(response) {
+                        const data = JSON.parse(response);
+                        const facturas = data.facturas;
+                        let tableBody = '';
+
+                        facturas.forEach(factura => {
+                            tableBody += `
+                                <tr>
+                                    <td>${factura.nro_factura}</td>
+                                    <td>${factura.cuil_emisor}</td>
+                                    <td>${factura.cuil_receptor}</td>
+                                    <td>${factura.monto}</td>
+                                    <td>${factura.descripcion}</td>
+                                    <td>${factura.iva}</td>
+                                    <td>${factura.total}</td>
+                                    <td>${factura.tipo_id}</td>
+                                    <td>${factura.fecha}</td>
+                                    <td>
+                                        <button onclick="modificarFactura(${factura.nro_factura})">Modificar</button>
+                                        <button onclick="borrarFactura(${factura.nro_factura})">Borrar</button>
+                                    </td>
+                                </tr>
+                            `;
+                        });
+
+                        $('#tablaFacturas').html(tableBody);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
