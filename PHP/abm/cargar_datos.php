@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);  // Display errors
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once 'db_connection.php';
 
 // Ensure the response is JSON
