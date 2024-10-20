@@ -1,17 +1,15 @@
 <?php
-// Database connection settings
+// Replace with your actual database connection details
 $dbhost = 'localhost';
-$dbuser = 'c2660848_UBRedes';
-$dbpass = 'po06kiSOto';
-$dbname = 'c2660848_UBRedes';
+	$dbuser = 'c2660848_UBRedes';
+	$dbpass = 'po06kiSOto';
+	$dbname = 'c2660848_UBRedes';
 
-// Create connection
-$conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
+$conn = new mysqli($host, $username, $password, $dbname);
 
-// Check connection
-if (!$conn) {
-    die("Error de conexión: " . mysqli_connect_error());
+// Check for connection errors
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
-
-// Connection successful
 ?>
+
