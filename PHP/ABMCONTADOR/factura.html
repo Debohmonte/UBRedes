@@ -80,9 +80,8 @@
         .table-container {
             width: 100%;
             flex-grow: 1;
+            max-height: calc(100vh - 250px); /* Ajustado para dejar más espacio */
             overflow-y: auto;
-            /* Ajustar la altura según el espacio disponible */
-            max-height: calc(100vh - 220px); /* Ajuste dinámico para que la tabla llegue hasta el pie de página */
         }
 
         table {
@@ -101,21 +100,19 @@
             cursor: pointer;
         }
 
-        .footer-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #FF7361;
-            padding: 5px;
-        }
-
-        .footer-text {
-            margin: 0;
+        .contador-container {
+            text-align: center;
+            padding: 10px 0;
+            font-size: 18px;
+            font-weight: bold;
         }
 
         footer {
             background-color: #FF7361;
             height: 30px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
             text-align: center;
             z-index: 1000;
         }
@@ -208,10 +205,8 @@
                 <tbody></tbody>
             </table>
         </div>
-
-        <!-- Contenedor para el contador de facturas -->
-        <div class="footer-container">
-            <p class="footer-text">Total de facturas: <span id="facturaCount">0</span></p>
+        <div class="contador-container">
+            Contador: <span id="facturaCount">0</span>
         </div>
     </div>
 
@@ -250,7 +245,7 @@
     </div>
 
     <script>
-        // Cargar datos y actualizar contador
+        // Cargar datos
         document.getElementById('btCargarDatos').addEventListener('click', function() {
             const orden = document.getElementById('orden').value;
             const ordenDireccion = document.getElementById('orden_direccion').value;
@@ -278,7 +273,7 @@
                     tableBody.innerHTML += row;
                 });
 
-                // Actualizar el contador de facturas
+                // Actualizar el contador
                 document.getElementById('facturaCount').textContent = filteredData.length;
             })
             .catch(error => {
