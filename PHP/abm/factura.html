@@ -7,14 +7,48 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
         }
         h1 {
-            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            background-color: beige;
+            padding: 20px;
+        }
+        label {
+            font-size: 18px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        input {
+            height: 30px;
+            font-size: 14px;
+            margin-right: 10px;
+            width: 120px;
+        }
+        button {
+            background-color: lightgray;
+            border: 1px solid black;
+            height: 50px;
+            width: 150px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #ddd;
+        }
+        .container {
+            background-color: beige;
+            padding: 10px;
         }
         table {
             width: 100%;
-            margin: 20px auto;
             border-collapse: collapse;
+            margin-top: 20px;
         }
         table, th, td {
             border: 1px solid #ddd;
@@ -23,15 +57,10 @@
             padding: 12px;
             text-align: center;
         }
-        button {
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 20px 0;
-            cursor: pointer;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 4px;
+        footer {
+            background-color: #FF7361;
+            height: 30px;
+            margin-top: 10px;
         }
         /* Modal Styles */
         .modal {
@@ -69,86 +98,66 @@
 </head>
 <body>
 
-    <h1>Gestión de Facturas</h1>
-    
-    <!-- Button to trigger Alta modal -->
-    <button id="openAltaModal">Crear Nueva Factura</button>
+    <div class="container">
+        <header>
+            <h1 style="margin-right: auto;">Facturas</h1>
 
-    <h2>Facturas Existentes</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Número de Factura</th>
-                <th>CUIL Emisor</th>
-                <th>CUIL Receptor</th>
-                <th>Monto</th>
-                <th>Descripción</th>
-                <th>IVA</th>
-                <th>Total</th>
-                <th>Tipo</th>
-                <th>Fecha</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody id="tablaFacturas">
-            <!-- Data from the database will be inserted here dynamically -->
-            <?php
-            require 'db_connection.php';
-            $sql = "SELECT factura.*, tipo.nombre_tipo 
-                    FROM factura
-                    JOIN tipo ON factura.tipo_id = tipo.id";
-            $result = mysqli_query($conn, $sql);
-            while ($factura = mysqli_fetch_assoc($result)) {
-                echo "<tr>
-                        <td>{$factura['nro_factura']}</td>
-                        <td>{$factura['cuil_emisor']}</td>
-                        <td>{$factura['cuil_receptor']}</td>
-                        <td>{$factura['monto']}</td>
-                        <td>{$factura['descripcion']}</td>
-                        <td>{$factura['iva']}</td>
-                        <td>{$factura['total']}</td>
-                        <td>{$factura['nombre_tipo']}</td>
-                        <td>{$factura['fecha']}</td>
-                        <td>
-                            <button class='editButton' data-id='{$factura['id']}'>Editar</button> |
-                            <a href='baja_factura.php?id={$factura['id']}'>Borrar</a>
-                        </td>
-                    </tr>";
-            }
-            ?>
-        </tbody>
-    </table>
+            <label for="orden">Orden:</label>
+            <input type="text" id="orden" name="orden" value="fecha" readonly>
+
+            <button id="btCargarDatos">Cargar datos</button>
+            <button id="btVaciarDatos">Vaciar datos</button>
+            <button id="btLimpiarFiltros">Limpiar filtros</button>
+            <button id="btAltaRegistro">Alta registro</button>
+        </header>
+
+        <table id="data-table">
+            <thead>
+                <tr>
+                    <th>Número Factura</th>
+                    <th>CUIL Emisor</th>
+                    <th>CUIL Receptor</th>
+                    <th>Monto</th>
+                    <th>IVA</th>
+                    <th>Total</th>
+                    <th>Tipo</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data from the database will be loaded here -->
+            </tbody>
+        </table>
+    </div>
+
+    <footer></footer>
 
     <!-- Alta Modal -->
     <div id="altaModal" class="modal">
         <div class="modal-content">
             <span class="close" id="closeAltaModal">&times;</span>
             <h2>Crear Nueva Factura</h2>
-            <form id="formFacturaAlta" method="POST" action="alta_factura.php">
-                <label for="nro_factura">Número de Factura</label>
-                <input type="text" id="nro_factura" name="nro_factura" required placeholder="0001-00000001">
+            <form id="formAlta" method="POST" action="alta_factura.php">
+                <label for="nro_factura">Número Factura</label>
+                <input type="text" id="nro_factura" name="nro_factura" required>
 
                 <label for="cuil_emisor">CUIL Emisor</label>
-                <input type="text" id="cuil_emisor" name="cuil_emisor" required placeholder="20-12345678-9">
+                <input type="text" id="cuil_emisor" name="cuil_emisor" required>
 
                 <label for="cuil_receptor">CUIL Receptor</label>
-                <input type="text" id="cuil_receptor" name="cuil_receptor" required placeholder="20-98765432-1">
+                <input type="text" id="cuil_receptor" name="cuil_receptor" required>
 
                 <label for="monto">Monto</label>
-                <input type="number" id="monto" name="monto" required placeholder="2500.00" step="0.01">
-
-                <label for="descripcion">Descripción</label>
-                <input type="text" id="descripcion" name="descripcion" required placeholder="Servicio Consultoría">
+                <input type="number" id="monto" name="monto" required min="0" step="0.01">
 
                 <label for="iva">IVA</label>
-                <input type="number" id="iva" name="iva" required placeholder="10.50" step="0.01">
+                <input type="number" id="iva" name="iva" required min="0" step="0.01">
 
-                <label for="tipo_id">Tipo de Factura</label>
-                <select id="tipo_id" name="tipo_id">
-                    <option value="1">Factura A</option>
-                    <option value="2">Factura B</option>
-                    <option value="3">Factura C</option>
-                </select>
+                <label for="total">Total</label>
+                <input type="number" id="total" name="total" required min="0" step="0.01">
+
+                <label for="tipo">Tipo de Factura</label>
+                <input type="text" id="tipo" name="tipo" required>
 
                 <label for="fecha">Fecha</label>
                 <input type="date" id="fecha" name="fecha" required>
@@ -158,111 +167,63 @@
         </div>
     </div>
 
-    <!-- Modificar Modal -->
-    <div id="modificarModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeModificarModal">&times;</span>
-            <h2>Modificar Factura</h2>
-            <form id="formFacturaModificar" method="POST" action="modi_factura.php">
-                <input type="hidden" id="id_modificar" name="id">
-
-                <label for="nro_factura">Número de Factura</label>
-                <input type="text" id="nro_factura_mod" name="nro_factura" required>
-
-                <label for="cuil_emisor">CUIL Emisor</label>
-                <input type="text" id="cuil_emisor_mod" name="cuil_emisor" required>
-
-                <label for="cuil_receptor">CUIL Receptor</label>
-                <input type="text" id="cuil_receptor_mod" name="cuil_receptor" required>
-
-                <label for="monto">Monto</label>
-                <input type="number" id="monto_mod" name="monto" required step="0.01">
-
-                <label for="descripcion">Descripción</label>
-                <input type="text" id="descripcion_mod" name="descripcion" required>
-
-                <label for="iva">IVA</label>
-                <input type="number" id="iva_mod" name="iva" required step="0.01">
-
-                <label for="tipo_id">Tipo de Factura</label>
-                <select id="tipo_id_mod" name="tipo_id">
-                    <option value="1">Factura A</option>
-                    <option value="2">Factura B</option>
-                    <option value="3">Factura C</option>
-                </select>
-
-                <label for="fecha">Fecha</label>
-                <input type="date" id="fecha_mod" name="fecha" required>
-
-                <button type="submit">Modificar Factura</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- JavaScript for Modal Functionality -->
+    <!-- JavaScript for Button and Modal Functionality -->
     <script>
         // Get the modals
         var altaModal = document.getElementById("altaModal");
-        var modificarModal = document.getElementById("modificarModal");
 
         // Get the button that opens the alta modal
-        var openAltaModalBtn = document.getElementById("openAltaModal");
+        var openAltaModalBtn = document.getElementById("btAltaRegistro");
 
         // Get the <span> element that closes the alta modal
         var closeAltaModalBtn = document.getElementById("closeAltaModal");
 
-        // Get the <span> element that closes the modificar modal
-        var closeModificarModalBtn = document.getElementById("closeModificarModal");
-
-        // When the user clicks the button, open the alta modal
+        // Event listeners for modal and button functionality
         openAltaModalBtn.onclick = function() {
             altaModal.style.display = "block";
         }
 
-        // When the user clicks on <span> (x), close the alta modal
         closeAltaModalBtn.onclick = function() {
             altaModal.style.display = "none";
         }
 
-        // When the user clicks on <span> (x), close the modificar modal
-        closeModificarModalBtn.onclick = function() {
-            modificarModal.style.display = "none";
-        }
-
-        // Close the modal if the user clicks outside the modal content
         window.onclick = function(event) {
             if (event.target == altaModal) {
                 altaModal.style.display = "none";
             }
-            if (event.target == modificarModal) {
-                modificarModal.style.display = "none";
-            }
         }
 
-        // Add event listeners for edit buttons
-        document.querySelectorAll('.editButton').forEach(function(button) {
-            button.addEventListener('click', function() {
-                var id = button.getAttribute('data-id');
-                
-                // Make an AJAX request to get the invoice details
-                fetch('get_factura.php?id=' + id)
-                    .then(response => response.json())
-                    .then(data => {
-                        // Fill the modal with fetched data
-                        document.getElementById('id_modificar').value = data.id;
-                        document.getElementById('nro_factura_mod').value = data.nro_factura;
-                        document.getElementById('cuil_emisor_mod').value = data.cuil_emisor;
-                        document.getElementById('cuil_receptor_mod').value = data.cuil_receptor;
-                        document.getElementById('monto_mod').value = data.monto;
-                        document.getElementById('descripcion_mod').value = data.descripcion;
-                        document.getElementById('iva_mod').value = data.iva;
-                        document.getElementById('tipo_id_mod').value = data.tipo_id;
-                        document.getElementById('fecha_mod').value = data.fecha;
-
-                        // Show the modificar modal
-                        modificarModal.style.display = "block";
+        // Cargar datos
+        document.getElementById('btCargarDatos').addEventListener('click', function() {
+            fetch('cargar_datos.php')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.querySelector('#data-table tbody');
+                    tableBody.innerHTML = '';  // Clear previous data
+                    data.forEach(item => {
+                        const row = `<tr>
+                                        <td>${item.nro_factura}</td>
+                                        <td>${item.cuil_emisor}</td>
+                                        <td>${item.cuil_receptor}</td>
+                                        <td>${item.monto}</td>
+                                        <td>${item.iva}</td>
+                                        <td>${item.total}</td>
+                                        <td>${item.tipo}</td>
+                                        <td>${item.fecha}</td>
+                                     </tr>`;
+                        tableBody.innerHTML += row;
                     });
-            });
+                });
+        });
+
+        // Vaciar datos
+        document.getElementById('btVaciarDatos').addEventListener('click', function() {
+            document.querySelector('#data-table tbody').innerHTML = ''; // Clear table data
+        });
+
+        // Limpiar filtros
+        document.getElementById('btLimpiarFiltros').addEventListener('click', function() {
+            document.getElementById('orden').value = 'fecha'; // Reset filters (modify as needed)
         });
     </script>
 
