@@ -5,107 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Facturas</title>
     <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-        h1 { 
-            font-size: 24px; 
-            font-weight: bold; 
-        }
-        header { 
-            display: flex; 
-            align-items: center; 
-            background-color: beige; 
-            padding: 20px;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-        }
-        label { 
-            font-size: 18px; 
-            font-weight: bold; 
-            margin-right: 10px; 
-        }
-        input, button { 
-            height: 30px; 
-            font-size: 14px; 
-            margin-right: 10px; 
-        }
-        button { 
-            background-color: lightgray; 
-            border: 1px solid black; 
-            height: 50px; 
-            width: 150px; 
-            cursor: pointer; 
-        }
-        button:hover { 
-            background-color: #ddd; 
-        }
-        .container { 
-            background-color: beige; 
-            padding: 10px;
-            margin-top: 100px;  
-            margin-bottom: 50px;
-        }
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            margin-top: 20px; 
-        }
-        table, th, td { 
-            border: 1px solid #ddd; 
-        }
-        th, td { 
-            padding: 12px; 
-            text-align: center; 
-            cursor: pointer; 
-        }
-        footer { 
-            background-color: #FF7361; 
-            height: 30px; 
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
-            z-index: 1000;
-        }
-        .modal { 
-            display: none; 
-            position: fixed; 
-            z-index: 1; 
-            left: 0; 
-            top: 0; 
-            width: 100%; 
-            height: 100%; 
-            background-color: rgba(0, 0, 0, 0.4); 
-        }
-        .modal-content { 
-            background-color: #fff; 
-            margin: 10% auto; 
-            padding: 20px; 
-            border: 1px solid #888; 
-            width: 50%; 
-            border-radius: 8px; 
-        }
-        .close { 
-            color: #aaa; 
-            float: right; 
-            font-size: 28px; 
-            font-weight: bold; 
-            cursor: pointer; 
-        }
-        .close:hover { 
-            color: black; 
-        }
-        input[type="text"], input[type="number"], input[type="date"], select {
-            width: 100%;
-            padding: 5px;
-            margin: 5px 0;
-        }
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+        h1 { font-size: 24px; font-weight: bold; }
+        header { display: flex; align-items: center; background-color: beige; padding: 20px; position: fixed; top: 0; width: 100%; z-index: 1000; }
+        label { font-size: 18px; font-weight: bold; margin-right: 10px; }
+        input, button { height: 30px; font-size: 14px; margin-right: 10px; }
+        button { background-color: lightgray; border: 1px solid black; height: 50px; width: 150px; cursor: pointer; }
+        button:hover { background-color: #ddd; }
+        .container { background-color: beige; padding: 10px; margin-top: 100px; margin-bottom: 50px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        table, th, td { border: 1px solid #ddd; }
+        th, td { padding: 12px; text-align: center; cursor: pointer; }
+        footer { background-color: #FF7361; height: 30px; position: fixed; bottom: 0; width: 100%; text-align: center; z-index: 1000; }
+        .modal { display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.4); }
+        .modal-content { background-color: #fff; margin: 10% auto; padding: 20px; border: 1px solid #888; width: 50%; border-radius: 8px; }
+        .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .close:hover { color: black; }
+        input[type="text"], input[type="number"], input[type="date"], select { width: 100%; padding: 5px; margin: 5px 0; }
     </style>
 </head>
 <body>
@@ -136,7 +52,6 @@
                     <th>Modificar</th>
                     <th>Eliminar</th>
                 </tr>
-                <!-- Fila de filtros -->
                 <tr>
                     <td><input type="text" id="filter_nro_factura" placeholder="Número de Factura"></td>
                     <td><input type="text" id="filter_cuil_emisor" placeholder="Emisor"></td>
@@ -166,104 +81,29 @@
             <span id="closeAltaModal" class="close">&times;</span>
             <h2 id="modalTitle">Crear nueva factura</h2>
             <form id="formFactura" method="POST" action="">
-                <input type="hidden" id="id_factura"> <!-- Campo oculto para almacenar el ID de la factura si se modifica -->
+                <input type="hidden" id="id_factura" name="id_factura"> <!-- Campo oculto para modificar facturas -->
                 <label for="nro_factura">Número de Factura</label>
                 <input type="text" id="nro_factura" name="nro_factura" required>
-
                 <label for="cuil_emisor">CUIL Emisor</label>
                 <input type="text" id="cuil_emisor" name="cuil_emisor" required>
-
                 <label for="cuil_receptor">CUIL Receptor</label>
                 <input type="text" id="cuil_receptor" name="cuil_receptor" required>
-
                 <label for="monto">Monto</label>
                 <input type="number" id="monto" name="monto" required>
-
                 <label for="iva">IVA</label>
                 <input type="number" id="iva" name="iva" required>
-
                 <label for="total">Total</label>
                 <input type="number" id="total" name="total" required>
-
                 <label for="descripcion">Descripción</label>
                 <input type="text" id="descripcion" name="descripcion" required>
-
                 <label for="fecha">Fecha</label>
                 <input type="date" id="fecha" name="fecha" required>
-
                 <button type="submit">Guardar</button>
             </form>
         </div>
     </div>
 
     <script>
-        // Función para eliminar facturas
-        function eliminarFactura(id) {
-            if (confirm("¿Estás seguro de que deseas eliminar esta factura?")) {
-                fetch(`baja_factura.php?id=${id}`, { method: 'GET' })
-                .then(response => response.text())
-                .then(message => {
-                    alert(message);  // Mostrar el mensaje de éxito o error
-                    document.getElementById('btCargarDatos').click();  // Recargar los datos
-                })
-                .catch(error => {
-                    console.error('Error deleting factura:', error);
-                });
-            }
-        }
-
-        // Función para modificar facturas
-        function modificarFactura(item) {
-            // Abrir el modal
-            altaModal.style.display = "block";
-            
-            // Cambiar el título del modal
-            document.getElementById('modalTitle').textContent = "Modificar Factura";
-            
-            // Rellenar el formulario con los datos existentes
-            document.getElementById('id_factura').value = item.id;
-            document.getElementById('nro_factura').value = item.nro_factura;
-            document.getElementById('cuil_emisor').value = item.cuil_emisor;
-            document.getElementById('cuil_receptor').value = item.cuil_receptor;
-            document.getElementById('monto').value = item.monto;
-            document.getElementById('iva').value = item.iva;
-            document.getElementById('total').value = item.total;
-            document.getElementById('descripcion').value = item.descripcion;
-            document.getElementById('fecha').value = item.fecha;
-
-            // Cambiar el método de acción para la modificación
-            document.getElementById('formFactura').action = "modi_factura.php";
-        }
-
-        // Función para aplicar los filtros en los datos
-        function applyFilters(data) {
-            const filters = {
-                nro_factura: document.getElementById('filter_nro_factura').value.toLowerCase(),
-                cuil_emisor: document.getElementById('filter_cuil_emisor').value.toLowerCase(),
-                cuil_receptor: document.getElementById('filter_cuil_receptor').value.toLowerCase(),
-                monto: document.getElementById('filter_monto').value,
-                iva: document.getElementById('filter_iva').value,
-                total: document.getElementById('filter_total').value,
-                descripcion: document.getElementById('filter_descripcion').value.toLowerCase(),
-                fecha: document.getElementById('filter_fecha').value
-            };
-
-            const filteredData = data.filter(item => {
-                return (
-                    (!filters.nro_factura || item.nro_factura.toLowerCase().includes(filters.nro_factura)) &&
-                    (!filters.cuil_emisor || item.cuil_emisor.toLowerCase().includes(filters.cuil_emisor)) &&
-                    (!filters.cuil_receptor || item.cuil_receptor.toLowerCase().includes(filters.cuil_receptor)) &&
-                    (!filters.monto || item.monto == filters.monto) &&
-                    (!filters.iva || item.iva == filters.iva) &&
-                    (!filters.total || item.total == filters.total) &&
-                    (!filters.descripcion || item.descripcion.toLowerCase().includes(filters.descripcion)) &&
-                    (!filters.fecha || item.fecha == filters.fecha)
-                );
-            });
-
-            return filteredData;
-        }
-
         // Cargar datos
         document.getElementById('btCargarDatos').addEventListener('click', function() {
             const orden = document.getElementById('orden').value;
@@ -272,11 +112,10 @@
             fetch(`cargar_datos.php?orden=${orden}&direccion=${ordenDireccion}`, { method: 'GET' })
             .then(response => response.json())
             .then(data => {
-                const filteredData = applyFilters(data);  // Aplica los filtros a los datos obtenidos
                 const tableBody = document.querySelector('#data-table tbody');
                 tableBody.innerHTML = '';  // Limpiar datos anteriores
 
-                filteredData.forEach(item => {
+                data.forEach(item => {
                     const row = `<tr>
                                     <td>${item.nro_factura}</td>
                                     <td>${item.cuil_emisor}</td>
@@ -297,45 +136,52 @@
             });
         });
 
-        // Agregar eventos de input a los filtros
-        document.querySelectorAll('thead input, thead select').forEach(input => {
-            input.addEventListener('input', function() {
-                document.getElementById('btCargarDatos').click();  // Recargar los datos al cambiar un filtro
-            });
-        });
-
-        // Limpiar filtros
-        document.getElementById('btLimpiarFiltros').addEventListener('click', function() {
-            document.querySelectorAll('thead input, thead select').forEach(input => input.value = '');
-        });
-
-        // Vaciar datos
-        document.getElementById('btVaciarDatos').addEventListener('click', function() {
-            document.querySelector('#data-table tbody').innerHTML = ''; // Limpiar tabla
-        });
-
-        // Referencias a los elementos modales y botones
-        var altaModal = document.getElementById("altaModal");
-        var openAltaModalBtn = document.getElementById("btAltaRegistro");
-        var closeAltaModalBtn = document.getElementById("closeAltaModal");
-
-        // Abrir el modal al hacer clic en "Alta registro"
-        openAltaModalBtn.onclick = function() {
-            // Cambiar el título del modal
-            document.getElementById('modalTitle').textContent = "Crear nueva Factura";
-            
-            // Limpiar el formulario
-            document.getElementById('formFactura').reset();
-            document.getElementById('formFactura').action = "alta_factura.php";
-            altaModal.style.display = "block";
+        // Función para eliminar facturas
+        function eliminarFactura(id) {
+            if (confirm("¿Estás seguro de que deseas eliminar esta factura?")) {
+                fetch(`baja_factura.php?id=${id}`, { method: 'GET' })
+                .then(response => response.text())
+                .then(message => {
+                    alert(message);  // Mostrar el mensaje de éxito o error
+                    document.getElementById('btCargarDatos').click();  // Recargar los datos
+                })
+                .catch(error => {
+                    console.error('Error al eliminar la factura:', error);
+                });
+            }
         }
 
-        // Cerrar el modal al hacer clic en la "X"
+        // Función para modificar facturas
+        function modificarFactura(item) {
+            altaModal.style.display = "block";  // Abrir el modal
+            document.getElementById('modalTitle').textContent = "Modificar Factura";  // Cambiar título
+            document.getElementById('formFactura').action = "modi_factura.php";  // Acción para modificar
+            
+            // Llenar formulario con los datos de la factura seleccionada
+            document.getElementById('id_factura').value = item.id;
+            document.getElementById('nro_factura').value = item.nro_factura;
+            document.getElementById('cuil_emisor').value = item.cuil_emisor;
+            document.getElementById('cuil_receptor').value = item.cuil_receptor;
+            document.getElementById('monto').value = item.monto;
+            document.getElementById('iva').value = item.iva;
+            document.getElementById('total').value = item.total;
+            document.getElementById('descripcion').value = item.descripcion;
+            document.getElementById('fecha').value = item.fecha;
+        }
+
+        // Abrir el modal para crear una nueva factura
+        openAltaModalBtn.onclick = function() {
+            document.getElementById('modalTitle').textContent = "Crear nueva Factura";
+            document.getElementById('formFactura').reset();  // Limpiar el formulario
+            document.getElementById('formFactura').action = "alta_factura.php";  // Acción para crear nueva
+            altaModal.style.display = "block";  // Abrir el modal
+        }
+
+        // Cerrar el modal
         closeAltaModalBtn.onclick = function() {
             altaModal.style.display = "none";
         }
 
-        // Cerrar el modal si se hace clic fuera de la ventana modal
         window.onclick = function(event) {
             if (event.target == altaModal) {
                 altaModal.style.display = "none";

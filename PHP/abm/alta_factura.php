@@ -1,8 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 require_once 'db_connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -22,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header("Location: factura.html");
         exit();
     } else {
-        echo "Error al insertar la factura: " . mysqli_error($conn);
+        echo "Error: " . mysqli_error($conn);
     }
 }
 ?>
