@@ -18,7 +18,7 @@
         th, td { padding: 12px; text-align: center; cursor: pointer; }
         footer { background-color: #FF7361; height: 30px; margin-top: 10px; }
         .modal { display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.4); }
-        .modal-content { background-color: #fff; margin: 10% auto; padding: 20px; border: 1px solid #888; width: 50%; border-radius: 8px; }
+        .modal-content { background-color: #fff; margin: 10% auto; padding: 20px; border: 1px solid #888; width: 80%; border-radius: 8px; }
         .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
         .close:hover { color: black; }
         input[type="text"], input[type="number"], input[type="date"], select {
@@ -53,6 +53,7 @@
                     <th data-column="total">Total</th>
                     <th data-column="descripcion">Descripción</th>
                     <th data-column="fecha">Fecha</th>
+                    <th>PDF</th> <!-- PDF column for the button -->
                 </tr>
                 <!-- Row for filters -->
                 <tr>
@@ -70,6 +71,7 @@
                     <td><input type="number" id="filter_total" placeholder="Total"></td>
                     <td><input type="text" id="filter_descripcion" placeholder="Descripción"></td>
                     <td><input type="date" id="filter_fecha" placeholder="Fecha"></td>
+                    <td></td> <!-- Empty for filter row PDF -->
                 </tr>
             </thead>
             <tbody></tbody>
@@ -78,38 +80,12 @@
 
     <footer></footer>
 
-    <!-- Alta Modal -->
-    <div id="altaModal" class="modal">
+    <!-- PDF Modal -->
+    <div id="pdfModal" class="modal">
         <div class="modal-content">
-            <span class="close" id="closeAltaModal">&times;</span>
-            <h2>Crear Nueva Factura</h2>
-            <form id="formAlta" method="POST" action="alta_factura.php">
-                <label for="nro_factura">Número Factura</label>
-                <input type="text" id="nro_factura" name="nro_factura" required>
-
-                <label for="cuil_emisor">CUIL Emisor</label>
-                <input type="text" id="cuil_emisor" name="cuil_emisor" required>
-
-                <label for="cuil_receptor">CUIL Receptor</label>
-                <input type="text" id="cuil_receptor" name="cuil_receptor" required>
-
-                <label for="monto">Monto</label>
-                <input type="number" id="monto" name="monto" required min="0" step="0.01">
-
-                <label for="iva">IVA</label>
-                <input type="number" id="iva" name="iva" required min="0" step="0.01">
-
-                <label for="total">Total</label>
-                <input type="number" id="total" name="total" required min="0" step="0.01">
-
-                <label for="descripcion">Descripción de Factura</label>
-                <input type="text" id="descripcion" name="descripcion" required>
-
-                <label for="fecha">Fecha</label>
-                <input type="date" id="fecha" name="fecha" required>
-
-                <button type="submit">Guardar Factura</button>
-            </form>
+            <span class="close" id="closePdfModal">&times;</span>
+            <h2>Visualizar PDF</h2>
+            <iframe id="pdfViewer" src="" width="100%" height="500px"></iframe>
         </div>
     </div>
 
@@ -118,15 +94,25 @@
         var openAltaModalBtn = document.getElementById("btAltaRegistro");
         var closeAltaModalBtn = document.getElementById("closeAltaModal");
 
+        var pdfModal = document.getElementById("pdfModal");
+        var pdfViewer = document.getElementById("pdfViewer");
+        var closePdfModalBtn = document.getElementById("closePdfModal");
+
         openAltaModalBtn.onclick = function() {
             altaModal.style.display = "block";
         }
         closeAltaModalBtn.onclick = function() {
             altaModal.style.display = "none";
         }
+        closePdfModalBtn.onclick = function() {
+            pdfModal.style.display = "none";
+        }
         window.onclick = function(event) {
             if (event.target == altaModal) {
                 altaModal.style.display = "none";
+            }
+            if (event.target == pdfModal) {
+                pdfModal.style.display = "none";
             }
         }
 
@@ -180,8 +166,18 @@
                                     <td>${item.total}</td>
                                     <td>${item.descripcion}</td>
                                     <td>${item.fecha}</td>
+                                    <td><button class="btn-view-pdf" data-pdf="${item.pdf_path}">Ver PDF</button></td>
                                 </tr>`;
                     tableBody.innerHTML += row;
+                });
+
+                // Add event listeners to PDF buttons
+                document.querySelectorAll('.btn-view-pdf').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const pdfPath = button.getAttribute('data-pdf');
+                        pdfViewer.src = pdfPath;
+                        pdfModal.style.display = 'block';
+                    });
                 });
             })
             .catch(error => {
