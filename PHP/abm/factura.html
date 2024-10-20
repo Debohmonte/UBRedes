@@ -15,7 +15,7 @@
         .container { background-color: beige; padding: 10px; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         table, th, td { border: 1px solid #ddd; }
-        th, td { padding: 12px; text-align: center; }
+        th, td { padding: 12px; text-align: center; cursor: pointer; }
         footer { background-color: #FF7361; height: 30px; margin-top: 10px; }
         .modal { display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.4); }
         .modal-content { background-color: #fff; margin: 10% auto; padding: 20px; border: 1px solid #888; width: 50%; border-radius: 8px; }
@@ -44,14 +44,14 @@
         <table id="data-table">
             <thead>
                 <tr>
-                    <th>Número Factura</th>
-                    <th>CUIL Emisor</th>
-                    <th>CUIL Receptor</th>
-                    <th>Monto</th>
-                    <th>IVA</th>
-                    <th>Total</th>
-                    <th>Descripción</th>
-                    <th>Fecha</th>
+                    <th data-column="nro_factura">Número Factura</th>
+                    <th data-column="cuil_emisor">CUIL Emisor</th>
+                    <th data-column="cuil_receptor">CUIL Receptor</th>
+                    <th data-column="monto">Monto</th>
+                    <th data-column="iva">IVA</th>
+                    <th data-column="total">Total</th>
+                    <th data-column="descripcion">Descripción</th>
+                    <th data-column="fecha">Fecha</th>
                 </tr>
                 <!-- Row for filters -->
                 <tr>
@@ -160,14 +160,13 @@
 
         // Cargar datos
         document.getElementById('btCargarDatos').addEventListener('click', function() {
-            fetch('cargar_datos.php', { method: 'GET' })
+            const orden = document.getElementById('orden').value;  // Get the current order
+            fetch(`cargar_datos.php?orden=${orden}`, { method: 'GET' })
             .then(response => response.json())
             .then(data => {
+                const filteredData = applyFilters(data);  // Apply filters
                 const tableBody = document.querySelector('#data-table tbody');
                 tableBody.innerHTML = '';  // Clear previous data
-
-                let filteredData = applyFilters(data);
-
                 filteredData.forEach(item => {
                     const row = `<tr>
                                     <td>${item.nro_factura}</td>
@@ -184,6 +183,15 @@
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
+            });
+        });
+
+        // Add event listeners to table headers for ordering
+        document.querySelectorAll('thead th').forEach(th => {
+            th.addEventListener('click', function() {
+                const column = th.getAttribute('data-column');
+                document.getElementById('orden').value = column;  // Set the order input value
+                document.getElementById('btCargarDatos').click();  // Reload data with new order
             });
         });
 
@@ -207,3 +215,4 @@
     </script>
 </body>
 </html>
+
