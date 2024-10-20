@@ -88,6 +88,7 @@
                         $("#tbDatos").empty();
                         try {
                             const data = JSON.parse(response); // Intentamos parsear el JSON
+                            console.log(data);  // Ver lo que contiene el JSON parseado
                             if (data.facturas && data.facturas.length > 0) {
                                 data.facturas.forEach(factura => {
                                     let row = `

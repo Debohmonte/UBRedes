@@ -5,7 +5,7 @@ try {
     $filtros = [];
     $where = [];
 
-    // Filtros para cada campo (si son enviados)
+    // Filtros para cada campo
     if (!empty($_GET['filterNroFactura'])) {
         $where[] = "nro_factura LIKE ?";
         $filtros[] = '%' . $_GET['filterNroFactura'] . '%';
@@ -56,13 +56,18 @@ try {
     $result = mysqli_stmt_get_result($stmt);
     $facturas = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
+    // Depuración: imprime la salida antes de convertirla en JSON
+    echo "<pre>";
+    print_r($facturas);  // Esto imprimirá los datos crudos de la consulta para verificar qué está saliendo
+    echo "</pre>";
+
     // Devolver el resultado en formato JSON
-    header('Content-Type: application/json');
+    header('Content-Type: application/json; charset=utf-8');
     echo json_encode(['facturas' => $facturas]);
 
 } catch (Exception $e) {
     // Devolver el error en formato JSON si algo falla
-    header('Content-Type: application/json');
+    header('Content-Type: application/json; charset=utf-8');
     echo json_encode(['error' => $e->getMessage()]);
 }
 ?>
