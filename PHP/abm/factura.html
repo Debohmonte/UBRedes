@@ -165,7 +165,7 @@
         <div class="modal-content">
             <span id="closeAltaModal" class="close">&times;</span>
             <h2 id="modalTitle">Crear nueva factura</h2>
-            <form id="formFactura">
+            <form id="formFactura" method="POST" action="">
                 <input type="hidden" id="id_factura"> <!-- Campo oculto para almacenar el ID de la factura si se modifica -->
                 <label for="nro_factura">Número de Factura</label>
                 <input type="text" id="nro_factura" name="nro_factura" required>
@@ -230,6 +230,9 @@
             document.getElementById('total').value = item.total;
             document.getElementById('descripcion').value = item.descripcion;
             document.getElementById('fecha').value = item.fecha;
+
+            // Cambiar el método de acción para la modificación
+            document.getElementById('formFactura').action = "modi_factura.php";
         }
 
         // Función para aplicar los filtros en los datos
@@ -323,6 +326,7 @@
             
             // Limpiar el formulario
             document.getElementById('formFactura').reset();
+            document.getElementById('formFactura').action = "alta_factura.php";
             altaModal.style.display = "block";
         }
 
