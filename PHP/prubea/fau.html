@@ -14,7 +14,7 @@
         </header>
         <div class="command">
             <p>Ordenar por:</p>
-            <input type="text" id="order" placeholder="Nro de Factura, Emisor, etc.">
+            <input type="text" id="filterNroFactura" placeholder="Nro de Factura, Emisor, etc.">
             <button id="cargar">Cargar Facturas</button>
             <button id="vaciar">Vaciar Filtros</button>
         </div>
@@ -32,9 +32,6 @@
                 <th>Total</th>
                 <th>Tipo de Factura</th>
                 <th>Fecha</th>
-                <th>PDF</th>
-                <th>Modificar</th>
-                <th>Eliminar</th>
             </tr>
             <tr id="FiltrosTR">
                 <td><input type="text" id="filterNroFactura" placeholder="Número de Factura"></td>
@@ -45,20 +42,19 @@
                 <td>
                     <select id="filterIVA">
                         <option value="">Seleccionar IVA</option>
+                        <option value="10">10%</option>
+                        <option value="21">21%</option>
                     </select>
                 </td>
                 <td><input type="text" id="filterTotal" placeholder="Total" disabled></td>
                 <td><input type="text" id="filterTipo" placeholder="Tipo de Factura"></td>
                 <td><input type="date" id="filterFecha" placeholder="Fecha"></td>
-                <td></td>
-                <td></td>
-                <td></td>
             </tr>
         </thead>
         <tbody id="tbDatos"></tbody>
         <tfoot>
             <tr>
-                <td colspan="12"><span id="totalRegistros"></span></td>
+                <td colspan="9"><span id="totalRegistros"></span></td>
             </tr>
         </tfoot>
     </table>
@@ -67,50 +63,12 @@
 
     <script>
         $(document).ready(function () {
-            let sortOrder = "DESC";
-
-            // Cargar IVA
-            $.ajax({
-                type: "GET",
-                url: "./facturasJSON.php",
-                success: function(response) {
-                    try {
-                        const data = response;
-                        if (data.error) {
-                            console.error("Error del servidor: " + data.error);
-                            alert(data.error);
-                        } else {
-                            if (data.ivas && data.ivas.length > 0) {
-                                const selectIVA = $("#filterIVA");
-                                selectIVA.empty();
-                                data.ivas.forEach(iva => {
-                                    selectIVA.append(new Option(iva.iva, iva.iva));
-                                });
-                            }
-                        }
-                    } catch (e) {
-                        console.error("Error al procesar el JSON: ", e);
-                        alert("Error al procesar los datos del servidor.");
-                    }
-                },
-                error: function() {
-                    alert("Error al realizar la solicitud al servidor.");
-                }
-            });
-
-            // Cargar tabla
-            $("#cargar").click(function () {
-                cargaTabla();
-            });
-
-            // Función para cargar datos filtrados
-            function cargaTabla(orderBy = "nro_factura", sortOrder = "DESC") {
+            // Función para cargar los datos de las facturas
+            function cargaTabla() {
                 $.ajax({
                     type: "GET",
                     url: "./facturasJSON.php",
                     data: {
-                        orden: orderBy,
-                        direccion: sortOrder, 
                         filterNroFactura: $("#filterNroFactura").val(),
                         filterEmisor: $("#filterEmisor").val(),
                         filterReceptor: $("#filterReceptor").val(),
@@ -120,52 +78,41 @@
                         filterFecha: $("#filterFecha").val()
                     },
                     success: function (response) {
-                        $("#tbDatos").empty();
-                        try {
-                            const data = response;
-                            if (data.facturas && data.facturas.length > 0) {
-                                data.facturas.forEach(factura => {
-                                    let row = `
-                                        <tr>
-                                            <td>${factura.NroFactura}</td>
-                                            <td>${factura.Emisor}</td>
-                                            <td>${factura.Receptor}</td>
-                                            <td>${factura.Monto}</td>
-                                            <td>${factura.Descripcion}</td>
-                                            <td>${factura.IVA}</td>
-                                            <td>${factura.Total}</td>
-                                            <td>${factura.Tipo}</td>
-                                            <td>${factura.Fecha}</td>
-                                            <td><button class="btn-pdf" data-id="${factura.NroFactura}">PDF</button></td>
-                                            <td><button class="btn-modificar" data-id="${factura.NroFactura}">Modificar</button></td>
-                                            <td><button class="btn-eliminar" data-id="${factura.NroFactura}">Eliminar</button></td>
-                                        </tr>`;
-                                    $("#tbDatos").append(row);
-                                });
-                                $("#totalRegistros").html(`Total de Facturas: ${data.facturas.length}`);
-                            } else {
-                                $("#tbDatos").html("<tr><td colspan='12'>No se encontraron resultados.</td></tr>");
-                            }
-                        } catch (e) {
-                            console.error("Error al procesar el JSON: ", e);
-                            alert("Error al procesar los datos del servidor.");
+                        $("#tbDatos").empty(); // Limpiar la tabla antes de cargar nuevos datos
+
+                        if (response.facturas && response.facturas.length > 0) {
+                            response.facturas.forEach(function (factura) {
+                                let row = `
+                                    <tr>
+                                        <td>${factura.nro_factura}</td>
+                                        <td>${factura.cuil_emisor}</td>
+                                        <td>${factura.cuil_receptor}</td>
+                                        <td>${factura.monto}</td>
+                                        <td>${factura.descripcion}</td>
+                                        <td>${factura.iva}</td>
+                                        <td>${factura.total}</td>
+                                        <td>${factura.tipo_id}</td>
+                                        <td>${factura.fecha}</td>
+                                    </tr>`;
+                                $("#tbDatos").append(row);
+                            });
+                        } else {
+                            $("#tbDatos").html("<tr><td colspan='9'>No se encontraron resultados.</td></tr>");
                         }
                     },
-                    error: function () {
-                        $("#tbDatos").empty();
-                        alert("Error al cargar los datos");
+                    error: function (xhr, status, error) {
+                        console.error("Error en la solicitud AJAX:", error);
+                        alert("Hubo un error al cargar las facturas.");
                     }
                 });
             }
 
-            // Ordenar por columna
-            $("th").click(function () {
-                let orderBy = $(this).attr("campo-dato");
-                $("#order").val(orderBy);
-                cargaTabla(orderBy, sortOrder);
+            // Botón para cargar los datos
+            $("#cargar").click(function () {
+                cargaTabla();
             });
 
-            // Vaciar filtros
+            // Botón para vaciar los filtros
             $("#vaciar").click(function () {
                 $("#filterNroFactura").val('');
                 $("#filterEmisor").val('');
@@ -173,34 +120,8 @@
                 $("#filterMonto").val('');
                 $("#filterDescripcion").val('');
                 $("#filterIVA").val('');
-                $("#filterTotal").val('');
-                $("#filterTipo").val('');
                 $("#filterFecha").val('');
-                $("#order").val('');
                 $("#tbDatos").empty();
-                $("#totalRegistros").text('');
-            });
-
-            // Funcionalidad de los botones
-            $(document).on('click', '.btn-pdf', function() {
-                const idFactura = $(this).data('id');
-                // Lógica para generar el PDF de la factura
-                alert(`Generando PDF para la factura #${idFactura}`);
-            });
-
-            $(document).on('click', '.btn-modificar', function() {
-                const idFactura = $(this).data('id');
-                // Lógica para modificar la factura
-                alert(`Modificando la factura #${idFactura}`);
-            });
-
-            $(document).on('click', '.btn-eliminar', function() {
-                const idFactura = $(this).data('id');
-                // Lógica para eliminar la factura
-                if (confirm(`¿Está seguro de eliminar la factura #${idFactura}?`)) {
-                    alert(`Eliminando la factura #${idFactura}`);
-                    // Aquí puedes agregar la lógica de eliminación real
-                }
             });
         });
     </script>
