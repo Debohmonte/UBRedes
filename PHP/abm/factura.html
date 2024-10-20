@@ -5,24 +5,148 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Facturas</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
-        h1 { font-size: 24px; font-weight: bold; }
-        header { display: flex; align-items: center; background-color: beige; padding: 20px; position: fixed; top: 0; width: 100%; z-index: 1000; }
-        label { font-size: 18px; font-weight: bold; margin-right: 10px; }
-        input, button { height: 30px; font-size: 14px; margin-right: 10px; }
-        button { background-color: lightgray; border: 1px solid black; height: 50px; width: 150px; cursor: pointer; }
-        button:hover { background-color: #ddd; }
-        .container { background-color: beige; padding: 10px; margin-top: 100px; margin-bottom: 50px; }
-        .table-container { max-height: 300px; overflow-y: auto; } /* Añadido para barra de desplazamiento */
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        table, th, td { border: 1px solid #ddd; }
-        th, td { padding: 12px; text-align: center; cursor: pointer; }
-        footer { background-color: #FF7361; height: 30px; position: fixed; bottom: 0; width: 100%; text-align: center; z-index: 1000; }
-        .modal { display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.4); }
-        .modal-content { background-color: #fff; margin: 5% auto; padding: 20px; border: 1px solid #888; width: 50%; border-radius: 8px; }
-        .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
-        .close:hover { color: black; }
-        input[type="text"], input[type="number"], input[type="date"], select { width: 100%; padding: 5px; margin: 5px 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Asegura que ocupe al menos la altura de la pantalla */
+        }
+
+        h1 { 
+            font-size: 24px; 
+            font-weight: bold; 
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            background-color: beige;
+            padding: 20px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        label { 
+            font-size: 18px; 
+            font-weight: bold; 
+            margin-right: 10px; 
+        }
+
+        input, button {
+            height: 30px;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+
+        button {
+            background-color: lightgray;
+            border: 1px solid black;
+            height: 50px;
+            width: 150px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #ddd;
+        }
+
+        .container {
+            background-color: beige;
+            padding: 10px;
+            flex: 1; /* Para que crezca y llene el espacio restante */
+            margin-top: 100px;
+            margin-bottom: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .table-container {
+            width: 100%;
+            flex-grow: 1;
+            max-height: calc(100vh - 220px); /* Ajusta la altura para que no se desborde */
+            overflow-y: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        footer {
+            background-color: #FF7361;
+            height: 30px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+            border-radius: 8px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: black;
+        }
+
+        input[type="text"], input[type="number"], input[type="date"], select {
+            width: 100%;
+            padding: 5px;
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body>
@@ -48,6 +172,7 @@
                         <th data-column="cuil_receptor">CUIL Receptor</th>
                         <th data-column="monto">Monto</th>
                         <th data-column="iva">IVA</th>
+                        <th data-column="total">Total</th>
                         <th data-column="descripcion">Descripción</th>
                         <th data-column="fecha">Fecha</th>
                         <th>Modificar</th>
@@ -65,6 +190,7 @@
                                 <option value="21.00">21.00</option>
                             </select>
                         </td>
+                        <td><input type="number" id="filter_total" placeholder="Total"></td>
                         <td><input type="text" id="filter_descripcion" placeholder="Descripción"></td>
                         <td><input type="date" id="filter_fecha" placeholder="Fecha"></td>
                     </tr>
@@ -76,13 +202,13 @@
 
     <footer>© 2024 Gestión de Facturas</footer>
 
-    <!-- Modal alta/modi -->
+    <!-- Modal para el alta/modificación de facturas -->
     <div id="altaModal" class="modal">
         <div class="modal-content">
             <span id="closeAltaModal" class="close">&times;</span>
             <h2 id="modalTitle">Crear nueva factura</h2>
             <form id="formFactura" method="POST" action="">
-                <input type="hidden" id="id_factura" name="id_factura"> 
+                <input type="hidden" id="id_factura" name="id_factura"> <!-- Campo oculto para modificar facturas -->
                 <label for="nro_factura">Número de Factura</label>
                 <input type="text" id="nro_factura" name="nro_factura" required>
                 <label for="cuil_emisor">CUIL Emisor</label>
@@ -97,6 +223,8 @@
                     <option value="10.50">10.50</option>
                     <option value="21.00">21.00</option>
                 </select>
+                <label for="total">Total</label>
+                <input type="number" id="total" name="total" required>
                 <label for="descripcion">Descripción</label>
                 <input type="text" id="descripcion" name="descripcion" required>
                 <label for="fecha">Fecha</label>
@@ -115,9 +243,9 @@
             fetch(`cargar_datos.php?orden=${orden}&direccion=${ordenDireccion}`, { method: 'GET' })
             .then(response => response.json())
             .then(data => {
-                const filteredData = applyFilters(data); 
+                const filteredData = applyFilters(data); // Aplicar los filtros aquí
                 const tableBody = document.querySelector('#data-table tbody');
-                tableBody.innerHTML = '';  // Limpiar 
+                tableBody.innerHTML = '';  // Limpiar datos anteriores
 
                 filteredData.forEach(item => {
                     const row = `<tr>
@@ -126,6 +254,7 @@
                                     <td>${item.cuil_receptor}</td>
                                     <td>${item.monto}</td>
                                     <td>${item.iva}</td>
+                                    <td>${item.total}</td>
                                     <td>${item.descripcion}</td>
                                     <td>${item.fecha}</td>
                                     <td><button onclick='modificarFactura(${JSON.stringify(item)})'>Modificar</button></td>
@@ -139,7 +268,7 @@
             });
         });
 
-        //  filtros
+        // Función para aplicar los filtros
         function applyFilters(data) {
             const filters = {
                 nro_factura: document.getElementById('filter_nro_factura').value.toLowerCase(),
@@ -147,6 +276,7 @@
                 cuil_receptor: document.getElementById('filter_cuil_receptor').value.toLowerCase(),
                 monto: document.getElementById('filter_monto').value,
                 iva: document.getElementById('filter_iva').value,
+                total: document.getElementById('filter_total').value,
                 descripcion: document.getElementById('filter_descripcion').value.toLowerCase(),
                 fecha: document.getElementById('filter_fecha').value
             };
@@ -157,19 +287,20 @@
                     (!filters.cuil_receptor || item.cuil_receptor.toLowerCase().includes(filters.cuil_receptor)) &&
                     (!filters.monto || item.monto == filters.monto) &&
                     (!filters.iva || item.iva == filters.iva) &&
+                    (!filters.total || item.total == filters.total) &&
                     (!filters.descripcion || item.descripcion.toLowerCase().includes(filters.descripcion)) &&
                     (!filters.fecha || item.fecha == filters.fecha);
             });
         }
 
-        // Encabezado
+        // Ordenar datos al hacer clic en el encabezado
         document.querySelectorAll('thead th[data-column]').forEach(th => {
             th.addEventListener('click', function() {
                 const column = th.getAttribute('data-column');
                 const currentOrder = document.getElementById('orden').value;
                 const currentDirection = document.getElementById('orden_direccion').value;
 
-                // ordena
+                // Cambiar la dirección de la ordenación
                 if (currentOrder === column) {
                     document.getElementById('orden_direccion').value = currentDirection === 'asc' ? 'desc' : 'asc';
                 } else {
@@ -177,18 +308,18 @@
                     document.getElementById('orden_direccion').value = 'asc';
                 }
 
-                document.getElementById('btCargarDatos').click();  
+                document.getElementById('btCargarDatos').click();  // Recargar datos con la nueva orden
             });
         });
 
-        //  elimina
+        // Función para eliminar facturas
         function eliminarFactura(id) {
             if (confirm("¿Estás seguro de que deseas eliminar esta factura?")) {
                 fetch(`baja_factura.php?id=${id}`, { method: 'GET' })
                 .then(response => response.text())
                 .then(message => {
-                    alert(message);  
-                    document.getElementById('btCargarDatos').click();  
+                    alert(message);  // Mostrar el mensaje de éxito o error
+                    document.getElementById('btCargarDatos').click();  // Recargar los datos
                 })
                 .catch(error => {
                     console.error('Error al eliminar la factura:', error);
@@ -196,29 +327,30 @@
             }
         }
 
-        // modi
+        // Función para modificar facturas
         function modificarFactura(item) {
-            altaModal.style.display = "block";  
-            document.getElementById('modalTitle').textContent = "Modificar Factura";  
-            document.getElementById('formFactura').action = "modi_factura.php"; 
+            altaModal.style.display = "block";  // Abrir el modal
+            document.getElementById('modalTitle').textContent = "Modificar Factura";  // Cambiar título
+            document.getElementById('formFactura').action = "modi_factura.php";  // Acción para modificar
             
-            //formulario 
+            // Llenar formulario con los datos de la factura seleccionada
             document.getElementById('id_factura').value = item.id;
             document.getElementById('nro_factura').value = item.nro_factura;
             document.getElementById('cuil_emisor').value = item.cuil_emisor;
             document.getElementById('cuil_receptor').value = item.cuil_receptor;
             document.getElementById('monto').value = item.monto;
             document.getElementById('iva').value = item.iva;
+            document.getElementById('total').value = item.total;
             document.getElementById('descripcion').value = item.descripcion;
             document.getElementById('fecha').value = item.fecha;
         }
 
-        //  modal 
+        // Abrir el modal para crear una nueva factura
         document.getElementById('btAltaRegistro').onclick = function() {
             document.getElementById('modalTitle').textContent = "Crear nueva Factura";
-            document.getElementById('formFactura').reset(); 
-            document.getElementById('formFactura').action = "alta_factura.php"; 
-            altaModal.style.display = "block";  
+            document.getElementById('formFactura').reset();  // Limpiar el formulario
+            document.getElementById('formFactura').action = "alta_factura.php";  // Acción para crear nueva
+            altaModal.style.display = "block";  // Abrir el modal
         }
 
         // Cerrar el modal
@@ -232,22 +364,22 @@
             }
         }
 
-        // input filtros
+        // Agregar eventos de input a los filtros
         document.querySelectorAll('thead input, thead select').forEach(input => {
             input.addEventListener('input', function() {
-                document.getElementById('btCargarDatos').click();  
+                document.getElementById('btCargarDatos').click();  // Recargar los datos al cambiar un filtro
             });
         });
 
         // Limpiar filtros
         document.getElementById('btLimpiarFiltros').addEventListener('click', function() {
             document.querySelectorAll('thead input, thead select').forEach(input => input.value = '');
-            document.getElementById('btCargarDatos').click(); 
+            document.getElementById('btCargarDatos').click(); // Recargar datos después de limpiar filtros
         });
 
         // Vaciar datos
         document.getElementById('btVaciarDatos').addEventListener('click', function() {
-            document.querySelector('#data-table tbody').innerHTML = ''; 
+            document.querySelector('#data-table tbody').innerHTML = ''; // Limpiar tabla
         });
     </script>
 </body>
