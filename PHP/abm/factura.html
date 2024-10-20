@@ -155,8 +155,8 @@
             return filteredData;
         }
 
-                // Cargar datos
-            document.getElementById('btCargarDatos').addEventListener('click', function() {
+        // Cargar datos
+        document.getElementById('btCargarDatos').addEventListener('click', function() {
             const orden = document.getElementById('orden').value;  // Get the current order
             const ordenDireccion = document.getElementById('orden_direccion').value;  // Get current sorting direction
 
@@ -176,25 +176,14 @@
                                     <td>${item.total}</td>
                                     <td>${item.descripcion}</td>
                                     <td>${item.fecha}</td>
-                                    <td><button class="btn-view-pdf" data-pdf="${item.pdf_path}">Ver PDF</button></td>
                                 </tr>`;
                     tableBody.innerHTML += row;
-                });
-
-                // Add event listeners to PDF buttons
-                document.querySelectorAll('.btn-view-pdf').forEach(button => {
-                    button.addEventListener('click', function() {
-                        const pdfPath = button.getAttribute('data-pdf');
-                        pdfViewer.src = pdfPath;
-                        pdfModal.style.display = 'block';
-                    });
                 });
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
         });
-
 
         // Add event listeners to table headers for ordering
         document.querySelectorAll('thead th').forEach(th => {
