@@ -1,11 +1,11 @@
 <?php
-include 'conexion.php';
+include 'conexion.php'; // Asegúrate de que la conexión a la base de datos está incluida
 
 try {
     $filtros = [];
     $where = [];
 
-    // Filtros para cada campo
+    // Filtros para cada campo (si son enviados)
     if (!empty($_GET['filterNroFactura'])) {
         $where[] = "nro_factura LIKE ?";
         $filtros[] = '%' . $_GET['filterNroFactura'] . '%';
@@ -54,11 +54,15 @@ try {
 
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
-    $factura = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $facturas = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
+    // Devolver el resultado en formato JSON
     header('Content-Type: application/json');
-    echo json_encode(['factura' => $factura]);
+    echo json_encode(['facturas' => $facturas]);
+
 } catch (Exception $e) {
+    // Devolver el error en formato JSON si algo falla
+    header('Content-Type: application/json');
     echo json_encode(['error' => $e->getMessage()]);
 }
 ?>

@@ -84,9 +84,10 @@
                         direccion: sortOrder
                     },
                     success: function (response) {
+                        console.log(response);  // Debug para ver la respuesta del servidor
                         $("#tbDatos").empty();
                         try {
-                            const data = JSON.parse(response);
+                            const data = JSON.parse(response); // Intentamos parsear el JSON
                             if (data.facturas && data.facturas.length > 0) {
                                 data.facturas.forEach(factura => {
                                     let row = `
@@ -155,4 +156,3 @@
     </script>
 </body>
 </html>
-
