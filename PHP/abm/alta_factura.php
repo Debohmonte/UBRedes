@@ -6,19 +6,17 @@ error_reporting(E_ALL);
 require_once 'db_connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Retrieve form data
     $nro_factura = $_POST['nro_factura'];
     $cuil_emisor = $_POST['cuil_emisor'];
     $cuil_receptor = $_POST['cuil_receptor'];
     $monto = $_POST['monto'];
     $iva = $_POST['iva'];
     $total = $_POST['total'];
-    $tipo = $_POST['tipo'];
+    $descripcion = $_POST['descripcion'];  // Use 'descripcion' instead of 'tipo'
     $fecha = $_POST['fecha'];
 
-    // Insert into the database
-    $sql = "INSERT INTO factura (nro_factura, cuil_emisor, cuil_receptor, monto, iva, total, tipo, fecha)
-            VALUES ('$nro_factura', '$cuil_emisor', '$cuil_receptor', '$monto', '$iva', '$total', '$tipo', '$fecha')";
+    $sql = "INSERT INTO factura (nro_factura, cuil_emisor, cuil_receptor, monto, iva, total, descripcion, fecha)
+            VALUES ('$nro_factura', '$cuil_emisor', '$cuil_receptor', '$monto', '$iva', '$total', '$descripcion', '$fecha')";
 
     if (mysqli_query($conn, $sql)) {
         echo "Factura insertada correctamente.";
@@ -26,9 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "Error al insertar la factura: " . mysqli_error($conn);
     }
 
-    mysqli_close($conn);  // Close the database connection
-
-    // Redirect back to the main page after submission
     header("Location: factura.html");
     exit();
 }

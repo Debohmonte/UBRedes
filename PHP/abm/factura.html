@@ -45,7 +45,7 @@
                     <th>Monto</th>
                     <th>IVA</th>
                     <th>Total</th>
-                    <th>Tipo</th>
+                    <th>Descripción</th> <!-- Updated to 'Descripción' -->
                     <th>Fecha</th>
                 </tr>
             </thead>
@@ -79,8 +79,9 @@
                 <label for="total">Total</label>
                 <input type="number" id="total" name="total" required min="0" step="0.01">
 
-                <label for="tipo">Tipo de Factura</label>
-                <input type="text" id="tipo" name="tipo" required>
+                <!-- Updated to 'Descripción' -->
+                <label for="descripcion">Descripción de Factura</label>
+                <input type="text" id="descripcion" name="descripcion" required>
 
                 <label for="fecha">Fecha</label>
                 <input type="date" id="fecha" name="fecha" required>
@@ -91,16 +92,10 @@
     </div>
 
     <script>
-        // Get the modals
         var altaModal = document.getElementById("altaModal");
-
-        // Get the button that opens the alta modal
         var openAltaModalBtn = document.getElementById("btAltaRegistro");
-
-        // Get the <span> element that closes the alta modal
         var closeAltaModalBtn = document.getElementById("closeAltaModal");
 
-        // Event listeners for modal and button functionality
         openAltaModalBtn.onclick = function() {
             altaModal.style.display = "block";
         }
@@ -115,9 +110,7 @@
 
         // Cargar datos
         document.getElementById('btCargarDatos').addEventListener('click', function() {
-            fetch('cargar_datos.php', {
-                method: 'GET'
-            })
+            fetch('cargar_datos.php', { method: 'GET' })
             .then(response => response.json())
             .then(data => {
                 const tableBody = document.querySelector('#data-table tbody');
@@ -130,7 +123,7 @@
                                     <td>${item.monto}</td>
                                     <td>${item.iva}</td>
                                     <td>${item.total}</td>
-                                    <td>${item.tipo}</td>
+                                    <td>${item.descripcion}</td> <!-- Updated to 'descripcion' -->
                                     <td>${item.fecha}</td>
                                 </tr>`;
                     tableBody.innerHTML += row;
