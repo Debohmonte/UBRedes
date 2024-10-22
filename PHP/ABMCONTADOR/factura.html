@@ -137,7 +137,7 @@
 
         .modal-content {
             background-color: #FFF;
-            margin: 6% auto;
+            margin: 4% auto;
             padding: 20px;
             border: 1px solid #888;
             width: 50%;
@@ -189,6 +189,7 @@
                         <th data-column="iva">IVA</th>
                         <th data-column="descripcion">Descripción</th>
                         <th data-column="fecha">Fecha</th>
+                        <th>PDF</th>
                         <th>Modificar</th>
                         <th>Eliminar</th>
                     </tr>
@@ -268,6 +269,7 @@
                                     <td>${item.iva}</td>
                                     <td>${item.descripcion}</td>
                                     <td>${item.fecha}</td>
+                                    <td><button onclick="generarPDF(${item.id})">PDF</button></td>
                                     <td><button onclick='modificarFactura(${JSON.stringify(item)})'>Modificar</button></td>
                                     <td><button onclick="eliminarFactura(${item.id})">Borrar</button></td>
                                 </tr>`;
