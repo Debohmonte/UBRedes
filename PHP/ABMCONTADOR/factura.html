@@ -153,13 +153,15 @@
         }
 
         .modal-content {
-            background-color: #FFF;
-            margin: 5% auto;
-            padding: 15px;
-            border: 1px solid #888;
-            width: 60%;
-            border-radius: 8px;
-        }
+        background-color: #FFF;
+        margin: 2% auto;  /* Reduce el margen superior para que la ventana modal se vea completa */
+        padding: 15px;
+        border: 1px solid #888;
+        width: 50%;       /* Ajuste del ancho del modal */
+        max-height: 90vh; /* Aseguramos que la ventana no sea más alta que la pantalla */
+        overflow-y: auto; /* Añadimos desplazamiento vertical si el contenido sobrepasa la altura */
+        border-radius: 8px;
+         }
 
         .close {
             color: #FF3399;
