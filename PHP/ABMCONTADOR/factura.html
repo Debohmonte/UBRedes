@@ -85,9 +85,11 @@
             flex-grow: 1;
             max-height: calc(100vh - 250px); 
             overflow-y: auto;
+            overflow-x: hidden; /* Oculta el desplazamiento horizontal */
         }
 
         table {
+            table-layout: auto; /* Ajusta automáticamente el ancho de las columnas */
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
@@ -103,6 +105,22 @@
             text-align: center;
             cursor: pointer;
             color: #FF3399;
+        }
+
+        /* Botones más pequeños dentro de la tabla */
+        table button {
+            background-color: #FF66B2;
+            border: 1px solid #FF3399;
+            color: white;
+            font-size: 12px; /* Tamaño de texto más pequeño */
+            height: 30px;  /* Reduce la altura */
+            width: 80px;   /* Reduce el ancho */
+            cursor: pointer;
+            padding: 5px;  /* Reduce el padding */
+        }
+
+        table button:hover {
+            background-color: #FF3399;
         }
 
         .contador-container {
@@ -137,10 +155,10 @@
 
         .modal-content {
             background-color: #FFF;
-            margin: 4% auto;
-            padding: 20px;
+            margin: 10% auto;  /* Ajuste para que la ventana modal se vea completa */
+            padding: 15px;      /* Reduce el padding */
             border: 1px solid #888;
-            width: 50%;
+            width: 40%;         /* Reduce el ancho de la ventana modal */
             border-radius: 8px;
         }
 
@@ -163,6 +181,7 @@
             border: 1px solid #FF99CC;
         }
     </style>
+    
 </head>
 <body>
 
