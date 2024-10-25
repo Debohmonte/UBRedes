@@ -9,7 +9,7 @@ if (isset($_GET['id'])) {
     $stmt->bind_param("i", $id);
 
     if ($stmt->execute()) {
-        echo "Factura eliminada correctamente.";
+        echo "Factura eliminadda correctamente.";
     } else {
         echo "Error al eliminar la factura.";
     }
