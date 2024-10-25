@@ -1,12 +1,12 @@
 <?php
 session_start();
-include('db_connection.php'); // Make sure this path is correct and points to db_connection.php
+include('db_connection.php'); // Make sure this path is correct
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $usuario = $_POST['usuario'];
-    $password = sha1($_POST['pass']); // Encrypt password
+    $password = sha1($_POST['pass']); // Encrypt the password
 
-    // Ensure $conn is defined and valid
+    // Ensure $conn is valid before using it
     if (isset($conn)) {
         try {
             $stmt = $conn->prepare("SELECT * FROM usuarios WHERE login = :usuario AND password = :password");
