@@ -1,13 +1,16 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
-include('db_connection.php'); // Ensure this file has a proper database connection
+include('db_connection.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $usuario = $_POST['usuario'];
-    $password = sha1($_POST['pass']); // Encrypt the password for comparison
+    $password = sha1($_POST['pass']); // Encrypt password
 
     try {
-        // Query to check user credentials
         $stmt = $conn->prepare("SELECT * FROM usuarios WHERE login = :usuario AND password = :password");
         $stmt->bindParam(':usuario', $usuario);
         $stmt->bindParam(':password', $password);
@@ -16,13 +19,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($user) {
             $_SESSION['usuario'] = $user['login'];
-            header('Location: DataIngreso.php'); // Redirect on success
+            header('Location: DataIngreso.php');
             exit();
         } else {
             echo "Usuario o contraseña incorrecta.";
         }
     } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage(); // Display any connection/query errors
+        echo "Error in query: " . $e->getMessage();
     }
 }
 ?>

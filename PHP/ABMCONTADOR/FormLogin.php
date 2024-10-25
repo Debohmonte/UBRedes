@@ -80,18 +80,3 @@
 </body>
 </html>
 
-<body>
-    <form method="post" action="IngresoAlSistema.php">
-        <h1>Iniciar Sesión</h1>
-        <div>
-            <label for="usuario">Usuario</label>
-            <input type="text" id="usuario" name="usuario" required>
-        </div>
-        <div>
-            <label for="pass">Contraseña</label>
-            <input type="password" id="pass" name="pass" required>
-        </div>
-        <button type="submit">Ingresar</button>
-    </form>
-</body>
-</html>
