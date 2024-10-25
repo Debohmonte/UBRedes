@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['usuario'])) {
-    header('Location: FormLogin.php');  // Redirect if no session
+    header('Location: FormLogin.php');
     exit();
 }
 ?>
@@ -9,11 +9,36 @@ if (!isset($_SESSION['usuario'])) {
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <title>Data de Ingreso</title>
+    <meta charset="UTF-8">
+    <title>Bienvenido</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #e6f7ff;
+        }
+        .welcome-container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        a {
+            display: block;
+            margin-top: 20px;
+            color: #4CAF50;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
-    <h1>Bienvenido, <?php echo htmlspecialchars($_SESSION['usuario']); ?></h1>
-    <p>Esta es la página de datos después de iniciar sesión.</p>
-    <a href="DestruirSesion.php">Cerrar sesión</a>
+    <div class="welcome-container">
+        <h1>Bienvenido, <?php echo htmlspecialchars($_SESSION['usuario']); ?>!</h1>
+        <a href="DestruirSesion.php">Cerrar sesión</a>
+    </div>
 </body>
 </html>
