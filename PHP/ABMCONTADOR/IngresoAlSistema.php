@@ -1,32 +1,29 @@
 <?php
 session_start();
-include('db_connection.php'); // Make sure this path is correct
+include('db_connection.php'); // Make sure the path is correct
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $usuario = $_POST['usuario'];
-    $password = sha1($_POST['pass']); // Encrypt the password
+    $password = sha1($_POST['pass']); // Hash the password with SHA-1 to match the stored hash
 
-    // Ensure $conn is valid before using it
-    if (isset($conn)) {
-        try {
-            $stmt = $conn->prepare("SELECT * FROM usuarios WHERE login = :usuario AND password = :password");
-            $stmt->bindParam(':usuario', $usuario);
-            $stmt->bindParam(':password', $password);
-            $stmt->execute();
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    try {
+        $stmt = $conn->prepare("SELECT * FROM usuarios WHERE login = :usuario AND password = :password");
+        $stmt->bindParam(':usuario', $usuario);
+        $stmt->bindParam(':password', $password);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($user) {
-                $_SESSION['usuario'] = $user['login'];
-                header('Location: DataIngreso.php');
-                exit();
-            } else {
-                echo "Usuario o contraseña incorrecta.";
-            }
-        } catch (PDOException $e) {
-            echo "Error in query: " . $e->getMessage();
+        if ($user) {
+            // If user exists and password matches, set session and redirect
+            $_SESSION['usuario'] = $user['login'];
+            header('Location: DataIngreso.php');
+            exit();
+        } else {
+            // If user not found or password doesn't match
+            echo "Usuario o contraseña incorrecta.";
         }
-    } else {
-        echo "Database connection not established.";
+    } catch (PDOException $e) {
+        echo "Error in query: " . $e->getMessage();
     }
 }
 ?>
