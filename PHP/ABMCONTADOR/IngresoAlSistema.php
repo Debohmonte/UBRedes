@@ -1,37 +1,24 @@
 <?php
-include('./db_connection.php');  // Replace with your database connection file
-
 session_start();
-$log = $_POST['usuario'];
-$cl = $_POST['pass'];
-$encriptada = sha1($cl);
+include('db_connection.php');  // Ensure db_connection.php is correctly configured
 
-$stmt = $conn->prepare("SELECT * FROM usuarios WHERE login = :usuario");
-$stmt->bindParam(':usuario', $log);
-$stmt->execute();
-$usuario_bd = $stmt->fetch(PDO::FETCH_ASSOC);
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $usuario = $_POST['usuario'];
+    $password = sha1($_POST['pass']); // Encrypt password to match stored format
 
-if ($usuario_bd) {
-    if (hash_equals($usuario_bd['password'], $encriptada)) {
-        $_SESSION['usuario'] = $usuario_bd['login'];
-        $stmt2 = $conn->prepare("SELECT contador FROM usuarios WHERE login= :usuario");
-        $stmt2->bindParam(':usuario', $log);
-        $stmt2->execute();
-        $usuarioContador = $stmt2->fetch(PDO::FETCH_ASSOC);
-        $contadorActual = $usuarioContador['contador'];
-        $SumarContador = $contadorActual + 1;
+    // Check if user exists in the database
+    $stmt = $conn->prepare("SELECT * FROM usuarios WHERE login = :usuario AND password = :password");
+    $stmt->bindParam(':usuario', $usuario);
+    $stmt->bindParam(':password', $password);
+    $stmt->execute();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $stmt3 = $conn->prepare("UPDATE usuarios SET contador = :contador WHERE login = :usuario");
-        $stmt3->bindParam(':usuario', $log);
-        $stmt3->bindParam(':contador', $SumarContador);
-        $stmt3->execute();
-
-        header('Location: ./DataIngreso.php?contador=' . $SumarContador);
+    if ($user) {
+        $_SESSION['usuario'] = $user['login']; // Store user login in session
+        header('Location: DataIngreso.php');   // Redirect on successful login
         exit();
     } else {
-        echo "Contraseña incorrecta";
+        echo 'Usuario o contraseña incorrecta';
     }
-} else {
-    echo 'Usuario no encontrado';
 }
 ?>

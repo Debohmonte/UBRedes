@@ -5,29 +5,24 @@
 // }
 ?>
 
+<!-- FormLogin.php -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="form.css">
 </head>
 <body>
-    <form id="Login" method="post" action="IngresoAlSistema.php">
+    <form method="post" action="IngresoAlSistema.php">
         <h1>Iniciar Sesión</h1>
-        <div class="form-group">
+        <div>
             <label for="usuario">Usuario</label>
-            <input type="text" id="usuario" name="usuario" placeholder="Ingresa tu usuario" required>
+            <input type="text" id="usuario" name="usuario" required>
         </div>
-        <div class="form-group">
+        <div>
             <label for="pass">Contraseña</label>
-            <input type="password" id="pass" name="pass" placeholder="Ingresa tu contraseña" required>
-        </div>
-        <div class="credenciales">
-            <h3>Credenciales</h3>
-            <p>Usuario: test</p>
-            <p>Contraseña: redes</p>
+            <input type="password" id="pass" name="pass" required>
         </div>
         <button type="submit">Ingresar</button>
     </form>
