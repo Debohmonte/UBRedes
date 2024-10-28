@@ -1,0 +1,83 @@
+
+dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40%;
+    max-width: 450px;
+    background-color: #ffebf2; 
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    color: #333; 
+    z-index: 1000;
+    overflow: hidden;
+}
+
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    width: 100%;
+}
+
+
+.form-group {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+form input,
+form select,
+form button {
+    background-color: #ffccd9; 
+    color: #333;
+    border: 1px solid #ff99b6;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    width: 100%;
+}
+
+
+form label {
+    font-size: 1em;
+    color: #333;
+    margin-bottom: 5px;
+    width: 100%;
+    text-align: left;
+}
+
+
+form button {
+    background-color: #ff6699; 
+    color: #fff;
+    border: none;
+    padding: 15px;
+    font-size: 1em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #ff3366;
+}
+
+dialog .cerrarventana {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    color: #ff6699;
+    cursor: pointer;
+}

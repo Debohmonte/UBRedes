@@ -1,0 +1,98 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    font-family: Arial, sans-serif;
+    background-color: #FFE6F2;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+}
+
+h3 {
+    font-size: 24px; 
+    font-weight: bold; 
+    color: #FF3399; 
+}
+
+.head {
+    background-color: #FF99CC;
+    padding: 10px;
+}
+
+.command {
+    margin: 10px 0;
+}
+
+button {
+    background-color: #FF66B2;
+    border: none;
+    color: white;
+    height: 30px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+button:hover {
+    background-color: #FF3399;
+}
+
+.table-container {
+    overflow-y: auto; 
+    padding: 10px;
+    flex-grow: 1; 
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #FFD6EB;
+}
+
+table, th, td {
+    border: 1px solid #FF99CC;
+    text-align: center; 
+}
+
+th, td {
+    padding: 1px; 
+    font-size: 10px; 
+    min-width: 40px;
+}
+
+th input, th select {
+    padding: 2px; 
+    font-size: 10px; 
+    width: 80%; 
+}
+
+.contador-container {
+    text-align: center;
+    padding: 10px 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #FF3399;
+}
+
+footer {
+    background-color: #FF3399;
+    height: 30px;
+    text-align: center;
+    color: white;
+    padding: 5px 0; 
+    position: fixed; 
+    left: 0; 
+    bottom: 0; 
+    width: 100%; 
+    z-index: 1000; 
+}
