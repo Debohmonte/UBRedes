@@ -9,11 +9,11 @@ try {
     exit;
 }
 
-$Id = $_POST['id'];
-$sql = "DELETE FROM factura WHERE id=:id";
-$stmt = $conn->prepare($sql);
-$stmt->bindParam(':id', $Id);
-$stmt->execute();
+$Id = $_POST['id']; // resive el id de la factura a eliminar 
+$sql = "DELETE FROM factura WHERE id=:id"; // consulta al sql 
+$stmt = $conn->prepare($sql); // prepara para evitar inyesiones ssql
+$stmt->bindParam(':id', $Id); //vincula id con variable id
+$stmt->execute(); // ejecuta elimionado
 
 echo json_encode(["status" => "success", "message" => "Factura borrada exitosamente"]);
 ?>

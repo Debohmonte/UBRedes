@@ -15,7 +15,7 @@ function cargaTabla() {
                 //limpia tabla anterior si hay flitos
                 $("#tbDatos").empty();
                 
-                
+                // cada factura es una linea con este formato
                 response.data.forEach(factura => {
                     $("#tbDatos").append(`
                         <tr>

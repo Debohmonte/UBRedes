@@ -4,9 +4,9 @@ include('./db.php');
 header('Content-Type: application/json'); // respuesta  JSON
 
 try {
-    $dsn = "mysql:host=$host;dbname=$dbname;charset=utf8";
-    $dbh = new PDO($dsn, $user, $password);
-    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $dsn = "mysql:host=$host;dbname=$dbname;charset=utf8"; // conecta myssqlsql
+    $dbh = new PDO($dsn, $user, $password);// conexion pdo: es php 5 como una libreria para hacer conssultass
+    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);// por si hay error 
 } catch(PDOException $e) {
     echo json_encode(["status" => "error", "message" => "Error de conexión: " . $e->getMessage()]);
     exit;
@@ -30,14 +30,15 @@ if (!$nro_factura || !$cuil_emisor || !$cuil_receptor || !$monto || !$iva || !$d
 // 
 $pdf = null;
 if (isset($_FILES['pdf']) && $_FILES['pdf']['error'] == 0) {
-    $pdf = file_get_contents($_FILES['pdf']['tmp_name']);
+    $pdf = file_get_contents($_FILES['pdf']['tmp_name']); // lee el pdf y lo guarda en la variable 
 }
 
-// aactulizr
+// Actualiza inserta factura de la tabla
 try {
     $sql = "INSERT INTO factura (nro_factura, cuil_emisor, cuil_receptor, monto, iva, descripcion, fecha, pdf) 
             VALUES (:nro_factura, :cuil_emisor, :cuil_receptor, :monto, :iva, :descripcion, :fecha, :pdf)";
-    $stmt = $dbh->prepare($sql);
+    $stmt = $dbh->prepare($sql);// inyesion de cosnulta
+    //bindParam vincula la variable al parámetro y en el momento de hacer el execute es cuando se asigna realmente el valor de la variable a ese parámetro.
     $stmt->bindParam(':nro_factura', $nro_factura);
     $stmt->bindParam(':cuil_emisor', $cuil_emisor);
     $stmt->bindParam(':cuil_receptor', $cuil_receptor);

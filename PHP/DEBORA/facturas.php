@@ -6,10 +6,10 @@ include('db.php');
 header('Content-Type: application/json');
 
 try {
-    // obtiene facturas
+    // obtiene facturas con el SQL
     $stmt = $conn->prepare("SELECT * FROM factura");
     $stmt->execute();
-    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC); //INDICE ASOCIATIVO LA RESPUESTA
 
     // envia estpuesta al json
     echo json_encode([

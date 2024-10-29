@@ -18,7 +18,7 @@ $stmt->execute();
 $factura = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($factura) {
-    echo json_encode(["pdf" => base64_encode($factura['pdf'])]);
+    echo json_encode(["pdf" => base64_encode($factura['pdf'])]); //pdf en 64 y envia json 
 } else {
     echo json_encode(["status" => "error", "message" => "Factura no encontrada."]);
 }

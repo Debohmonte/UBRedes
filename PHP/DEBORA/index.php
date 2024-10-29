@@ -1,16 +1,16 @@
 <?php
-include('session_config.php'); // Incluye la configuración de sesión
+include('session_config.php'); // seguridada de sesion
 
-// Verifica si el usuario ha iniciado sesión
+// verifica si ya esta logiado
 if (!isset($_SESSION['usuario'])) {
-    // Si no ha iniciado sesión, redirige al formulario de inicio de sesión
-    header('Location: FormLogin.php'); // Asegúrate de que la ruta sea correcta
-    exit; // Asegura que no se ejecute más código
+    //sino manda a login
+    header('Location: FormLogin.php'); 
+    exit; 
 }
 
-include('./db.php'); // Incluye tu conexión a la base de datos
+include('./db.php');
 
-// Inicializa una conexión PDO
+
 try {
     $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -19,7 +19,7 @@ try {
     exit;
 }
 
-// Fetch invoices for the initial load
+//carga lass facutras 
 $sql = "SELECT * FROM factura";
 $stmt = $conn->prepare($sql);
 $stmt->execute();

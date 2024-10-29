@@ -13,16 +13,16 @@ try {
     exit;
 }
 
-// facturas
+// facturas QSL
 $sql = "SELECT id, nro_factura, cuil_emisor, cuil_receptor, monto, iva, descripcion, fecha, pdf FROM factura";
-$stmt = $dbh->prepare($sql);
-$stmt->setFetchMode(PDO::FETCH_ASSOC);
+$stmt = $dbh->prepare($sql); //EVITA INYESIONES
+$stmt->setFetchMode(PDO::FETCH_ASSOC); //INDICCE ASOSICTIVO
 $stmt->execute();
 
-$facturas = [];
+$facturas = []; //ARRAY DE FACTURAS
 while ($fila = $stmt->fetch()) {
-    $objFactura = new stdClass();
-    $objFactura->id = $fila['id'];
+    $objFactura = new stdClass(); //X CADA FILA
+    $objFactura->id = $fila['id'];//TIENE UN OBJRTO FACTURA
     $objFactura->nro_factura = $fila['nro_factura'];
     $objFactura->cuil_emisor = $fila['cuil_emisor'];
     $objFactura->cuil_receptor = $fila['cuil_receptor'];
@@ -30,12 +30,12 @@ while ($fila = $stmt->fetch()) {
     $objFactura->iva = $fila['iva'];
     $objFactura->descripcion = $fila['descripcion'];
     $objFactura->fecha = $fila['fecha'];
-    $objFactura->pdf = base64_encode($fila['pdf']); 
+    $objFactura->pdf = base64_encode($fila['pdf']); //CONVIERTE EL PDF EN BASE65 PARA ENVIARLO EN JSON
 
     $facturas[] = $objFactura; // agragar lista si es alta
 }
 
-// json formato
+// LISTA en json formato
 echo json_encode(["facturas" => $facturas]);
 
 // cierra conexion

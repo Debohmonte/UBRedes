@@ -1,9 +1,8 @@
 <?php
-session_start(); // Inicia la sesión
+session_start(); 
 
-// Verificar si el usuario está logueado
 if (!isset($_SESSION['usuario'])) {
-    header('Location: FormLogin.php'); // Redirige si no hay usuario en sesión
+    header('Location: FormLogin.php'); 
     exit();
 }
 ?>
